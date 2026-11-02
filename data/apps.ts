@@ -24,6 +24,7 @@ export interface AppGuide {
   pkceRequired: boolean;
   reviewRequiredForLaunch: boolean;
   reviewType: "None" | "Workspace Admin Only" | "App Directory Review" | "Google CASA Tier 2" | "Quota Extension Request";
+  isLiveInvestigated?: boolean;
   
   summary: string;
   

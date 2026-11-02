@@ -56,6 +56,28 @@ export default function Home() {
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
+  // Restore custom investigated apps from localStorage on mount
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("composio_custom_apps");
+      if (stored) {
+        const customApps: AppGuide[] = JSON.parse(stored);
+        if (Array.isArray(customApps) && customApps.length > 0) {
+          setApps((prev) => {
+            const map = new Map<string, AppGuide>();
+            customApps.forEach((ca) => map.set(ca.slug, { ...ca, isLiveInvestigated: true }));
+            prev.forEach((pa) => {
+              if (!map.has(pa.slug)) map.set(pa.slug, pa);
+            });
+            return Array.from(map.values());
+          });
+        }
+      }
+    } catch {
+      // ignore JSON parse error
+    }
+  }, []);
+
   const setActiveTab = (tab: TabType) => {
     setActiveTabState(tab);
     try {
@@ -74,11 +96,43 @@ export default function Home() {
   };
 
   const handleGuideGenerated = (newGuide: AppGuide) => {
+    const tagged: AppGuide = { ...newGuide, isLiveInvestigated: true };
     setApps((prev) => {
-      const exists = prev.some((a) => a.slug === newGuide.slug);
-      return exists ? prev : [newGuide, ...prev];
+      const filtered = prev.filter((a) => a.slug !== tagged.slug);
+      const nextApps = [tagged, ...filtered];
+      try {
+        const customOnly = nextApps.filter((a) => a.isLiveInvestigated);
+        localStorage.setItem("composio_custom_apps", JSON.stringify(customOnly));
+      } catch {
+        // ignore
+      }
+      return nextApps;
     });
   };
+
+  const handleRemoveRecentGuide = (slug: string) => {
+    setApps((prev) => {
+      const nextApps = prev.filter((a) => a.slug !== slug);
+      try {
+        const customOnly = nextApps.filter((a) => a.isLiveInvestigated);
+        localStorage.setItem("composio_custom_apps", JSON.stringify(customOnly));
+      } catch {
+        // ignore
+      }
+      return nextApps;
+    });
+  };
+
+  const handleNavigateToDirectory = (slug?: string) => {
+    setActiveTab("directory");
+    if (slug) {
+      setSearchQuery("");
+      setCategoryFilter("All");
+      setFrictionFilter("all");
+    }
+  };
+
+  const recentGuides = apps.filter((a) => a.isLiveInvestigated);
 
   const categories = ["All", "Developer Tools", "Communication", "Productivity", "Media & Content"];
 
@@ -97,6 +151,8 @@ export default function Home() {
       matchesFriction = app.manifestSupported;
     } else if (frictionFilter === "review") {
       matchesFriction = app.reviewRequiredForLaunch;
+    } else if (frictionFilter === "probes") {
+      matchesFriction = Boolean(app.isLiveInvestigated);
     } else if (frictionFilter === "casa") {
       matchesFriction = app.frictionScore >= 4.0;
     }
@@ -165,6 +221,19 @@ export default function Home() {
                 >
                   All ({apps.length})
                 </button>
+                {recentGuides.length > 0 && (
+                  <button
+                    onClick={() => setFrictionFilter("probes")}
+                    className={`flex items-center gap-1 rounded-none px-2.5 py-1 text-xs transition cursor-pointer ${
+                      frictionFilter === "probes"
+                        ? "bg-purple-600 text-white font-medium"
+                        : "bg-white border border-purple-200 text-purple-700 hover:bg-purple-50"
+                    }`}
+                  >
+                    <Sparkles className="h-3 w-3" />
+                    <span>Live Probes ({recentGuides.length})</span>
+                  </button>
+                )}
                 <button
                   onClick={() => setFrictionFilter("instant")}
                   className={`flex items-center gap-1 rounded-none px-2.5 py-1 text-xs transition cursor-pointer ${
@@ -253,6 +322,9 @@ export default function Home() {
           <LiveInvestigationStudio
             onGuideGenerated={handleGuideGenerated}
             onOpenGuide={(g) => setSelectedGuide(g)}
+            recentGuides={recentGuides}
+            onRemoveRecentGuide={handleRemoveRecentGuide}
+            onNavigateToDirectory={handleNavigateToDirectory}
           />
         )}
 

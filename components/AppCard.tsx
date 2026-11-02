@@ -57,7 +57,14 @@ export default function AppCard({ guide, onSelect }: AppCardProps) {
               <h3 className="text-sm font-semibold text-slate-900 group-hover:text-[#0024BC] transition-colors leading-tight">
                 {guide.name}
               </h3>
-              <p className="text-[11px] text-slate-400 font-medium mt-0.5">{guide.category}</p>
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <p className="text-[11px] text-slate-400 font-medium">{guide.category}</p>
+                {guide.isLiveInvestigated && (
+                  <span className="inline-flex items-center rounded-none border border-blue-200 bg-blue-50 px-1.5 py-0.2 text-[9px] font-mono font-medium text-[#0024BC]">
+                    ✨ Live Probe
+                  </span>
+                )}
+              </div>
             </div>
           </div>
 

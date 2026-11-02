@@ -307,6 +307,7 @@ function formatGuideFromLLM(
     pkceRequired: Boolean(parsed.pkceRequired),
     reviewRequiredForLaunch: Boolean(parsed.reviewRequiredForLaunch),
     reviewType: parsed.reviewType || "None",
+    isLiveInvestigated: true,
     summary: parsed.summary || `OAuth 2.0 integration for ${appTitle} with Composio.`,
     steps: [
       {
@@ -438,6 +439,7 @@ function synthesizeHeuristicGuide(
     pkceRequired: true,
     reviewRequiredForLaunch: false,
     reviewType: "None",
+    isLiveInvestigated: true,
     summary: `OAuth 2.0 application setup for ${appTitle}. Allows AI agents to execute actions on behalf of connected users with standard authorization code grant.`,
     steps: [
       {

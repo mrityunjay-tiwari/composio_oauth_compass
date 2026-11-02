@@ -10,6 +10,9 @@ import {
   AlertTriangle,
   Bot,
   Zap,
+  Clock,
+  ArrowRight,
+  X,
 } from "lucide-react";
 import { LuPackageSearch } from "react-icons/lu";
 import ChatSources, { ChatSource } from "./chat-sources";
@@ -19,11 +22,17 @@ import { IoMdSearch } from "react-icons/io";
 interface LiveInvestigationStudioProps {
   onGuideGenerated: (guide: AppGuide) => void;
   onOpenGuide: (guide: AppGuide) => void;
+  recentGuides?: AppGuide[];
+  onRemoveRecentGuide?: (slug: string) => void;
+  onNavigateToDirectory?: (slug?: string) => void;
 }
 
 export default function LiveInvestigationStudio({
   onGuideGenerated,
   onOpenGuide,
+  recentGuides = [],
+  onRemoveRecentGuide,
+  onNavigateToDirectory,
 }: LiveInvestigationStudioProps) {
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -174,6 +183,46 @@ export default function LiveInvestigationStudio({
         ))}
       </div>
 
+      {/* Additional Section: Recent Investigations */}
+      {recentGuides && recentGuides.length > 0 && (
+        <div className="flex items-center gap-1.5 flex-wrap text-xs text-slate-500 pt-0.5">
+          <span className="text-[11px] font-mono text-slate-600 font-semibold flex items-center gap-1">
+            <Clock className="h-3 w-3 text-[#0024BC]" />
+            <span>Recent Investigations:</span>
+          </span>
+          {recentGuides.map((rg) => (
+            <div
+              key={rg.id}
+              className="inline-flex items-center gap-1 rounded-none border border-blue-200 bg-blue-50/70 px-2 py-0.5 font-mono text-[11px] text-[#0024BC] transition hover:bg-blue-100"
+            >
+              <button
+                onClick={() => {
+                  setGeneratedGuide(rg);
+                  onOpenGuide(rg);
+                }}
+                className="cursor-pointer font-medium hover:underline flex items-center gap-1"
+                title={`Open ${rg.name} guide`}
+              >
+                <span>{rg.name}</span>
+                <span className="text-[10px] text-blue-600 font-normal">({rg.frictionScore.toFixed(1)}/5)</span>
+              </button>
+              {onRemoveRecentGuide && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onRemoveRecentGuide(rg.slug);
+                  }}
+                  title="Remove from history"
+                  className="text-blue-400 hover:text-rose-600 cursor-pointer p-0.5 transition-colors"
+                >
+                  <X className="h-2.5 w-2.5" />
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
       {/* Investigation Progress & Steps (Agent Reasoning Stream) */}
       {(isLoading || steps.length > 0) && (
         <div className="rounded-none border border-slate-200 bg-white p-5 shadow-2xs space-y-4">
@@ -242,6 +291,25 @@ export default function LiveInvestigationStudio({
       {/* Generated Guide Preview */}
       {generatedGuide && (
         <div className="space-y-3 pt-2">
+          {/* Notification that this app is now added to the App Directory */}
+          <div className="rounded-none border border-emerald-200 bg-emerald-50/70 p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs text-emerald-950">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
+              <span>
+                <strong>{generatedGuide.name}</strong> was investigated and added to your <strong>App Directory</strong>.
+              </span>
+            </div>
+            {onNavigateToDirectory && (
+              <button
+                onClick={() => onNavigateToDirectory(generatedGuide.slug)}
+                className="inline-flex items-center gap-1 font-semibold text-[#0024BC] hover:underline cursor-pointer shrink-0"
+              >
+                <span>View in App Directory</span>
+                <ArrowRight className="h-3 w-3" />
+              </button>
+            )}
+          </div>
+
           <div className="flex items-center justify-between">
             <h3 className="text-[11px] uppercase tracking-wider font-semibold text-slate-500 font-mono">
               Generated Interactive Guide
