@@ -201,25 +201,6 @@ async with stdio_client(params) as (read, write):
                   CLI Stdio
                 </button>
               </div>
-
-              <button
-                onClick={() =>
-                  copyText(
-                    activeTab === "antigravity"
-                      ? antigravityConfig
-                      : activeTab === "claude"
-                      ? claudeConfig
-                      : activeTab === "codex"
-                      ? codexPythonSnippet
-                      : cliCommand,
-                    "active-snippet"
-                  )
-                }
-                className="inline-flex items-center gap-1 rounded-none bg-[#0024BC] px-2.5 py-1 text-[11px] font-semibold text-white hover:bg-[#001da0] transition cursor-pointer"
-              >
-                {copied === "active-snippet" ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
-                <span>{copied === "active-snippet" ? "Copied" : "Copy Configuration"}</span>
-              </button>
             </div>
 
             {/* Code Block */}
