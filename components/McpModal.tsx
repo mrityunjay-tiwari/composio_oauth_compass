@@ -146,9 +146,9 @@ async with stdio_client(params) as (read, write):
         <div className="flex-1 overflow-y-auto p-6 space-y-5 text-xs text-slate-700">
           {/* Value Prop Banner */}
           <div className="rounded-none border border-blue-200 bg-blue-50/60 p-3.5 space-y-1">
-            <div className="flex items-center gap-2 font-semibold text-[#0024BC] text-xs">
-              <Sparkles className="h-4 w-4" />
-              <span>Agents Building for Agents (Universal MCP Support)</span>
+            <div className="flex items-center gap-2 font-semibold text-[#0024BC] text-sm">
+              {/* <Sparkles className="h-4 w-4" /> */}
+              <span>Let Agents build for Agents (Universal MCP Support)</span>
             </div>
             <p className="text-slate-700 leading-relaxed text-xs">
               Instead of humans clicking dashboards, your coding agent directly checks for <strong>$15,000 CASA audits</strong>, fetches <strong>unwritten failure modes</strong>, and generates <strong>Composio BYOC configurations</strong> while scaffolding integrations in your editor.
@@ -246,7 +246,7 @@ async with stdio_client(params) as (read, write):
 
           {/* Available MCP Tools */}
           <div className="space-y-2 pt-2">
-            <h3 className="text-xs font-semibold text-slate-900 uppercase tracking-wider">
+            <h3 className="text-lg  text-slate-900 ">
               Available MCP Tools (6 Exposed Tools)
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
@@ -256,8 +256,8 @@ async with stdio_client(params) as (read, write):
                   className="rounded-none border border-slate-200 bg-white p-3 space-y-1 hover:border-slate-300 transition"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-xs font-bold text-slate-900">{t.name}</span>
-                    <span className="rounded-none bg-slate-100 border border-slate-200 px-1.5 py-0.2 text-[9px] font-semibold text-slate-700">
+                    <span className="font-mono text-sm text-medium text-slate-900">{t.name}</span>
+                    <span className="rounded-none bg-slate-100 border border-slate-200 px-1.5 py-0.2 text-[10px] text-slate-700">
                       {t.badge}
                     </span>
                   </div>

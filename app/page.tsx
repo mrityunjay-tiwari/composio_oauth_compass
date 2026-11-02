@@ -338,10 +338,30 @@ export default function Home() {
         )}
 
         {/* VIEW 3: GROUND TRUTH & AUDIT */}
-        {activeTab === "ground-truth" && <GroundTruthAudit />}
+        {activeTab === "ground-truth" && (
+          <GroundTruthAudit
+            onOpenAppGuide={(slug, tab) => {
+              const target = apps.find((a) => a.slug === slug);
+              if (target) {
+                handleOpenGuide(target, tab || "gotchas");
+              }
+            }}
+            onNavigateTab={setActiveTab}
+          />
+        )}
 
         {/* VIEW 4: COMPOSIO BYOC EXPLAINER */}
-        {activeTab === "composio-byoc" && <ComposioByocExplainer />}
+        {activeTab === "composio-byoc" && (
+          <ComposioByocExplainer
+            onOpenAppGuide={(slug, tab) => {
+              const target = apps.find((a) => a.slug === slug);
+              if (target) {
+                handleOpenGuide(target, tab || "composio");
+              }
+            }}
+            onNavigateTab={setActiveTab}
+          />
+        )}
 
       </main>
 
