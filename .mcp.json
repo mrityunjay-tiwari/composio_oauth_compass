@@ -1,5 +1,9 @@
 {
   "mcpServers": {
+    "oauth-compass": {
+      "command": "npx",
+      "args": ["-y", "tsx", "mcp-server/index.ts"]
+    },
     "ui-registry": {
       "command": "npx",
       "args": ["-y", "ui-registry-mcp"]

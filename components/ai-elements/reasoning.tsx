@@ -120,7 +120,7 @@ export function ReasoningContent({
         className="[&_li>p:first-child]:inline [&_li>p:first-child]:mb-0 [&_li>div:first-child]:inline [&_li>div:first-child]:mb-0 [&_.katex-display]:overflow-x-auto [&_.katex-display]:py-1 [&_.katex-display]:my-2 [&_.katex]:text-muted-foreground"
         plugins={reasoningPlugins}
         components={{
-          p: ({ node, ...pProps }) => (
+          p: ({ node, ...pProps }: any) => (
             <p className="mb-2 last:mb-0 [li_&]:inline [li_&]:mb-0" {...pProps} />
           ),
         }}
