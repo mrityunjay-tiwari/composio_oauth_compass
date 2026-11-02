@@ -35,7 +35,7 @@ export function CodeBlock({
     if (lang === "js" || lang === "javascript") return "jsx";
     if (lang === "py" || lang === "python") return "python";
     if (lang === "json") return "json";
-    if (lang === "sh" || lang === "bash" || lang === "shell") return "bash";
+    if (lang === "sh" || lang === "bash" || lang === "shell" || lang === "curl") return "bash";
     if (lang === "http") return "bash";
     return "tsx";
   }, [language]);
@@ -114,21 +114,32 @@ export function CodeBlock({
               highlightClass
             )}
           >
-            <code>
-              {tokens.map((line, i) => (
-                <div key={i} {...getLineProps({ line })} className="table-row">
-                  {shouldShowLineNumbers && (
-                    <span className="table-cell select-none pr-4 text-right text-[11px] font-mono text-slate-600/80 w-6">
-                      {i + 1}
+            <code className="block w-full">
+              {tokens.map((line, i) => {
+                const lineProps = getLineProps({ line });
+                return (
+                  <div
+                    key={i}
+                    {...lineProps}
+                    className={cn("flex min-w-fit leading-relaxed", lineProps.className)}
+                  >
+                    {shouldShowLineNumbers && (
+                      <span className="select-none pr-4 text-right text-[11px] font-mono text-slate-500/80 w-8 shrink-0">
+                        {i + 1}
+                      </span>
+                    )}
+                    <span className="flex-1 whitespace-pre">
+                      {line.length === 0 || (line.length === 1 && line[0].content === "") ? (
+                        <span>&#8203;</span>
+                      ) : (
+                        line.map((token, key) => (
+                          <span key={key} {...getTokenProps({ token })} />
+                        ))
+                      )}
                     </span>
-                  )}
-                  <span className="table-cell">
-                    {line.map((token, key) => (
-                      <span key={key} {...getTokenProps({ token })} />
-                    ))}
-                  </span>
-                </div>
-              ))}
+                  </div>
+                );
+              })}
             </code>
           </pre>
         )}
