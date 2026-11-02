@@ -9,6 +9,7 @@ import LiveInvestigationStudio from "@/components/LiveInvestigationStudio";
 import GroundTruthAudit from "@/components/GroundTruthAudit";
 import ComposioByocExplainer from "@/components/ComposioByocExplainer";
 import { Search, Sparkles, Zap, Layers, AlertTriangle } from "lucide-react";
+import { LuPackageSearch } from "react-icons/lu";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<"directory" | "live-studio" | "ground-truth" | "composio-byoc">("directory");
@@ -79,7 +80,7 @@ export default function Home() {
                 onClick={() => setActiveTab("live-studio")}
                 className="inline-flex items-center gap-1.5 rounded bg-[#0024BC] px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-[#001da0] shrink-0 self-start md:self-auto cursor-pointer shadow-2xs"
               >
-                <Sparkles className="h-3.5 w-3.5" />
+                <LuPackageSearch className="h-3.5 w-3.5" />
                 <span>Investigate Unfamiliar App</span>
               </button>
             </div>

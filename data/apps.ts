@@ -869,5 +869,270 @@ console.log("Connect Link:", connection.redirectUrl);`
         "Public integrations directory listing requires partner contact form."
       ]
     }
+  },
+  {
+    id: "notion",
+    name: "Notion",
+    slug: "notion",
+    category: "Productivity",
+    logo: "https://www.notion.so/front-static/favicon.ico",
+    developerPortalUrl: "https://www.notion.so/my-integrations",
+    docsUrl: "https://developers.notion.com/docs/authorization",
+    frictionScore: 2.2,
+    setupTimeMinutes: 10,
+    approvalWaitDays: 0,
+    financialCost: "$0 (Free)",
+    composioManagedAvailable: true,
+    manifestSupported: false,
+    pkceRequired: false,
+    reviewRequiredForLaunch: false,
+    reviewType: "None",
+    summary: "Instant internal workspace access with zero wait times. Public integrations require developer portal distribution approval with a privacy policy and terms of service.",
+    steps: [
+      {
+        id: 1,
+        title: "Create Integration in Notion Developer Portal",
+        description: "Go to Notion -> Settings & Members -> Connections -> Develop or visit notion.so/my-integrations.",
+        actor: "human",
+        portalUrl: "https://www.notion.so/my-integrations"
+      },
+      {
+        id: 2,
+        title: "Configure OAuth Settings & Redirect URI",
+        description: "Under Distribution, toggle to Public Integration. Add Composio redirect URI.",
+        actor: "hybrid",
+        codeSnippet: "https://backend.composio.dev/api/v1/auth-apps/add"
+      },
+      {
+        id: 3,
+        title: "Export Client Credentials to Composio",
+        description: "Copy OAuth Client ID and Client Secret into your Composio BYOC Auth Config.",
+        actor: "agent"
+      }
+    ],
+    agentCanDo: [
+      "Validate redirect callback syntax",
+      "Format Composio AuthConfig JSON",
+      "Map Notion database and page actions to capabilities"
+    ],
+    humanMustDo: [
+      "Create integration in personal or company Notion workspace",
+      "Toggle Public Distribution in Notion portal",
+      "Users must grant access to specific pages during OAuth popup"
+    ],
+    gotchas: [
+      {
+        title: "The Page-Level Permission Trap",
+        severity: "critical",
+        description: "Unlike platforms that grant broad workspace access, Notion users must explicitly select which pages/databases the integration can access during the OAuth consent popup. If the user doesn't check a page, the agent receives empty search results.",
+        evidenceType: "tested_reality"
+      }
+    ],
+    scopes: [
+      {
+        name: "read_content",
+        description: "Read page and database content",
+        riskLevel: "low",
+        triggersReview: false,
+        composioActions: ["NOTION_SEARCH", "NOTION_FETCH_PAGE"]
+      },
+      {
+        name: "update_content",
+        description: "Create and edit pages and databases",
+        riskLevel: "medium",
+        triggersReview: false,
+        composioActions: ["NOTION_CREATE_PAGE", "NOTION_UPDATE_PAGE"]
+      }
+    ],
+    composioConfig: {
+      app: "notion",
+      auth_mode: "OAUTH2",
+      authorization_url: "https://api.notion.com/v1/oauth/authorize",
+      token_url: "https://api.notion.com/v1/oauth/token",
+      default_redirect_uri: "https://backend.composio.dev/api/v1/auth-apps/add",
+      recommended_scopes: ["read_content", "update_content"],
+      sample_sdk_python: `from composio import Composio
+
+composio = Composio()
+auth_config = composio.auth_configs.create(
+    app="notion",
+    credentials={
+        "client_id": "YOUR_NOTION_CLIENT_ID",
+        "client_secret": "YOUR_NOTION_CLIENT_SECRET"
+    }
+)
+connection = composio.connected_accounts.link(
+    user_uuid="user_001",
+    auth_config_id=auth_config.id
+)
+print("Notion Connect Link:", connection.redirect_url)`,
+      sample_sdk_typescript: `import { Composio } from "composio-core";
+
+const composio = new Composio();
+const authConfig = await composio.authConfigs.create({
+  app: "notion",
+  credentials: {
+    clientId: process.env.NOTION_CLIENT_ID!,
+    clientSecret: process.env.NOTION_CLIENT_SECRET!,
+  },
+});
+
+const connection = await composio.connectedAccounts.link({
+  userUuid: "user_001",
+  authConfigId: authConfig.id,
+});
+console.log("Connect Link:", connection.redirectUrl);`
+    },
+    evidence: {
+      docCitations: [
+        "https://developers.notion.com/docs/authorization"
+      ],
+      testedObservations: [
+        "Page selection during OAuth popup restricts API visibility strictly to chosen parent pages.",
+        "Internal integrations work with permanent bot tokens with zero wait time."
+      ],
+      uncertainties: [
+        "Public directory listing requirements subject to Notion review team discretion."
+      ]
+    }
+  },
+  {
+    id: "salesforce",
+    name: "Salesforce",
+    slug: "salesforce",
+    category: "CRM & Sales",
+    logo: "https://www.salesforce.com/favicon.ico",
+    developerPortalUrl: "https://developer.salesforce.com",
+    docsUrl: "https://help.salesforce.com/s/articleView?id=sf.remoteaccess_oauth_web_server_flow.htm",
+    frictionScore: 3.8,
+    setupTimeMinutes: 25,
+    approvalWaitDays: 0,
+    financialCost: "$0 (Free with Developer Org)",
+    composioManagedAvailable: true,
+    manifestSupported: false,
+    pkceRequired: true,
+    reviewRequiredForLaunch: false,
+    reviewType: "None",
+    summary: "Enterprise Connected App architecture. Immediate developer org usage, but requires careful handling of cluster replication delays and IP relaxation policies.",
+    steps: [
+      {
+        id: 1,
+        title: "Create Connected App in Salesforce Setup",
+        description: "Go to Setup -> App Manager -> New Connected App. Check 'Enable OAuth Settings'.",
+        actor: "human",
+        portalUrl: "https://login.salesforce.com"
+      },
+      {
+        id: 2,
+        title: "Configure Callback URL & OAuth Scopes",
+        description: "Set Callback URL to Composio redirect URL. Select scopes: 'Access and manage your data (api)' and 'Perform requests at any time (refresh_token, offline_access)'.",
+        actor: "hybrid",
+        codeSnippet: "https://backend.composio.dev/api/v1/auth-apps/add"
+      },
+      {
+        id: 3,
+        title: "Configure IP Relaxation & Wait 10 Minutes",
+        description: "Under Manage Connected Apps, set IP Relaxation to 'Relax IP restrictions' and wait 2 to 10 minutes for replication across Salesforce data centers.",
+        actor: "human",
+        gotchaWarning: "Do NOT attempt OAuth immediately after saving! Salesforce requires 2–10 minutes to propagate credentials globally."
+      },
+      {
+        id: 4,
+        title: "Export Consumer Key & Secret to Composio",
+        description: "Copy Consumer Key (Client ID) and Consumer Secret into your Composio Auth Config.",
+        actor: "agent"
+      }
+    ],
+    agentCanDo: [
+      "Validate redirect URI and PKCE code challenge parameters",
+      "Format Composio AuthConfig payload with Salesforce instance URLs",
+      "Map Salesforce CRM actions (lead, deal, contact) to least-privilege scopes"
+    ],
+    humanMustDo: [
+      "Access Salesforce Setup menu with System Administrator permissions",
+      "Set IP Relaxation policy to prevent silent auth blocks",
+      "Wait out the global cluster replication delay"
+    ],
+    gotchas: [
+      {
+        title: "The 10-Minute Global Cluster Replication Lag",
+        severity: "critical",
+        description: "For 2 to 10 minutes after saving a Connected App, all OAuth requests fail with 'invalid_client_id' while Salesforce replicates credentials across clusters. Developers frequently waste hours debugging code that isn't broken.",
+        evidenceType: "tested_reality"
+      },
+      {
+        title: "IP Relaxation Policy Requirement",
+        severity: "warning",
+        description: "By default, Salesforce blocks OAuth requests from unexpected IP ranges. You must set 'IP Relaxation' to 'Relax IP restrictions' in the Connected App policies, or cloud-hosted agents will be blocked.",
+        evidenceType: "tested_reality"
+      }
+    ],
+    scopes: [
+      {
+        name: "api",
+        description: "Access and manage user data via REST/SOAP APIs",
+        riskLevel: "medium",
+        triggersReview: false,
+        composioActions: ["SALESFORCE_CREATE_LEAD", "SALESFORCE_UPDATE_OPPORTUNITY", "SALESFORCE_QUERY"]
+      },
+      {
+        name: "refresh_token",
+        description: "Perform requests on your behalf at any time (offline access)",
+        riskLevel: "medium",
+        triggersReview: false,
+        composioActions: ["SALESFORCE_OFFLINE_ACCESS"]
+      }
+    ],
+    composioConfig: {
+      app: "salesforce",
+      auth_mode: "OAUTH2",
+      authorization_url: "https://login.salesforce.com/services/oauth2/authorize",
+      token_url: "https://login.salesforce.com/services/oauth2/token",
+      default_redirect_uri: "https://backend.composio.dev/api/v1/auth-apps/add",
+      recommended_scopes: ["api", "refresh_token"],
+      sample_sdk_python: `from composio import Composio
+
+composio = Composio()
+auth_config = composio.auth_configs.create(
+    app="salesforce",
+    credentials={
+        "client_id": "YOUR_SALESFORCE_CONSUMER_KEY",
+        "client_secret": "YOUR_SALESFORCE_CONSUMER_SECRET"
+    }
+)
+connection = composio.connected_accounts.link(
+    user_uuid="user_001",
+    auth_config_id=auth_config.id
+)
+print("Salesforce Auth Link:", connection.redirect_url)`,
+      sample_sdk_typescript: `import { Composio } from "composio-core";
+
+const composio = new Composio();
+const authConfig = await composio.authConfigs.create({
+  app: "salesforce",
+  credentials: {
+    clientId: process.env.SALESFORCE_CONSUMER_KEY!,
+    clientSecret: process.env.SALESFORCE_CONSUMER_SECRET!,
+  },
+});
+
+const connection = await composio.connectedAccounts.link({
+  userUuid: "user_001",
+  authConfigId: authConfig.id,
+});
+console.log("Connect Link:", connection.redirectUrl);`
+    },
+    evidence: {
+      docCitations: [
+        "https://help.salesforce.com/s/articleView?id=sf.remoteaccess_oauth_web_server_flow.htm"
+      ],
+      testedObservations: [
+        "Connected App creation takes between 2 to 10 minutes to propagate across clusters.",
+        "Requires 'refresh_token' scope for persistent long-lived agent access."
+      ],
+      uncertainties: [
+        "Enterprise AppExchange public distribution requires security review fee."
+      ]
+    }
   }
 ];
