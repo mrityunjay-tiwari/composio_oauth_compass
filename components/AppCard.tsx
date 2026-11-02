@@ -151,10 +151,7 @@ export default function AppCard({ guide, onSelect }: AppCardProps) {
 
         {/* Short Summary with Clean Hover Popover */}
         <div className="relative group/summary mt-2.5">
-          <p
-            title={guide.summary}
-            className="text-xs leading-relaxed text-slate-600 line-clamp-2 cursor-help"
-          >
+          <p className="text-xs leading-relaxed text-slate-600 line-clamp-2 cursor-help">
             {guide.summary}
           </p>
 
