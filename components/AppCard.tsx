@@ -66,7 +66,7 @@ export default function AppCard({ guide, onSelect }: AppCardProps) {
               <div className="flex items-center gap-1.5 mt-0.5">
                 <p className="text-[11px] text-slate-400 font-medium">{guide.category}</p>
                 {guide.isLiveInvestigated && (
-                  <span className="inline-flex items-center rounded-none border border-blue-200 bg-blue-50 px-1 py-0.2 text-[9px] font-mono font-medium text-[#0024BC]">
+                  <span className="inline-flex items-center rounded-none border border-blue-200 bg-blue-50 px-1.5 py-0.2 text-[10px] font-medium text-[#0024BC]">
                     Live Probe
                   </span>
                 )}
@@ -80,7 +80,7 @@ export default function AppCard({ guide, onSelect }: AppCardProps) {
             onClick={(e) => e.stopPropagation()}
           >
             <div
-              className={`inline-flex items-center gap-1 rounded-none border px-2 py-0.5 font-mono text-[10px] font-medium cursor-help transition-all ${badge.badgeClass} hover:border-slate-400 select-none`}
+              className={`inline-flex items-center gap-1 rounded-none border px-2 py-0.5 text-[11px] font-medium cursor-help transition-all ${badge.badgeClass} hover:border-slate-400 select-none`}
               tabIndex={0}
               role="button"
               aria-label={`Friction Score: ${guide.frictionScore.toFixed(1)} out of 5. ${badge.label}`}
@@ -93,11 +93,11 @@ export default function AppCard({ guide, onSelect }: AppCardProps) {
             <div className="pointer-events-none absolute right-0 top-full mt-1.5 z-50 w-72 origin-top-right rounded-none border border-slate-200 bg-white p-3 text-left shadow-lg opacity-0 transition-all duration-150 group-hover/friction:pointer-events-auto group-hover/friction:opacity-100 group-hover/friction:translate-y-0 translate-y-1">
               {/* Tooltip Header */}
               <div className="flex items-center justify-between border-b border-slate-100 pb-2 mb-2">
-                <div className="flex items-center gap-1.5 font-mono text-[11px] font-semibold text-slate-900">
+                <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-900">
                   {badge.icon}
                   <span>Friction: {guide.frictionScore.toFixed(1)} / 5</span>
                 </div>
-                <span className={`text-[9px] font-mono font-medium px-1.5 py-0.2 rounded-none border ${badge.badgeClass}`}>
+                <span className={`text-[10px] font-medium px-1.5 py-0.2 rounded-none border ${badge.badgeClass}`}>
                   {badge.label}
                 </span>
               </div>
@@ -106,12 +106,12 @@ export default function AppCard({ guide, onSelect }: AppCardProps) {
               <div className="text-[11px] font-medium text-slate-800 mb-1">
                 {badge.tier}
               </div>
-              <p className="text-[11px] leading-relaxed text-slate-600 mb-2.5 font-sans">
+              <p className="text-xs leading-relaxed text-slate-600 mb-2.5">
                 {badge.summary}
               </p>
 
               {/* Key Specs Breakdown */}
-              <div className="space-y-1.5 border-t border-slate-100 pt-2 text-[10px] font-mono text-slate-700">
+              <div className="space-y-1.5 border-t border-slate-100 pt-2 text-[11px] text-slate-700">
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-slate-400">Review Gate:</span>
                   <span className="font-semibold text-slate-900 truncate max-w-[150px] text-right">
@@ -141,9 +141,9 @@ export default function AppCard({ guide, onSelect }: AppCardProps) {
               </div>
 
               {/* Tooltip Footer / Scale Guide */}
-              <div className="mt-2.5 pt-2 border-t border-slate-100 text-[9px] font-mono text-slate-400 flex items-center justify-between">
+              <div className="mt-2.5 pt-2 border-t border-slate-100 text-[10px] text-slate-400 flex items-center justify-between">
                 <span>Scale: 1.0 (Low) → 5.0 (High)</span>
-                <span className="text-[#0024BC] font-sans font-medium">Click card to view</span>
+                <span className="text-[#0024BC] font-medium">Click card to view</span>
               </div>
             </div>
           </div>
@@ -166,7 +166,7 @@ export default function AppCard({ guide, onSelect }: AppCardProps) {
       </div>
 
       {/* Footer Metrics */}
-      <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-mono">
+      <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1">
             <Clock className="h-3 w-3 text-slate-400" />
@@ -178,7 +178,7 @@ export default function AppCard({ guide, onSelect }: AppCardProps) {
           </span>
         </div>
 
-        <div className="flex items-center gap-1 font-sans text-xs font-semibold text-[#0024BC] group-hover:translate-x-0.5 transition-transform">
+        <div className="flex items-center gap-1 text-xs font-semibold text-[#0024BC] group-hover:translate-x-0.5 transition-transform">
           <span>View</span>
           <ArrowRight className="h-3 w-3" />
         </div>
