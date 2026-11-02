@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: "abcDiatype", "abcDiatype Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
 @font-face {
   font-family: "abcDiatype";
   src: url("/fonts/ABCDiatype_Regular.woff2") format("woff2");
@@ -65,10 +70,10 @@
     border-radius: 0px !important;
   }
 
-  body {
+  html, body {
     background-color: #ffffff;
     color: #0f172a;
-    font-family: "abcDiatype", "abcDiatype Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", "Helvetica Neue", Arial, sans-serif;
+    font-family: "abcDiatype", "abcDiatype Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
     letter-spacing: -0.011em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
