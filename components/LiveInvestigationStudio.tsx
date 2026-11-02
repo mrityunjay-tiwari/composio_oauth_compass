@@ -14,6 +14,7 @@ import {
 import { LuPackageSearch } from "react-icons/lu";
 import ChatSources, { ChatSource } from "./chat-sources";
 import AppCard from "./AppCard";
+import { IoMdSearch } from "react-icons/io";
 
 interface LiveInvestigationStudioProps {
   onGuideGenerated: (guide: AppGuide) => void;
@@ -37,6 +38,25 @@ export default function LiveInvestigationStudio({
     const q = searchQuery.trim();
     if (!q) return;
 
+    // Client-side guardrail 1: Too short / single letter (unless 'x')
+    const isUrl = /^https?:\/\//i.test(q);
+    if (!isUrl) {
+      if (q.length < 2 && q.toLowerCase() !== "x") {
+        setError(`"${q}" is too short to identify an OAuth provider. Please enter a full app name (e.g. Airtable, HubSpot, Discord, Box) or official docs URL.`);
+        return;
+      }
+
+      // Client-side guardrail 2: Protocol words
+      const GENERIC_KEYWORDS = [
+        "oauth", "oauth2", "auth", "authentication", "authorization",
+        "login", "api", "token", "test", "demo", "app", "docs", "documentation", "webhook"
+      ];
+      if (GENERIC_KEYWORDS.includes(q.toLowerCase())) {
+        setError(`"${q}" is a generic technical protocol term, not a third-party OAuth provider. Please specify an actual platform to investigate (e.g. Airtable, HubSpot, Discord, Box, Zoom).`);
+        return;
+      }
+    }
+
     setIsLoading(true);
     setError(null);
     setGeneratedGuide(null);
@@ -53,7 +73,8 @@ export default function LiveInvestigationStudio({
       });
 
       if (!res.ok) {
-        throw new Error("Investigation pipeline encountered an error");
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || "Investigation pipeline encountered an error");
       }
 
       const data = await res.json();
@@ -89,7 +110,7 @@ export default function LiveInvestigationStudio({
           <h1 className="text-xl sm:text-4xl font-semibold text-slate-900">
             Live Investigation Studio
           </h1>
-          <p className="text-sm text-slate-500 mt-1 max-w-2xl leading-relaxed">
+          <p className="text-sm text-slate-500 mt-1 max-w-3xl leading-relaxed">
             Submit any unfamiliar developer portal URL or platform name. The autonomous agent queries official documentation, ingests headless specifications via Jina Reader, detects review gates, and synthesizes a production BYOC guide on the fly.
           </p>
         </div>
@@ -120,7 +141,7 @@ export default function LiveInvestigationStudio({
               </>
             ) : (
               <> 
-                <Zap className="h-3.5 w-3.5" />
+                <IoMdSearch className="h-3.5 w-3.5" />
                 <span>Investigate</span>
               </>
             )}
@@ -185,9 +206,29 @@ export default function LiveInvestigationStudio({
 
       {/* Error state */}
       {error && (
-        <div className="rounded-none border border-rose-200 bg-rose-50 p-3.5 text-xs text-rose-800 flex items-center gap-2">
-          <AlertTriangle className="h-4 w-4 text-rose-600 shrink-0" />
-          <span>{error}</span>
+        <div className="rounded-none border border-rose-200 bg-rose-50/70 p-4 text-xs text-rose-900 space-y-2.5 animate-in fade-in duration-150">
+          <div className="flex items-start gap-2.5">
+            <AlertTriangle className="h-4 w-4 text-rose-600 shrink-0 mt-0.5" />
+            <div className="space-y-1">
+              <div className="font-semibold text-rose-950">Investigation Query Unresolved</div>
+              <p className="text-rose-800 leading-relaxed">{error}</p>
+            </div>
+          </div>
+          <div className="pt-2 border-t border-rose-200/60 flex flex-wrap items-center gap-1.5 text-[11px]">
+            <span className="font-mono text-rose-700">Try an active unfamiliar platform:</span>
+            {["Airtable", "Discord", "HubSpot", "Box", "Zoom"].map((suggested) => (
+              <button
+                key={suggested}
+                onClick={() => {
+                  setQuery(suggested);
+                  handleInvestigate(suggested);
+                }}
+                className="rounded-none border border-rose-300 bg-white px-2 py-0.5 text-rose-900 font-mono hover:bg-rose-100 transition cursor-pointer"
+              >
+                {suggested}
+              </button>
+            ))}
+          </div>
         </div>
       )}
 

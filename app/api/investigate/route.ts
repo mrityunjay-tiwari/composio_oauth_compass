@@ -13,7 +13,41 @@ export async function POST(req: NextRequest) {
     }
 
     const trimmed = query.trim();
+    if (!trimmed) {
+      return NextResponse.json({ error: "Please enter an application name or developer documentation URL." }, { status: 400 });
+    }
+
     const isUrl = /^https?:\/\//i.test(trimmed);
+
+    // Guardrail 1: Too short / single-letter check (unless 'x' for Twitter/X)
+    if (!isUrl) {
+      if (trimmed.length < 2 && trimmed.toLowerCase() !== "x") {
+        return NextResponse.json(
+          {
+            error: `"${trimmed}" is too short to identify an OAuth provider. Please enter a full application name (e.g. Airtable, HubSpot, Discord, Box) or official docs URL.`
+          },
+          { status: 400 }
+        );
+      }
+
+      // Guardrail 2: Generic technical/protocol keywords that are not apps
+      const GENERIC_KEYWORDS = [
+        "oauth", "oauth2", "oauth 2", "auth", "authentication", "authorization",
+        "login", "signin", "sign-in", "api", "apis", "token", "tokens",
+        "test", "testing", "demo", "app", "apps", "application", "applications",
+        "doc", "docs", "documentation", "webhook", "webhooks", "rest", "restapi",
+        "graphql", "sdk", "sdks", "connect", "connection", "hello", "hi", "hey",
+        "asdf", "qwerty", "123", "test1", "abc", "xyz"
+      ];
+      if (GENERIC_KEYWORDS.includes(trimmed.toLowerCase())) {
+        return NextResponse.json(
+          {
+            error: `"${trimmed}" is a generic technical protocol term, not a third-party OAuth provider. Please specify an actual platform to investigate (e.g. Airtable, HubSpot, Discord, Box, Zoom).`
+          },
+          { status: 400 }
+        );
+      }
+    }
 
     // 1. Check if the app is already in our curated library
     const existing = APPS_DATABASE.find(
@@ -51,19 +85,54 @@ export async function POST(req: NextRequest) {
         detail: `Querying official OAuth documentation for ${trimmed}...`
       });
 
-      const searchTerms = `${trimmed} OAuth 2.0 developer documentation authentication scopes redirect uri`;
+      // Wrap in quotes to force search engine to search for the specific entity
+      const searchTerms = `"${trimmed}" OAuth 2.0 developer documentation authentication scopes redirect uri`;
       searchResults = await webSearch(searchTerms);
 
-      if (searchResults && searchResults.length > 0) {
-        targetUrl = searchResults[0].url;
-        appTitle = searchResults[0].title.split(/[-|:]/)[0].trim() || trimmed;
-        investigationSteps[0].status = "completed";
-        investigationSteps[0].detail = `Discovered official docs at ${new URL(targetUrl).hostname}`;
-      } else {
-        targetUrl = `https://developers.${trimmed.toLowerCase().replace(/[^a-z0-9]/g, "")}.com`;
-        investigationSteps[0].status = "completed";
-        investigationSteps[0].detail = `Formulated portal probe for ${trimmed}`;
+      if (!searchResults || searchResults.length === 0) {
+        return NextResponse.json(
+          {
+            error: `No developer documentation or OAuth 2.0 portals found for "${trimmed}". Verify the spelling or provide an official documentation URL.`
+          },
+          { status: 404 }
+        );
       }
+
+      // Guardrail 3: Semantic relevance check
+      // Ensure that at least one of the top search results actually mentions the queried entity
+      const queryClean = trimmed.toLowerCase().replace(/[^a-z0-9]/g, "");
+      const isRelevant = searchResults.slice(0, 4).some((res) => {
+        const titleLower = res.title.toLowerCase();
+        const urlLower = res.url.toLowerCase();
+        const contentLower = (res.content || "").toLowerCase();
+        return (
+          urlLower.includes(queryClean) ||
+          titleLower.includes(trimmed.toLowerCase()) ||
+          contentLower.includes(trimmed.toLowerCase())
+        );
+      });
+
+      if (!isRelevant) {
+        return NextResponse.json(
+          {
+            error: `Could not verify an active OAuth 2.0 developer platform for "${trimmed}". The search results did not match this entity. Please verify the spelling or provide an official documentation URL (e.g. https://developer.${queryClean}.com).`
+          },
+          { status: 404 }
+        );
+      }
+
+      // Pick the best result that matches the query
+      const bestMatch = searchResults.find((res) => {
+        const urlLower = res.url.toLowerCase();
+        const titleLower = res.title.toLowerCase();
+        return urlLower.includes(queryClean) || titleLower.includes(trimmed.toLowerCase());
+      }) || searchResults[0];
+
+      targetUrl = bestMatch.url;
+      // Use clean entity name rather than generic page title like "Setup with OAuth 2.0"
+      appTitle = trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
+      investigationSteps[0].status = "completed";
+      investigationSteps[0].detail = `Discovered official docs at ${new URL(targetUrl).hostname}`;
     } else {
       investigationSteps.push({
         title: `Probing submitted URL`,
@@ -97,9 +166,18 @@ export async function POST(req: NextRequest) {
     if (openRouterKey && scrape.markdown) {
       try {
         const prompt = `You are an elite OAuth Integration Architect for Composio (the integration platform for AI agents).
-Analyze the following developer documentation for "${appTitle}" and output a strict JSON object following this exact structure:
+Analyze the following developer documentation for "${appTitle}".
 
+IMPORTANT VALIDATION RULE:
+If the text below is NOT developer documentation describing an OAuth 2.0 authorization framework, API tokens, or app registration for "${appTitle}" (e.g. it is a 404 error page, a captcha, cookie policy, general marketing landing page, or unrelated content), output ONLY:
 {
+  "is_valid_oauth_doc": false,
+  "error": "The documentation at this URL does not contain OAuth 2.0 authorization or API registration instructions for ${appTitle}."
+}
+
+Otherwise, output a strict JSON object following this exact structure:
+{
+  "is_valid_oauth_doc": true,
   "name": "${appTitle}",
   "category": "Productivity" (or "Developer Tools", "Communication", "CRM & Sales", "Media & Content"),
   "frictionScore": number between 1.0 and 5.0 (1=instant/easy like GitHub, 5=painful multi-week CASA review like Google),
@@ -159,6 +237,12 @@ Output ONLY valid JSON without markdown wrapping.`;
         if (llmRes.ok) {
           const llmData = await llmRes.json();
           const parsed = JSON.parse(llmData.choices[0].message.content);
+          if (parsed.is_valid_oauth_doc === false) {
+            return NextResponse.json(
+              { error: parsed.error || `The scraped documentation does not contain valid OAuth 2.0 specifications for ${appTitle}.` },
+              { status: 422 }
+            );
+          }
           generatedGuide = formatGuideFromLLM(parsed, appTitle, targetUrl, searchResults);
         } else {
           generatedGuide = synthesizeHeuristicGuide(appTitle, targetUrl, searchResults);
@@ -197,10 +281,18 @@ function formatGuideFromLLM(
   targetUrl: string,
   searchResults: any[]
 ): AppGuide {
-  const slug = appTitle.toLowerCase().replace(/[^a-z0-9]/g, "-");
+  const cleanedName =
+    parsed.name &&
+    !parsed.name.toLowerCase().includes("setup with oauth") &&
+    !parsed.name.toLowerCase().includes("overview") &&
+    parsed.name.length < 30
+      ? parsed.name
+      : appTitle;
+
+  const slug = cleanedName.toLowerCase().replace(/[^a-z0-9]/g, "-");
   return {
     id: `live-${slug}-${Date.now()}`,
-    name: parsed.name || appTitle,
+    name: cleanedName,
     slug,
     category: parsed.category || "Productivity",
     logo: `https://www.google.com/s2/favicons?domain=${new URL(targetUrl).hostname}&sz=128`,
