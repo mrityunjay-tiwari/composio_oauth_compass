@@ -56,12 +56,12 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-3 sm:p-6 overflow-y-auto">
-      <div className="relative w-full max-w-4xl rounded-lg border border-slate-200 bg-white shadow-xl flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+      <div className="relative w-full max-w-4xl rounded-none border border-slate-200 bg-white shadow-xl flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-150">
         
         {/* Top Modal Header */}
         <div className="border-b border-slate-200 bg-white px-6 py-3.5 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 flex items-center justify-center rounded-sm border border-slate-200 bg-white p-1.5 shadow-2xs">
+            <div className="h-10 w-10 flex items-center justify-center rounded-none border border-slate-200 bg-white p-1.5 shadow-2xs">
               <img
                 src={guide.logo}
                 alt={guide.name}
@@ -74,11 +74,11 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="text-base font-bold text-slate-900">{guide.name}</h2>
-                <span className="rounded-sm bg-slate-100 border border-slate-200 px-2 py-0.5 text-[10px] font-mono text-slate-700">
+                <span className="rounded-none bg-slate-100 border border-slate-200 px-2 py-0.5 text-[10px] font-mono text-slate-700">
                   {guide.category}
                 </span>
                 {guide.composioManagedAvailable && (
-                  <span className="rounded-sm bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-[10px] font-medium text-emerald-700">
+                  <span className="rounded-none bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-[10px] font-medium text-emerald-700">
                     Composio Managed
                   </span>
                 )}
@@ -92,14 +92,14 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
           <div className="flex items-center gap-2">
             <button
               onClick={() => copyToClipboard(window.location.href, "share")}
-              className="flex items-center gap-1.5 rounded-sm border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50 transition"
+              className="flex items-center gap-1.5 rounded-none border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50 transition"
             >
               {copiedField === "share" ? <Check className="h-3 w-3 text-emerald-600" /> : <Share2 className="h-3 w-3 text-slate-500" />}
               <span>{copiedField === "share" ? "Copied" : "Share"}</span>
             </button>
             <button
               onClick={onClose}
-              className="rounded-sm p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition"
+              className="rounded-none p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition"
             >
               <X className="h-4 w-4" />
             </button>
@@ -163,7 +163,7 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
             <Layers className="h-3.5 w-3.5" />
             <span>Scope Minimizer</span>
             {hasRestrictedScope && (
-              <span className="h-1.5 w-1.5 rounded-full bg-rose-500 animate-pulse" />
+              <span className="h-1.5 w-1.5 rounded-none bg-rose-500 animate-pulse" />
             )}
           </button>
           <button
@@ -197,7 +197,7 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
           {activeTab === "checklist" && (
             <div className="space-y-6">
               {/* Agent vs Human Matrix Banner */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 rounded-md border border-slate-200 bg-slate-50/50 p-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 rounded-none border border-slate-200 bg-slate-50/50 p-4">
                 <div>
                   <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-900 mb-2">
                     <Bot className="h-3.5 w-3.5 text-blue-600" />
@@ -220,7 +220,7 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
                   <ul className="space-y-1.5 text-xs text-slate-600">
                     {guide.humanMustDo.map((item, idx) => (
                       <li key={idx} className="flex items-start gap-1.5">
-                        <div className="h-1.5 w-1.5 rounded-full bg-slate-400 mt-1.5 shrink-0" />
+                        <div className="h-1.5 w-1.5 rounded-none bg-slate-400 mt-1.5 shrink-0" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -239,7 +239,7 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
                     return (
                       <div
                         key={step.id}
-                        className={`rounded-md border p-3.5 transition ${
+                        className={`rounded-none border p-3.5 transition ${
                           isDone
                             ? "border-emerald-200 bg-emerald-50/20"
                             : "border-slate-200 bg-white"
@@ -250,7 +250,7 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
                             type="checkbox"
                             checked={!!isDone}
                             onChange={() => toggleStep(step.id)}
-                            className="mt-1 h-3.5 w-3.5 rounded-xs border-slate-300 text-[#0024BC] focus:ring-[#0024BC] cursor-pointer"
+                            className="mt-1 h-3.5 w-3.5 rounded-none border-slate-300 text-[#0024BC] focus:ring-[#0024BC] cursor-pointer"
                           />
                           <div className="flex-1 space-y-1">
                             <div className="flex items-center justify-between gap-2">
@@ -258,7 +258,7 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
                                 Step {step.id}: {step.title}
                               </span>
                               <span
-                                className={`rounded-sm px-1.5 py-0.5 text-[9px] font-mono uppercase font-semibold ${
+                                className={`rounded-none px-1.5 py-0.5 text-[9px] font-mono uppercase font-semibold ${
                                   step.actor === "agent"
                                     ? "bg-blue-50 text-blue-700 border border-blue-200"
                                     : step.actor === "human"
@@ -276,11 +276,11 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
 
                             {/* Code snippet or callback URL */}
                             {step.codeSnippet && (
-                              <div className="mt-2 flex items-center justify-between rounded-sm bg-slate-900 px-3 py-1.5 font-mono text-xs text-slate-200">
+                              <div className="mt-2 flex items-center justify-between rounded-none bg-slate-900 px-3 py-1.5 font-mono text-xs text-slate-200">
                                 <span className="truncate">{step.codeSnippet}</span>
                                 <button
                                   onClick={() => copyToClipboard(step.codeSnippet!, `step-${step.id}`)}
-                                  className="ml-2 flex items-center gap-1 rounded-sm bg-slate-800 px-2 py-0.5 text-[10px] text-slate-300 hover:bg-slate-700"
+                                  className="ml-2 flex items-center gap-1 rounded-none bg-slate-800 px-2 py-0.5 text-[10px] text-slate-300 hover:bg-slate-700"
                                 >
                                   {copiedField === `step-${step.id}` ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
                                   <span>{copiedField === `step-${step.id}` ? "Copied" : "Copy"}</span>
@@ -305,7 +305,7 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
 
                             {/* Gotcha Callout under step */}
                             {step.gotchaWarning && (
-                              <div className="mt-2 rounded-sm border border-amber-200 bg-amber-50/80 p-2 text-xs text-amber-900 flex items-start gap-2">
+                              <div className="mt-2 rounded-none border border-amber-200 bg-amber-50/80 p-2 text-xs text-amber-900 flex items-start gap-2">
                                 <AlertTriangle className="h-3.5 w-3.5 text-amber-600 shrink-0 mt-0.5" />
                                 <span>{step.gotchaWarning}</span>
                               </div>
@@ -344,7 +344,7 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
 
               {/* CASA / Risk Warning Banner */}
               {hasRestrictedScope ? (
-                <div className="rounded-md border border-rose-200 bg-rose-50/80 p-3.5 text-xs text-rose-900 space-y-1">
+                <div className="rounded-none border border-rose-200 bg-rose-50/80 p-3.5 text-xs text-rose-900 space-y-1">
                   <div className="flex items-center gap-2 font-semibold text-rose-800">
                     <ShieldAlert className="h-4 w-4 text-rose-600" />
                     <span>RESTRICTED SCOPE SELECTED: CASA Tier 2 Audit Triggered</span>
@@ -357,7 +357,7 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
                   </p>
                 </div>
               ) : (
-                <div className="rounded-md border border-emerald-200 bg-emerald-50/60 p-3 text-xs text-emerald-900 flex items-center gap-2">
+                <div className="rounded-none border border-emerald-200 bg-emerald-50/60 p-3 text-xs text-emerald-900 flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
                   <span>
                     <strong>Optimal Scope Selection:</strong> Scopes do not trigger restricted CASA third-party audits. Expedited review path.
@@ -366,7 +366,7 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
               )}
 
               {/* Scopes Table */}
-              <div className="rounded-md border border-slate-200 overflow-hidden bg-white">
+              <div className="rounded-none border border-slate-200 overflow-hidden bg-white">
                 <table className="w-full text-left text-xs">
                   <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-medium">
                     <tr>
@@ -393,7 +393,7 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
                               type="checkbox"
                               checked={isSelected}
                               onChange={() => {}}
-                              className="h-3.5 w-3.5 rounded-xs border-slate-300 text-[#0024BC] focus:ring-[#0024BC]"
+                              className="h-3.5 w-3.5 rounded-none border-slate-300 text-[#0024BC] focus:ring-[#0024BC]"
                             />
                           </td>
                           <td className="py-2.5 px-3 font-mono font-medium text-slate-900">
@@ -404,7 +404,7 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
                           </td>
                           <td className="py-2.5 px-3">
                             <span
-                              className={`rounded-sm px-1.5 py-0.5 text-[9px] font-mono font-semibold uppercase ${
+                              className={`rounded-none px-1.5 py-0.5 text-[9px] font-mono font-semibold uppercase ${
                                 s.riskLevel === "restricted"
                                   ? "bg-rose-100 text-rose-800"
                                   : s.riskLevel === "medium"
@@ -418,7 +418,7 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
                           <td className="py-2.5 px-3">
                             <div className="flex flex-wrap gap-1">
                               {s.composioActions.map((act) => (
-                                <span key={act} className="rounded-xs bg-slate-100 px-1 py-0.5 font-mono text-[9px] text-slate-700">
+                                <span key={act} className="rounded-none bg-slate-100 px-1 py-0.5 font-mono text-[9px] text-slate-700">
                                   {act}
                                 </span>
                               ))}
@@ -447,7 +447,7 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
                 {guide.gotchas.map((gotcha, idx) => (
                   <div
                     key={idx}
-                    className={`rounded-md border p-3.5 space-y-1 ${
+                    className={`rounded-none border p-3.5 space-y-1 ${
                       gotcha.severity === "critical"
                         ? "border-rose-200 bg-rose-50/40"
                         : gotcha.severity === "warning"
@@ -468,7 +468,7 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
                         />
                         <span>{gotcha.title}</span>
                       </div>
-                      <span className="rounded-sm bg-white border border-slate-200 px-1.5 py-0.5 text-[9px] font-mono text-slate-600 uppercase">
+                      <span className="rounded-none bg-white border border-slate-200 px-1.5 py-0.5 text-[9px] font-mono text-slate-600 uppercase">
                         {gotcha.evidenceType.replace("_", " ")}
                       </span>
                     </div>
@@ -499,13 +499,13 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
                     <span>Provider Manifest ({guide.manifestTemplate.filename})</span>
                     <button
                       onClick={() => copyToClipboard(guide.manifestTemplate!.content, "manifest")}
-                      className="flex items-center gap-1 rounded-sm border border-slate-200 bg-white px-2 py-0.5 text-[11px] text-slate-700 hover:bg-slate-50"
+                      className="flex items-center gap-1 rounded-none border border-slate-200 bg-white px-2 py-0.5 text-[11px] text-slate-700 hover:bg-slate-50"
                     >
                       {copiedField === "manifest" ? <Check className="h-3 w-3 text-emerald-600" /> : <Copy className="h-3 w-3" />}
                       <span>{copiedField === "manifest" ? "Copied" : "Copy Manifest"}</span>
                     </button>
                   </div>
-                  <pre className="rounded-sm border border-slate-800 bg-slate-900 p-3.5 font-mono text-xs text-slate-200 overflow-x-auto">
+                  <pre className="rounded-none border border-slate-800 bg-slate-900 p-3.5 font-mono text-xs text-slate-200 overflow-x-auto">
                     {guide.manifestTemplate.content}
                   </pre>
                 </div>
@@ -517,13 +517,13 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
                   <span>Python SDK</span>
                   <button
                     onClick={() => copyToClipboard(guide.composioConfig.sample_sdk_python, "sdk-python")}
-                    className="flex items-center gap-1 rounded-sm border border-slate-200 bg-white px-2 py-0.5 text-[11px] text-slate-700 hover:bg-slate-50"
+                    className="flex items-center gap-1 rounded-none border border-slate-200 bg-white px-2 py-0.5 text-[11px] text-slate-700 hover:bg-slate-50"
                   >
                     {copiedField === "sdk-python" ? <Check className="h-3 w-3 text-emerald-600" /> : <Copy className="h-3 w-3" />}
                     <span>{copiedField === "sdk-python" ? "Copied" : "Copy Python"}</span>
                   </button>
                 </div>
-                <pre className="rounded-sm border border-slate-800 bg-slate-900 p-3.5 font-mono text-xs text-slate-200 overflow-x-auto">
+                <pre className="rounded-none border border-slate-800 bg-slate-900 p-3.5 font-mono text-xs text-slate-200 overflow-x-auto">
                   {guide.composioConfig.sample_sdk_python}
                 </pre>
               </div>
@@ -534,13 +534,13 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
                   <span>TypeScript SDK</span>
                   <button
                     onClick={() => copyToClipboard(guide.composioConfig.sample_sdk_typescript, "sdk-ts")}
-                    className="flex items-center gap-1 rounded-sm border border-slate-200 bg-white px-2 py-0.5 text-[11px] text-slate-700 hover:bg-slate-50"
+                    className="flex items-center gap-1 rounded-none border border-slate-200 bg-white px-2 py-0.5 text-[11px] text-slate-700 hover:bg-slate-50"
                   >
                     {copiedField === "sdk-ts" ? <Check className="h-3 w-3 text-emerald-600" /> : <Copy className="h-3 w-3" />}
                     <span>{copiedField === "sdk-ts" ? "Copied" : "Copy TS"}</span>
                   </button>
                 </div>
-                <pre className="rounded-sm border border-slate-800 bg-slate-900 p-3.5 font-mono text-xs text-slate-200 overflow-x-auto">
+                <pre className="rounded-none border border-slate-800 bg-slate-900 p-3.5 font-mono text-xs text-slate-200 overflow-x-auto">
                   {guide.composioConfig.sample_sdk_typescript}
                 </pre>
               </div>
@@ -565,7 +565,7 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
           </div>
           <button
             onClick={onClose}
-            className="rounded-sm bg-slate-900 px-3 py-1.5 text-xs font-medium text-white hover:bg-slate-800 transition"
+            className="rounded-none bg-slate-900 px-3 py-1.5 text-xs font-medium text-white hover:bg-slate-800 transition"
           >
             Close Guide
           </button>

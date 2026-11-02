@@ -37,7 +37,7 @@ export const ConversationScrollButton = ({
   return (
     <Button
       className={cn(
-        "absolute bottom-3 left-1/2 size-8 -translate-x-1/2 !rounded-full shadow-md",
+        "absolute bottom-3 left-1/2 size-8 -translate-x-1/2 !rounded-none shadow-md",
         className
       )}
       onClick={() => scrollToBottom()}

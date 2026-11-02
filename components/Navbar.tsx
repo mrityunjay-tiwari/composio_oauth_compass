@@ -1,6 +1,7 @@
 "use client";
 
 import { Sparkles, ShieldCheck, BookOpen, ExternalLink } from "lucide-react";
+import { LuPackageSearch } from "react-icons/lu";
 
 interface NavbarProps {
   activeTab: "directory" | "live-studio" | "ground-truth" | "composio-byoc";
@@ -28,7 +29,7 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
 
           <div className="h-4 w-px bg-slate-200 mx-3 hidden sm:block" />
 
-          <div className="hidden sm:flex items-center gap-1.5 font-mono text-[11px] font-medium text-slate-600 bg-slate-100/80 border border-slate-200/70 px-2 py-0.5 rounded">
+          <div className="hidden sm:flex items-center gap-1.5 font-mono text-[11px] font-medium text-slate-600 bg-slate-100/80 border border-slate-200/70 px-2 py-0.5 rounded-none">
             <span>OAuth Compass</span>
           </div>
         </div>
@@ -37,7 +38,7 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
         <nav className="flex items-center gap-1 text-xs font-medium text-slate-600">
           <button
             onClick={() => setActiveTab("directory")}
-            className={`rounded px-2.5 py-1.5 transition cursor-pointer ${
+            className={`rounded-none px-2.5 py-1.5 transition cursor-pointer ${
               activeTab === "directory"
                 ? "bg-slate-100 text-slate-900 font-semibold"
                 : "hover:text-slate-900 hover:bg-slate-50"
@@ -48,31 +49,31 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
           
           <button
             onClick={() => setActiveTab("live-studio")}
-            className={`flex items-center gap-1.5 rounded px-2.5 py-1.5 transition cursor-pointer ${
+            className={`flex items-center gap-1.5 rounded-none px-2.5 py-1.5 transition cursor-pointer ${
               activeTab === "live-studio"
                 ? "bg-blue-50 text-[#0024BC] font-semibold border border-blue-200/60"
                 : "hover:text-slate-900 hover:bg-slate-50"
             }`}
           >
-            <Sparkles className="h-3.5 w-3.5 text-[#0024BC]" />
+            <LuPackageSearch className="h-3.5 w-3.5 text-[#0024BC]" />
             <span>Live Investigation</span>
           </button>
           
           <button
             onClick={() => setActiveTab("ground-truth")}
-            className={`flex items-center gap-1.5 rounded px-2.5 py-1.5 transition cursor-pointer ${
+            className={`flex items-center gap-1.5 rounded-none px-2.5 py-1.5 transition cursor-pointer ${
               activeTab === "ground-truth"
                 ? "bg-slate-100 text-slate-900 font-semibold"
                 : "hover:text-slate-900 hover:bg-slate-50"
             }`}
           >
-            <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
+            <ShieldCheck className="h-3.5 w-3.5" />
             <span>Ground Truth Audit</span>
           </button>
           
           <button
             onClick={() => setActiveTab("composio-byoc")}
-            className={`flex items-center gap-1.5 rounded px-2.5 py-1.5 transition cursor-pointer ${
+            className={`flex items-center gap-1.5 rounded-none px-2.5 py-1.5 transition cursor-pointer ${
               activeTab === "composio-byoc"
                 ? "bg-slate-100 text-slate-900 font-semibold"
                 : "hover:text-slate-900 hover:bg-slate-50"
@@ -98,7 +99,7 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
             href="https://backend.composio.dev"
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded bg-[#0024BC] px-3 py-1.5 text-xs font-medium text-white shadow-xs transition hover:bg-[#001da0]"
+            className="rounded-none bg-[#0024BC] px-3 py-1.5 text-xs font-medium text-white shadow-xs transition hover:bg-[#001da0]"
           >
             Composio Dashboard
           </a>

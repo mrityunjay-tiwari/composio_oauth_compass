@@ -55,7 +55,7 @@ export default function GroundTruthAudit() {
     <div className="space-y-6 max-w-5xl mx-auto">
       {/* Header */}
       <div className="space-y-1.5 border-b border-slate-200 pb-5">
-        <div className="inline-flex items-center gap-1.5 rounded-sm border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[11px] font-mono font-medium text-emerald-700">
+        <div className="inline-flex items-center gap-1.5 rounded-none border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[11px] font-mono font-medium text-emerald-700">
           <ShieldCheck className="h-3 w-3" />
           <span>Requirement #2: Evidence & Ground Truth Audit</span>
         </div>
@@ -69,7 +69,7 @@ export default function GroundTruthAudit() {
 
       {/* 3-Tier Evidence Taxonomy */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <div className="rounded-md border border-slate-200 bg-white p-3.5 space-y-1">
+        <div className="rounded-none border border-slate-200 bg-white p-3.5 space-y-1">
           <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
             <CheckCircle className="h-3.5 w-3.5 text-emerald-600" />
             <span>[Verified - Official Docs]</span>
@@ -78,7 +78,7 @@ export default function GroundTruthAudit() {
             Technical endpoints, PKCE parameters, and redirect URI formatting verified directly against active provider documentation.
           </p>
         </div>
-        <div className="rounded-md border border-slate-200 bg-white p-3.5 space-y-1">
+        <div className="rounded-none border border-slate-200 bg-white p-3.5 space-y-1">
           <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
             <AlertTriangle className="h-3.5 w-3.5 text-amber-600" />
             <span>[Observed - Tested Reality]</span>
@@ -87,7 +87,7 @@ export default function GroundTruthAudit() {
             Edge cases and hidden gotchas discovered through real developer account testing that documentation omits or buries in fine print.
           </p>
         </div>
-        <div className="rounded-md border border-slate-200 bg-white p-3.5 space-y-1">
+        <div className="rounded-none border border-slate-200 bg-white p-3.5 space-y-1">
           <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
             <HelpCircle className="h-3.5 w-3.5 text-blue-600" />
             <span>[Uncertain / Opaque Policy]</span>
@@ -99,7 +99,7 @@ export default function GroundTruthAudit() {
       </div>
 
       {/* Audit Comparison Table */}
-      <div className="rounded-md border border-slate-200 bg-white overflow-hidden">
+      <div className="rounded-none border border-slate-200 bg-white overflow-hidden">
         <div className="border-b border-slate-100 bg-slate-50/80 px-5 py-2.5 flex items-center justify-between">
           <span className="text-xs font-bold text-slate-900 font-mono">Evidence Audit Matrix</span>
           <span className="text-[11px] font-mono text-slate-500">5 Discrepancies Cataloged</span>
@@ -110,19 +110,19 @@ export default function GroundTruthAudit() {
             <div key={idx} className="p-5 space-y-2.5 hover:bg-slate-50/40 transition">
               <div className="flex items-center justify-between gap-3">
                 <span className="font-bold text-slate-900 text-xs sm:text-sm">{item.app}</span>
-                <span className={`rounded-sm border px-2 py-0.5 text-[9px] font-mono font-semibold uppercase ${item.badgeColor}`}>
+                <span className={`rounded-none border px-2 py-0.5 text-[9px] font-mono font-semibold uppercase ${item.badgeColor}`}>
                   {item.status}
                 </span>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-                <div className="rounded-sm bg-slate-50 p-2.5 border border-slate-200/60 space-y-0.5">
+                <div className="rounded-none bg-slate-50 p-2.5 border border-slate-200/60 space-y-0.5">
                   <span className="font-semibold text-slate-500 text-[10px] uppercase font-mono tracking-wider">
                     Official Documentation Claim
                   </span>
                   <p className="text-slate-700 leading-relaxed">{item.docClaim}</p>
                 </div>
-                <div className="rounded-sm bg-amber-50/50 p-2.5 border border-amber-200/60 space-y-0.5">
+                <div className="rounded-none bg-amber-50/50 p-2.5 border border-amber-200/60 space-y-0.5">
                   <span className="font-semibold text-amber-800 text-[10px] uppercase font-mono tracking-wider">
                     Tested Reality (The Trap)
                   </span>
@@ -130,7 +130,7 @@ export default function GroundTruthAudit() {
                 </div>
               </div>
 
-              <div className="rounded-sm bg-emerald-50/40 p-2.5 border border-emerald-200/60 text-xs text-emerald-900 flex items-start gap-2">
+              <div className="rounded-none bg-emerald-50/40 p-2.5 border border-emerald-200/60 text-xs text-emerald-900 flex items-start gap-2">
                 <CheckCircle className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
                 <div>
                   <span className="font-semibold">How OAuth Compass Solves It: </span>

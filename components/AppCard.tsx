@@ -37,13 +37,13 @@ export default function AppCard({ guide, onSelect }: AppCardProps) {
   return (
     <div
       onClick={() => onSelect(guide)}
-      className="group relative flex flex-col justify-between rounded border border-slate-200 bg-white p-4 shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-all duration-150 hover:border-slate-300 hover:shadow-xs cursor-pointer"
+      className="group relative flex flex-col justify-between rounded-none border border-slate-200 bg-white p-4 shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-all duration-150 hover:border-slate-300 hover:shadow-xs cursor-pointer"
     >
       <div>
         {/* Top Header */}
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <div className="h-9 w-9 flex items-center justify-center rounded border border-slate-200 bg-white p-1.5 shadow-2xs">
+            <div className="h-9 w-9 flex items-center justify-center rounded-none border border-slate-200 bg-white p-1.5 shadow-2xs">
               <img
                 src={guide.logo}
                 alt={guide.name}
@@ -62,7 +62,7 @@ export default function AppCard({ guide, onSelect }: AppCardProps) {
           </div>
 
           <span
-            className={`inline-flex items-center gap-1 rounded border px-2 py-0.5 font-mono text-[10px] font-semibold ${badge.badgeClass}`}
+            className={`inline-flex items-center gap-1 rounded-none border px-2 py-0.5 font-mono text-[10px] font-semibold ${badge.badgeClass}`}
           >
             {badge.icon}
             <span>{guide.frictionScore.toFixed(1)}/5</span>
@@ -76,7 +76,7 @@ export default function AppCard({ guide, onSelect }: AppCardProps) {
 
         {/* Primary Gotcha Warning */}
         {primaryGotcha && (
-          <div className="mt-3 rounded border border-amber-200/70 bg-amber-50/50 px-2.5 py-1.5 text-[11px] text-amber-900">
+          <div className="mt-3 rounded-none border border-amber-200/70 bg-amber-50/50 px-2.5 py-1.5 text-[11px] text-amber-900">
             <div className="flex items-center gap-1.5 font-medium text-amber-800">
               <AlertTriangle className="h-3 w-3 shrink-0 text-amber-600" />
               <span className="truncate">{primaryGotcha.title}</span>

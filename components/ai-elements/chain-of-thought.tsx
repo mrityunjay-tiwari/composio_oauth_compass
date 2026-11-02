@@ -133,7 +133,7 @@ export function ChainOfThoughtHeader({
   return (
     <CollapsibleTrigger
       className={cn(
-        "group/cot flex w-full items-center justify-between gap-2 force-rounded-lg border border-border/80 bg-muted/30 px-3 py-2 text-xs text-muted-foreground transition-all hover:bg-muted/60 hover:text-foreground cursor-pointer select-none",
+        "group/cot flex w-full items-center justify-between gap-2 force-rounded-none border border-border/80 bg-muted/30 px-3 py-2 text-xs text-muted-foreground transition-all hover:bg-muted/60 hover:text-foreground cursor-pointer select-none",
         className
       )}
       {...props}
@@ -279,7 +279,7 @@ export function ChainOfThoughtSearchResults({
           href={r.url || undefined}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 force-rounded-md border border-border/80 bg-background/80 px-2 py-0.5 text-[11px] font-medium text-foreground hover:bg-muted transition-colors cursor-pointer max-w-[260px] truncate"
+          className="inline-flex items-center gap-1 force-rounded-none border border-border/80 bg-background/80 px-2 py-0.5 text-[11px] font-medium text-foreground hover:bg-muted transition-colors cursor-pointer max-w-[260px] truncate"
           title={r.title}
         >
           <Search className="size-2.5 text-muted-foreground shrink-0" />

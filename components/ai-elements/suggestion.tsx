@@ -31,7 +31,7 @@ export type SuggestionProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 export const Suggestion = ({ className, children, ...props }: SuggestionProps) => (
   <button
     className={cn(
-      "rounded-xl border border-border bg-card px-3.5 py-2 text-left text-xs text-foreground",
+      "rounded-none border border-border bg-card px-3.5 py-2 text-left text-xs text-foreground",
       "hover:bg-muted/70 hover:text-foreground transition-all duration-200 cursor-pointer max-w-full truncate",
       className
     )}

@@ -37,7 +37,7 @@ print("Direct user to authenticate:", connection.redirect_url)`;
     <div className="space-y-6 max-w-5xl mx-auto">
       {/* Header */}
       <div className="space-y-1.5 border-b border-slate-200 pb-5">
-        <div className="inline-flex items-center gap-1.5 rounded-sm border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[11px] font-mono font-medium text-blue-700">
+        <div className="inline-flex items-center gap-1.5 rounded-none border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[11px] font-mono font-medium text-blue-700">
           <BookOpen className="h-3 w-3" />
           <span>Composio Architecture Reference</span>
         </div>
@@ -51,9 +51,9 @@ print("Direct user to authenticate:", connection.redirect_url)`;
 
       {/* Comparison Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="rounded-md border border-slate-200 bg-white p-5 space-y-3.5">
+        <div className="rounded-none border border-slate-200 bg-white p-5 space-y-3.5">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-sm bg-emerald-50 text-emerald-700 border border-emerald-200">
+            <div className="flex h-8 w-8 items-center justify-center rounded-none bg-emerald-50 text-emerald-700 border border-emerald-200">
               <Zap className="h-4 w-4" />
             </div>
             <div>
@@ -98,9 +98,9 @@ print("Direct user to authenticate:", connection.redirect_url)`;
           </div>
         </div>
 
-        <div className="rounded-md border border-slate-200 bg-white p-5 space-y-3.5">
+        <div className="rounded-none border border-slate-200 bg-white p-5 space-y-3.5">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-sm bg-blue-50 text-blue-700 border border-blue-200">
+            <div className="flex h-8 w-8 items-center justify-center rounded-none bg-blue-50 text-blue-700 border border-blue-200">
               <Key className="h-4 w-4" />
             </div>
             <div>
@@ -147,7 +147,7 @@ print("Direct user to authenticate:", connection.redirect_url)`;
       </div>
 
       {/* Code Blueprint */}
-      <div className="rounded-md border border-slate-200 bg-white p-5 space-y-2.5">
+      <div className="rounded-none border border-slate-200 bg-white p-5 space-y-2.5">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="font-bold text-slate-900 text-xs sm:text-sm font-mono">2-Step Composio Connection Blueprint</h3>
@@ -155,14 +155,14 @@ print("Direct user to authenticate:", connection.redirect_url)`;
           </div>
           <button
             onClick={handleCopy}
-            className="flex items-center gap-1 rounded-sm border border-slate-200 bg-white px-2 py-0.5 text-[11px] font-medium text-slate-700 hover:bg-slate-50"
+            className="flex items-center gap-1 rounded-none border border-slate-200 bg-white px-2 py-0.5 text-[11px] font-medium text-slate-700 hover:bg-slate-50"
           >
             {copied ? <Check className="h-3 w-3 text-emerald-600" /> : <Copy className="h-3 w-3 text-slate-500" />}
             <span>{copied ? "Copied" : "Copy Blueprint"}</span>
           </button>
         </div>
 
-        <pre className="rounded-sm border border-slate-800 bg-slate-900 p-3.5 font-mono text-xs text-slate-200 overflow-x-auto leading-relaxed">
+        <pre className="rounded-none border border-slate-800 bg-slate-900 p-3.5 font-mono text-xs text-slate-200 overflow-x-auto leading-relaxed">
           {pythonSnippet}
         </pre>
       </div>

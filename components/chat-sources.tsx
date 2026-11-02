@@ -39,12 +39,12 @@ export default function ChatSources({ sources }: { sources: ChatSource[] }) {
             href={s.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2.5 py-1 text-xs text-slate-700 shadow-xs transition hover:border-slate-300 hover:bg-slate-50"
+            className="group flex items-center gap-2 rounded-none border border-slate-200 bg-white px-2.5 py-1 text-xs text-slate-700 shadow-xs transition hover:border-slate-300 hover:bg-slate-50"
           >
             <img
               src={faviconOf(s.link)}
               alt=""
-              className="h-3.5 w-3.5 rounded-xs"
+              className="h-3.5 w-3.5 rounded-none"
               onError={(e) => {
                 (e.target as HTMLElement).style.display = "none";
               }}
