@@ -240,12 +240,18 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
 
-      // Match requested scopes against guide definitions
+      // Match requested scopes against guide definitions (bidirectional matching for short names like 'gmail.readonly')
       const matchedScopes = guide.scopes.filter((s) =>
         requestedScopes.some(
-          (rs) =>
-            rs.toLowerCase() === s.name.toLowerCase() ||
-            rs.toLowerCase().includes(s.name.toLowerCase())
+          (rs) => {
+            const cleanRs = rs.trim().toLowerCase();
+            const cleanSName = s.name.trim().toLowerCase();
+            return (
+              cleanRs === cleanSName ||
+              cleanRs.includes(cleanSName) ||
+              cleanSName.includes(cleanRs)
+            );
+          }
         )
       );
 

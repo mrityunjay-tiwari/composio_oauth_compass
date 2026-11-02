@@ -378,7 +378,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-slate-200 bg-white mt-12 py-5">
         <div className="mx-auto max-w-7xl px-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2 font-mono text-[11px]">
+          <div className="flex items-center gap-2 text-[11px]">
             <span className="font-semibold text-slate-800">Composio OAuth Compass</span>
             <span>/</span>
             <span>APM Integrations Assignment</span>
