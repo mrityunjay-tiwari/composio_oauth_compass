@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { AppGuide } from "@/data/apps";
 import { CodeBlock } from "@/components/ui/code-block";
+import { CiUser } from "react-icons/ci";
 
 interface GroundTruthAuditProps {
   investigatedApps?: AppGuide[];
@@ -231,12 +232,12 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
         )}
       </div>
 
-      {/* 4 Quantitative Impact Highlights with Tasteful Accents */}
+      {/* 4 Quantitative Impact Highlights with Uniform Grey Icons */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <div className="rounded-none border border-slate-200 bg-white p-3.5 space-y-1">
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-[10px] font-medium uppercase tracking-wider">Max Audit Avoided</span>
-            <DollarSign className="h-4 w-4 text-amber-600" />
+            <DollarSign className="h-4 w-4 text-slate-400" />
           </div>
           <div className="text-2xl font-bold text-slate-900">$15,000</div>
           <p className="text-[11px] text-slate-500">Bypassed CASA Tier 2 fee by pruning scopes</p>
@@ -245,7 +246,7 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
         <div className="rounded-none border border-slate-200 bg-white p-3.5 space-y-1">
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-[10px] font-medium uppercase tracking-wider">Slack Distribution</span>
-            <Clock className="h-4 w-4 text-emerald-600" />
+            <Clock className="h-4 w-4 text-slate-400" />
           </div>
           <div className="text-2xl font-bold text-slate-900">14d → 0m</div>
           <p className="text-[11px] text-slate-500">Direct Public Distribution toggle vs App Directory</p>
@@ -254,7 +255,7 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
         <div className="rounded-none border border-slate-200 bg-white p-3.5 space-y-1">
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-[10px] font-medium uppercase tracking-wider">Silent Token Trap</span>
-            <AlertOctagon className="h-4 w-4 text-rose-600" />
+            <AlertOctagon className="h-4 w-4 text-slate-400" />
           </div>
           <div className="text-2xl font-bold text-slate-900">7-Day Cliff</div>
           <p className="text-[11px] text-slate-500">Google silently revokes refresh tokens in Testing</p>
@@ -263,7 +264,7 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
         <div className="rounded-none border border-slate-200 bg-white p-3.5 space-y-1">
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-[10px] font-medium uppercase tracking-wider">Spotify Dev Limit</span>
-            <Sparkles className="h-4 w-4 text-blue-600" />
+            <CiUser className="h-4.5 w-4.5 text-slate-400 stroke-1" />
           </div>
           <div className="text-2xl font-bold text-slate-900">25 Users</div>
           <p className="text-[11px] text-slate-500">Hard whitelist cap before cryptic 403 lockout</p>
