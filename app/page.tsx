@@ -18,6 +18,7 @@ export default function Home() {
   const [activeTab, setActiveTabState] = useState<TabType>("directory");
   const [apps, setApps] = useState<AppGuide[]>(APPS_DATABASE);
   const [selectedGuide, setSelectedGuide] = useState<AppGuide | null>(null);
+  const [selectedGuideTab, setSelectedGuideTab] = useState<"checklist" | "scopes" | "gotchas" | "composio">("checklist");
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<string>("All");
   const [frictionFilter, setFrictionFilter] = useState<string>("all");
@@ -130,6 +131,14 @@ export default function Home() {
       setCategoryFilter("All");
       setFrictionFilter("all");
     }
+  };
+
+  const handleOpenGuide = (
+    guide: AppGuide,
+    initialTab: "checklist" | "scopes" | "gotchas" | "composio" = "checklist"
+  ) => {
+    setSelectedGuide(guide);
+    setSelectedGuideTab(initialTab);
   };
 
   const recentGuides = apps.filter((a) => a.isLiveInvestigated);
@@ -294,7 +303,7 @@ export default function Home() {
                 <AppCard
                   key={guide.id}
                   guide={guide}
-                  onSelect={(g) => setSelectedGuide(g)}
+                  onSelect={handleOpenGuide}
                 />
               ))}
             </div>
@@ -321,7 +330,7 @@ export default function Home() {
         {activeTab === "live-studio" && (
           <LiveInvestigationStudio
             onGuideGenerated={handleGuideGenerated}
-            onOpenGuide={(g) => setSelectedGuide(g)}
+            onOpenGuide={handleOpenGuide}
             recentGuides={recentGuides}
             onRemoveRecentGuide={handleRemoveRecentGuide}
             onNavigateToDirectory={handleNavigateToDirectory}
@@ -340,6 +349,7 @@ export default function Home() {
       {selectedGuide && (
         <AppDetailModal
           guide={selectedGuide}
+          initialTab={selectedGuideTab}
           onClose={() => setSelectedGuide(null)}
         />
       )}

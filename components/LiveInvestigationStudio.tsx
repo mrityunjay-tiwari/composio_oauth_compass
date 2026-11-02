@@ -21,7 +21,7 @@ import { IoMdSearch } from "react-icons/io";
 
 interface LiveInvestigationStudioProps {
   onGuideGenerated: (guide: AppGuide) => void;
-  onOpenGuide: (guide: AppGuide) => void;
+  onOpenGuide: (guide: AppGuide, initialTab?: "checklist" | "scopes" | "gotchas" | "composio") => void;
   recentGuides?: AppGuide[];
   onRemoveRecentGuide?: (slug: string) => void;
   onNavigateToDirectory?: (slug?: string) => void;

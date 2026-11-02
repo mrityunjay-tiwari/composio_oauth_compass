@@ -23,10 +23,15 @@ import ChatSources from "./chat-sources";
 interface AppDetailModalProps {
   guide: AppGuide;
   onClose: () => void;
+  initialTab?: "checklist" | "scopes" | "gotchas" | "composio";
 }
 
-export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) {
-  const [activeTab, setActiveTab] = useState<"checklist" | "scopes" | "gotchas" | "composio">("checklist");
+export default function AppDetailModal({
+  guide,
+  onClose,
+  initialTab = "checklist",
+}: AppDetailModalProps) {
+  const [activeTab, setActiveTab] = useState<"checklist" | "scopes" | "gotchas" | "composio">(initialTab);
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [completedSteps, setCompletedSteps] = useState<Record<number, boolean>>({});
   const [selectedScopes, setSelectedScopes] = useState<string[]>(
@@ -100,8 +105,8 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
                   </span>
                 )}
               </div>
-              <p className="text-xs text-slate-500 mt-0.5 font-normal">
-                OAuth 2.0 Integration & BYOC Configuration
+              <p className="text-xs text-slate-600 mt-1 font-normal leading-relaxed max-w-2xl">
+                {guide.summary}
               </p>
             </div>
           </div>
