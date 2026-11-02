@@ -125,13 +125,63 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
 
         {/* Quick Metrics Bar */}
         <div className="grid grid-cols-2 sm:grid-cols-4 border-b border-slate-200 bg-slate-50/60 px-6 py-2.5 text-xs font-mono">
-          <div>
-            <span className="text-slate-400 text-[10px] uppercase tracking-wider font-sans font-medium">Friction Score</span>
+          <div className="relative group/modalFriction cursor-help">
+            <span className="text-slate-400 text-[10px] uppercase tracking-wider font-sans font-medium flex items-center gap-1">
+              <span>Friction Score</span>
+              <span className="text-[9px] font-mono border border-slate-300 px-1 py-0 rounded-none text-slate-400 group-hover/modalFriction:border-slate-500 group-hover/modalFriction:text-slate-700">?</span>
+            </span>
             <div className="font-semibold text-slate-900 mt-0.5">
               <span>{guide.frictionScore}/5.0</span>
               <span className="text-[10px] text-slate-500 font-sans ml-1">
                 {guide.frictionScore < 2 ? "(Low)" : guide.frictionScore < 3.5 ? "(Medium)" : "(High)"}
               </span>
+            </div>
+
+            {/* Hover Tooltip in Modal */}
+            <div className="pointer-events-none absolute left-0 top-full mt-1.5 z-50 w-72 rounded-none border border-slate-200 bg-white p-3 text-left shadow-lg opacity-0 transition-all duration-150 group-hover/modalFriction:pointer-events-auto group-hover/modalFriction:opacity-100">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-2 mb-2">
+                <span className="font-mono text-[11px] font-semibold text-slate-900">
+                  Friction Index: {guide.frictionScore.toFixed(1)} / 5.0
+                </span>
+                <span
+                  className={`text-[9px] font-mono font-medium px-1.5 py-0.2 rounded-none border ${
+                    guide.frictionScore < 2
+                      ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                      : guide.frictionScore < 3.5
+                      ? "bg-blue-50 text-[#0024BC] border-blue-200"
+                      : "bg-rose-50 text-rose-700 border-rose-200"
+                  }`}
+                >
+                  {guide.frictionScore < 2 ? "Instant" : guide.frictionScore < 3.5 ? "Moderate" : "High Friction"}
+                </span>
+              </div>
+              <p className="text-[11px] leading-relaxed text-slate-600 mb-2 font-sans">
+                {guide.frictionScore < 2
+                  ? "Self-serve credentials generated immediately with zero manual review gates or verification delays."
+                  : guide.frictionScore < 3.5
+                  ? "Requires workspace admin authorization, redirect URI constraints, or token expiration handling."
+                  : "Requires formal app directory review, domain ownership verification, or paid compliance audits (e.g. Google CASA Tier 2)."}
+              </p>
+              <div className="space-y-1 border-t border-slate-100 pt-2 text-[10px] font-mono text-slate-700">
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Review Gate:</span>
+                  <span className="font-semibold text-slate-900 truncate max-w-[150px] text-right">{guide.reviewType}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Approval Wait:</span>
+                  <span className="font-semibold text-slate-900">
+                    {guide.approvalWaitDays === 0 ? "0 days (Instant)" : `${guide.approvalWaitDays} days`}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Setup Effort:</span>
+                  <span className="font-semibold text-slate-900">~{guide.setupTimeMinutes} mins</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Verification Cost:</span>
+                  <span className="font-semibold text-slate-900">{guide.financialCost}</span>
+                </div>
+              </div>
             </div>
           </div>
           <div>
