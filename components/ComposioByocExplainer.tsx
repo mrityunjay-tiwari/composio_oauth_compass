@@ -118,9 +118,9 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200/80 pb-5">
         <div>
-          <div className="inline-flex items-center gap-1.5 rounded-none border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-xs mb-2">
+          <div className="inline-flex items-center gap-1.5 rounded-none border border-blue-100 bg-blue-50/70 px-2.5 py-0.5 text-xs mb-2">
             <BookOpen className="h-3 w-3 text-[#0024BC]" />
-            <span className="font-semibold text-slate-800">Composio Architecture Reference</span>
+            <span className="font-semibold text-[#0024BC]">Composio Architecture Reference</span>
           </div>
           <h1 className="text-xl sm:text-3xl font-semibold text-slate-900 tracking-tight">
             Managed Auth vs. Custom AuthConfig (BYOC)
@@ -147,7 +147,7 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
         <div className="rounded-none border border-slate-200 bg-white p-5 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-none border border-slate-200 bg-slate-50 text-slate-700">
+              <div className="flex h-8 w-8 items-center justify-center rounded-none border border-emerald-200 bg-emerald-50 text-emerald-700">
                 <Zap className="h-4 w-4" />
               </div>
               <div>
@@ -155,7 +155,7 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
                 <p className="text-[11px] text-slate-500">Day 0 to Day 14 (Prototyping &amp; POC)</p>
               </div>
             </div>
-            <span className="rounded-none border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-medium text-slate-600">
+            <span className="rounded-none border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-medium text-emerald-800">
               0-Min Setup
             </span>
           </div>
@@ -164,25 +164,25 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
             Composio maintains pre-registered OAuth credentials for hundreds of developer tools. Developers connect tools in 2 minutes without opening Google Cloud, Slack, or GitHub developer consoles.
           </p>
 
-          <ul className="space-y-2 text-xs text-slate-600">
+          <ul className="space-y-2 text-xs text-slate-700">
             <li className="flex items-start gap-2">
-              <span className="text-slate-400">•</span>
+              <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
               <span><strong>0 Minutes Setup:</strong> No provider approval or developer console registration needed.</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-slate-400">•</span>
+              <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
               <span><strong>Automated Token Custody:</strong> Tokens stored in AES-256 vault with automated refresh on 401s.</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-slate-400">•</span>
+              <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
               <span><strong>Hosted Auth Connect Links:</strong> Ready-made secure redirect links for testing tool actions.</span>
             </li>
-            <li className="flex items-start gap-2 text-slate-500">
-              <span className="text-slate-400">•</span>
+            <li className="flex items-start gap-2 text-amber-800">
+              <span className="text-xs">⚠️</span>
               <span><strong>Shared Branding:</strong> OAuth consent screen displays &ldquo;Composio&rdquo; rather than your agent brand.</span>
             </li>
-            <li className="flex items-start gap-2 text-slate-500">
-              <span className="text-slate-400">•</span>
+            <li className="flex items-start gap-2 text-amber-800">
+              <span className="text-xs">⚠️</span>
               <span><strong>Shared API Quotas:</strong> Rate limits are pooled across developers building in sandbox environments.</span>
             </li>
           </ul>
@@ -205,7 +205,7 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
         <div className="rounded-none border border-slate-200 bg-white p-5 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-none border border-slate-200 bg-slate-50 text-slate-700">
+              <div className="flex h-8 w-8 items-center justify-center rounded-none border border-blue-200 bg-blue-50 text-[#0024BC]">
                 <Key className="h-4 w-4" />
               </div>
               <div>
@@ -213,7 +213,7 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
                 <p className="text-[11px] text-slate-500">Day 14+ (Production &amp; Enterprise)</p>
               </div>
             </div>
-            <span className="rounded-none border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-medium text-slate-600">
+            <span className="rounded-none border border-blue-200 bg-blue-50 px-2 py-0.5 text-[10px] font-medium text-[#0024BC]">
               Enterprise Scale
             </span>
           </div>
@@ -222,25 +222,25 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
             Developers bring their own Client ID and Client Secret created in the provider developer console. Mandatory for customer-facing applications requiring white-label branding and dedicated quotas.
           </p>
 
-          <ul className="space-y-2 text-xs text-slate-600">
+          <ul className="space-y-2 text-xs text-slate-700">
             <li className="flex items-start gap-2">
-              <span className="text-slate-400">•</span>
+              <Check className="h-3.5 w-3.5 text-blue-600 shrink-0 mt-0.5" />
               <span><strong>100% White-Labeled:</strong> Users see your company logo, legal terms, and domain name.</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-slate-400">•</span>
+              <Check className="h-3.5 w-3.5 text-blue-600 shrink-0 mt-0.5" />
               <span><strong>Dedicated Rate Limits:</strong> Full provider API quotas isolated exclusively for your paying customers.</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-slate-400">•</span>
+              <Check className="h-3.5 w-3.5 text-blue-600 shrink-0 mt-0.5" />
               <span><strong>Zero Infra Burden:</strong> Composio still handles AES-256 token custody, rotation, and 401 recovery.</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-slate-400">•</span>
+              <Check className="h-3.5 w-3.5 text-blue-600 shrink-0 mt-0.5" />
               <span><strong>Custom Scopes:</strong> Request bespoke permissions required by complex enterprise agent workflows.</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-slate-400">•</span>
+              <Check className="h-3.5 w-3.5 text-blue-600 shrink-0 mt-0.5" />
               <span><strong>Enterprise Compliance:</strong> Satisfies enterprise Okta, Google Workspace, and SOC 2 security audits.</span>
             </li>
           </ul>
@@ -260,7 +260,7 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
         </div>
       </div>
 
-      {/* The DevOps Boundary: Agent vs Human Matrix (Clean, Muted, No Dramatic Colors) */}
+      {/* The DevOps Boundary: Agent vs Human Matrix (Clean, Tasteful Colors) */}
       <div className="rounded-none border border-slate-200 bg-white p-5 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
           <div>
@@ -272,60 +272,60 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
           {/* Automated by Composio */}
-          <div className="rounded-none border border-slate-200 bg-slate-50/50 p-4 space-y-3">
-            <div className="flex items-center gap-2 text-slate-900 font-semibold text-xs">
-              <Bot className="h-4 w-4 text-slate-500" />
+          <div className="rounded-none border border-emerald-200/80 bg-emerald-50/20 p-4 space-y-3">
+            <div className="flex items-center gap-2 text-emerald-900 font-semibold text-xs">
+              <Bot className="h-4 w-4 text-emerald-600" />
               <span>What Composio &amp; Agent Automates</span>
             </div>
-            <ul className="space-y-2 text-slate-600">
+            <ul className="space-y-2 text-slate-700">
               <li className="flex items-start gap-2">
-                <span className="text-slate-400">•</span>
+                <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
                 <span><strong>Scope Minimization:</strong> Recommends lowest-privilege scopes to bypass CASA Tier 2 fees.</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-slate-400">•</span>
+                <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
                 <span><strong>Manifest Generation:</strong> Creates Slack/Linear copy-paste application manifests.</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-slate-400">•</span>
+                <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
                 <span><strong>AuthConfig Schema Formatting:</strong> Validates and exports exact JSON required by Composio SDK.</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-slate-400">•</span>
+                <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
                 <span><strong>PKCE &amp; State Token Exchange:</strong> Performs code-for-token authorization exchange behind the scenes.</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-slate-400">•</span>
+                <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
                 <span><strong>Token Lifecycle Management:</strong> Transparently refreshes expired tokens before agents execute actions.</span>
               </li>
             </ul>
           </div>
 
           {/* Requires Human DevOps */}
-          <div className="rounded-none border border-slate-200 bg-slate-50/50 p-4 space-y-3">
-            <div className="flex items-center gap-2 text-slate-900 font-semibold text-xs">
-              <UserCheck className="h-4 w-4 text-slate-500" />
+          <div className="rounded-none border border-amber-200/80 bg-amber-50/20 p-4 space-y-3">
+            <div className="flex items-center gap-2 text-amber-900 font-semibold text-xs">
+              <UserCheck className="h-4 w-4 text-amber-600" />
               <span>Where Human DevOps Must Take Over</span>
             </div>
-            <ul className="space-y-2 text-slate-600">
+            <ul className="space-y-2 text-slate-700">
               <li className="flex items-start gap-2">
-                <span className="text-slate-400">•</span>
+                <AlertTriangle className="h-3.5 w-3.5 text-amber-600 shrink-0 mt-0.5" />
                 <span><strong>Provider Billing &amp; Payment:</strong> Adding credit cards or activating billing accounts (GCP/AWS).</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-slate-400">•</span>
+                <AlertTriangle className="h-3.5 w-3.5 text-amber-600 shrink-0 mt-0.5" />
                 <span><strong>Domain DNS Verification:</strong> Inserting <code>TXT</code> records in DNS to prove company domain ownership.</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-slate-400">•</span>
+                <AlertTriangle className="h-3.5 w-3.5 text-amber-600 shrink-0 mt-0.5" />
                 <span><strong>YouTube Walkthrough Screencasts:</strong> Recording required unlisted videos demonstrating consent flow for Google.</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-slate-400">•</span>
+                <AlertTriangle className="h-3.5 w-3.5 text-amber-600 shrink-0 mt-0.5" />
                 <span><strong>Biometric / 2FA Verification:</strong> Passing hardware security keys or authenticator prompts.</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-slate-400">•</span>
+                <AlertTriangle className="h-3.5 w-3.5 text-amber-600 shrink-0 mt-0.5" />
                 <span><strong>Legal Agreements:</strong> Signing provider Developer Terms of Service and Data Protection Agreements (DPA).</span>
               </li>
             </ul>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   ShieldCheck,
   ChevronDown,
@@ -14,7 +14,7 @@ import {
   AlertOctagon,
   Sparkles,
   Terminal,
-  AlertTriangle
+  Zap
 } from "lucide-react";
 import { AppGuide } from "@/data/apps";
 
@@ -35,6 +35,7 @@ interface AuditRow {
   fixTitle: string;
   fixDescription: string;
   impactBadge: string;
+  impactColor: string;
   rootCause: string;
   errorSnippet: string;
   endpoint: string;
@@ -61,6 +62,7 @@ export default function GroundTruthAudit({
       fixTitle: "Publish to 'In Production'",
       fixDescription: "Publish consent screen with an internal user whitelist to receive permanent non-expiring refresh tokens.",
       impactBadge: "Silent Revocation",
+      impactColor: "bg-rose-50 text-rose-700 border-rose-200/80",
       rootCause: "Google security policy caps unverified apps in Testing status to 604,800 seconds TTL to prevent indefinite unauthorized data access.",
       endpoint: "POST https://oauth2.googleapis.com/token",
       errorSnippet: `HTTP/1.1 400 Bad Request
@@ -83,6 +85,7 @@ Content-Type: application/json; charset=utf-8
       fixTitle: "Prune to 'gmail.send'",
       fixDescription: "Substitute with 'gmail.send' + 'drive.file' (Sensitive only). Bypasses CASA Tier 2, dropping cost to $0 and review to under 2 weeks.",
       impactBadge: "Saves $15,000",
+      impactColor: "bg-amber-50 text-amber-800 border-amber-200/80",
       rootCause: "Google Trust & Safety mandates OWASP ASVS Level 2 compliance verification for any app with mailbox modification privileges.",
       endpoint: "Google Cloud Trust & Safety Console",
       errorSnippet: `[Google Cloud Console Alert]
@@ -103,6 +106,7 @@ To serve external users, you must submit an independent CASA Tier 2 assessment:
       fixTitle: "Toggle 'Public Distribution'",
       fixDescription: "Toggling 'Manage Distribution -> Public Distribution' works instantly. Reduces multi-workspace launch time from 14 days to 0 minutes.",
       impactBadge: "Saves 14 Days",
+      impactColor: "bg-emerald-50 text-emerald-800 border-emerald-200/80",
       rootCause: "Slack conflates editorial marketplace curation (App Directory) with universal OAuth multi-tenancy (Public Distribution).",
       endpoint: "Slack Developer Dashboard > Manage Distribution",
       errorSnippet: `[Slack Developer Settings]
@@ -124,6 +128,7 @@ Bypasses 2-3 week App Directory editorial review queue.`
       fixTitle: "Submit Quota Extension",
       fixDescription: "Submit the Spotify Extension Request form during early beta testing. Takes 2-5 days to approve and unlocks unlimited authentications.",
       impactBadge: "25-User Limit",
+      impactColor: "bg-amber-50 text-amber-800 border-amber-200/80",
       rootCause: "Spotify developer dashboard enforces developer whitelist checks at authorization time before token issuance in Dev Mode.",
       endpoint: "GET https://accounts.spotify.com/authorize",
       errorSnippet: `HTTP/1.1 403 Forbidden
@@ -145,6 +150,7 @@ Content-Type: application/json; charset=utf-8
       fixTitle: "10-Min Propagation Notice",
       fixDescription: "OAuth Compass surfaces an explicit 10-minute replication warning so developers don't spend hours debugging valid credentials.",
       impactBadge: "Cluster Sync Lag",
+      impactColor: "bg-blue-50 text-blue-800 border-blue-200/80",
       rootCause: "Salesforce propagates newly registered OAuth consumer metadata asynchronously across geographically distributed clusters.",
       endpoint: "POST https://login.salesforce.com/services/oauth2/token",
       errorSnippet: `HTTP/1.1 400 Bad Request
@@ -175,6 +181,7 @@ Content-Type: application/json; charset=utf-8
       fixTitle: "OAuth Compass BYOC Guard",
       fixDescription: `Pre-configured in Composio AuthConfig with least-privilege scopes and token refresh rules.`,
       impactBadge: "Live Investigated",
+      impactColor: "bg-purple-50 text-purple-700 border-purple-200/80",
       rootCause: `Discovered in real time via headless reader and synthesis agent during developer probe.`,
       endpoint: app.composioConfig?.authorization_url || app.docsUrl || "OAuth 2.0 Auth Endpoint",
       errorSnippet: `// Discovered in real-time probe by OAuth Compass
@@ -200,9 +207,9 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200/80 pb-5">
         <div>
-          <div className="inline-flex items-center gap-1.5 rounded-none border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-xs mb-2">
+          <div className="inline-flex items-center gap-1.5 rounded-none border border-blue-100 bg-blue-50/70 px-2.5 py-0.5 text-xs mb-2">
             <ShieldCheck className="h-3 w-3 text-[#0024BC]" />
-            <span className="font-semibold text-slate-800">Requirement #2: Ground Truth &amp; Evidence Audit</span>
+            <span className="font-semibold text-[#0024BC]">Requirement #2: Ground Truth &amp; Evidence Audit</span>
           </div>
           <h1 className="text-xl sm:text-3xl font-semibold text-slate-900 tracking-tight">
             Tested Reality vs. Official Documentation
@@ -223,12 +230,12 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
         )}
       </div>
 
-      {/* 4 Quantitative Impact Highlights */}
+      {/* 4 Quantitative Impact Highlights with Tasteful Accents */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <div className="rounded-none border border-slate-200 bg-white p-3.5 space-y-1">
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-[10px] font-medium uppercase tracking-wider">Max Audit Avoided</span>
-            <DollarSign className="h-3.5 w-3.5" />
+            <DollarSign className="h-4 w-4 text-amber-600" />
           </div>
           <div className="text-2xl font-bold text-slate-900">$15,000</div>
           <p className="text-[11px] text-slate-500">Bypassed CASA Tier 2 fee by pruning scopes</p>
@@ -237,7 +244,7 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
         <div className="rounded-none border border-slate-200 bg-white p-3.5 space-y-1">
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-[10px] font-medium uppercase tracking-wider">Slack Distribution</span>
-            <Clock className="h-3.5 w-3.5" />
+            <Clock className="h-4 w-4 text-emerald-600" />
           </div>
           <div className="text-2xl font-bold text-slate-900">14d → 0m</div>
           <p className="text-[11px] text-slate-500">Direct Public Distribution toggle vs App Directory</p>
@@ -246,7 +253,7 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
         <div className="rounded-none border border-slate-200 bg-white p-3.5 space-y-1">
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-[10px] font-medium uppercase tracking-wider">Silent Token Trap</span>
-            <AlertOctagon className="h-3.5 w-3.5" />
+            <AlertOctagon className="h-4 w-4 text-rose-600" />
           </div>
           <div className="text-2xl font-bold text-slate-900">7-Day Cliff</div>
           <p className="text-[11px] text-slate-500">Google silently revokes refresh tokens in Testing</p>
@@ -255,21 +262,21 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
         <div className="rounded-none border border-slate-200 bg-white p-3.5 space-y-1">
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-[10px] font-medium uppercase tracking-wider">Spotify Dev Limit</span>
-            <Sparkles className="h-3.5 w-3.5" />
+            <Sparkles className="h-4 w-4 text-blue-600" />
           </div>
           <div className="text-2xl font-bold text-slate-900">25 Users</div>
           <p className="text-[11px] text-slate-500">Hard whitelist cap before cryptic 403 lockout</p>
         </div>
       </div>
 
-      {/* Centerpiece: Clean Audit Matrix Table */}
+      {/* Centerpiece: Clean Audit Matrix Table with 100% Native Column Alignment */}
       <div className="rounded-none border border-slate-200 bg-white overflow-hidden shadow-xs">
         <div className="border-b border-slate-100 bg-slate-50/80 px-5 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-xs font-semibold text-slate-900 uppercase tracking-wider">
               Empirical Evidence Audit Matrix
             </span>
-            <span className="rounded-none bg-slate-200/60 border border-slate-200/80 px-1.5 py-0.2 text-[10px] font-medium text-slate-600">
+            <span className="rounded-none bg-blue-50 border border-blue-200 px-1.5 py-0.2 text-[10px] font-medium text-[#0024BC]">
               {baselineAuditRows.length} Benchmarks {dynamicInvestigatedRows.length > 0 ? `+ ${dynamicInvestigatedRows.length} Live Probed` : ""}
             </span>
           </div>
@@ -279,14 +286,14 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs border-collapse">
-            <thead className="border-b border-slate-200 bg-slate-50/50 text-[11px] uppercase tracking-wider text-slate-500 font-semibold">
+          <table className="w-full text-left text-xs border-collapse table-fixed">
+            <thead className="border-b border-slate-200 bg-slate-50/70 text-[11px] uppercase tracking-wider font-semibold">
               <tr>
-                <th className="py-3 px-4 w-[18%]">Provider &amp; Scope</th>
-                <th className="py-3 px-4 w-[22%]">Official Doc Promise</th>
-                <th className="py-3 px-4 w-[26%] text-slate-700">Tested Reality (The Trap)</th>
-                <th className="py-3 px-4 w-[24%] text-slate-700">OAuth Compass Fix</th>
-                <th className="py-3 px-4 text-right w-[10%]">Evidence</th>
+                <th className="py-3 px-4 w-[20%] text-slate-600">Provider &amp; Scope</th>
+                <th className="py-3 px-4 w-[22%] text-slate-600">Official Doc Promise</th>
+                <th className="py-3 px-4 w-[25%] text-rose-900">Tested Reality (The Trap)</th>
+                <th className="py-3 px-4 w-[23%] text-emerald-900">OAuth Compass Fix</th>
+                <th className="py-3 px-4 w-[10%] text-right text-slate-600">Evidence</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-slate-700">
@@ -294,50 +301,50 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
                 const isExpanded = expandedRowId === row.id;
 
                 return (
-                  <tr key={row.id} className="group hover:bg-slate-50/40 transition">
-                    <td className="py-4 px-4 align-top" colSpan={5}>
-                      <div className="grid grid-cols-12 gap-3 items-start">
-                        {/* 1. Provider & Impact Badge (Uniform Single Neutral Color) */}
-                        <div className="col-span-12 sm:col-span-2 space-y-1.5">
-                          <div className="font-semibold text-slate-900 text-sm">
-                            {row.provider}
-                          </div>
-                          {/* Consistent uniform neutral chip for all items */}
-                          <span className="inline-block rounded-none border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-medium text-slate-600">
-                            {row.impactBadge}
-                          </span>
+                  <React.Fragment key={row.id}>
+                    <tr className="hover:bg-slate-50/40 transition">
+                      {/* Column 1: Provider & Impact Chip */}
+                      <td className="py-4 px-4 align-top w-[20%] space-y-1.5">
+                        <div className="font-semibold text-slate-900 text-sm flex items-center gap-1.5">
+                          {row.isLiveInvestigated && <Zap className="h-3.5 w-3.5 text-purple-600 shrink-0" />}
+                          <span>{row.provider}</span>
                         </div>
+                        <span className={`inline-block rounded-none border px-2 py-0.5 text-[10px] font-medium ${row.impactColor}`}>
+                          {row.impactBadge}
+                        </span>
+                      </td>
 
-                        {/* 2. Official Doc Claim */}
-                        <div className="col-span-12 sm:col-span-3 space-y-1">
-                          <p className="text-slate-600 italic leading-snug">{row.docClaim}</p>
-                          <span className="text-[10px] text-slate-400 block">
-                            Source: {row.docCitation}
-                          </span>
+                      {/* Column 2: Official Doc Promise */}
+                      <td className="py-4 px-4 align-top w-[22%] space-y-1">
+                        <p className="text-slate-600 italic leading-snug">{row.docClaim}</p>
+                        <span className="text-[10px] text-slate-400 block">
+                          Source: {row.docCitation}
+                        </span>
+                      </td>
+
+                      {/* Column 3: Tested Reality (The Trap) */}
+                      <td className="py-4 px-4 align-top w-[25%] space-y-1">
+                        <div className="font-semibold text-rose-950 text-xs">
+                          {row.trapTitle}
                         </div>
+                        <p className="text-slate-500 text-[11px] leading-relaxed">
+                          {row.trapDescription}
+                        </p>
+                      </td>
 
-                        {/* 3. Tested Reality (The Trap) - Clean typography without repeating cell icons */}
-                        <div className="col-span-12 sm:col-span-3 space-y-1">
-                          <div className="font-semibold text-slate-900 text-xs">
-                            {row.trapTitle}
-                          </div>
-                          <p className="text-slate-500 text-[11px] leading-relaxed">
-                            {row.trapDescription}
-                          </p>
+                      {/* Column 4: OAuth Compass Fix */}
+                      <td className="py-4 px-4 align-top w-[23%] space-y-1">
+                        <div className="font-semibold text-emerald-950 text-xs">
+                          {row.fixTitle}
                         </div>
+                        <p className="text-slate-500 text-[11px] leading-relaxed">
+                          {row.fixDescription}
+                        </p>
+                      </td>
 
-                        {/* 4. OAuth Compass Fix - Clean typography without repeating cell icons */}
-                        <div className="col-span-12 sm:col-span-3 space-y-1">
-                          <div className="font-semibold text-slate-900 text-xs">
-                            {row.fixTitle}
-                          </div>
-                          <p className="text-slate-500 text-[11px] leading-relaxed">
-                            {row.fixDescription}
-                          </p>
-                        </div>
-
-                        {/* 5. Action / Proof Toggle */}
-                        <div className="col-span-12 sm:col-span-1 flex sm:flex-col sm:items-end justify-between gap-2 pt-1 sm:pt-0">
+                      {/* Column 5: Evidence Actions */}
+                      <td className="py-4 px-4 align-top w-[10%] text-right space-y-1.5">
+                        <div>
                           <button
                             onClick={() => setExpandedRowId(isExpanded ? null : row.id)}
                             className="inline-flex items-center gap-1 rounded-none border border-slate-200 bg-white px-2 py-1 text-[11px] font-medium text-slate-700 hover:bg-slate-50 transition"
@@ -345,8 +352,10 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
                             <span>{isExpanded ? "Close" : "Proof"}</span>
                             {isExpanded ? <ChevronUp className="h-3 w-3 text-slate-400" /> : <ChevronDown className="h-3 w-3 text-slate-400" />}
                           </button>
+                        </div>
 
-                          {onOpenAppGuide && (
+                        {onOpenAppGuide && (
+                          <div>
                             <button
                               onClick={() => onOpenAppGuide(row.slug, "gotchas")}
                               className="text-[11px] text-[#0024BC] hover:underline inline-flex items-center gap-0.5 font-medium"
@@ -354,13 +363,15 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
                               <span>Guide</span>
                               <ExternalLink className="h-2.5 w-2.5" />
                             </button>
-                          )}
-                        </div>
-                      </div>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
 
-                      {/* Expandable Technical Proof Sub-Row */}
-                      {isExpanded && (
-                        <div className="mt-3.5 pt-3.5 border-t border-slate-200/80 bg-slate-50/70 p-3.5 rounded-none space-y-2">
+                    {/* Expandable Technical Proof Sub-Row (Span all 5 Columns) */}
+                    {isExpanded && (
+                      <tr className="bg-slate-50/70 border-t border-slate-200/80">
+                        <td colSpan={5} className="p-4 space-y-2">
                           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px]">
                             <div className="flex items-center gap-2">
                               <Terminal className="h-3.5 w-3.5 text-slate-500" />
@@ -385,10 +396,10 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
                             <span className="font-semibold text-slate-800">Root Cause Analysis: </span>
                             <span>{row.rootCause}</span>
                           </div>
-                        </div>
-                      )}
-                    </td>
-                  </tr>
+                        </td>
+                      </tr>
+                    )}
+                  </React.Fragment>
                 );
               })}
             </tbody>
