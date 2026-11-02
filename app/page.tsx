@@ -187,7 +187,7 @@ export default function Home() {
                   onClick={() => setActiveTab("live-studio")}
                   className="inline-flex items-center gap-1.5 rounded-none bg-[#0024BC] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#001da0] transition"
                 >
-                  <Sparkles className="h-3.5 w-3.5" />
+                  <LuPackageSearch className="h-3.5 w-3.5" />
                   <span>Investigate with Live Agent</span>
                 </button>
               </div>

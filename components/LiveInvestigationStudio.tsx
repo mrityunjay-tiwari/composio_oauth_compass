@@ -43,6 +43,9 @@ export default function LiveInvestigationStudio({
     if (!isUrl) {
       if (q.length < 2 && q.toLowerCase() !== "x") {
         setError(`"${q}" is too short to identify an OAuth provider. Please enter a full app name (e.g. Airtable, HubSpot, Discord, Box) or official docs URL.`);
+        setSteps([]);
+        setGeneratedGuide(null);
+        setSources([]);
         return;
       }
 
@@ -53,6 +56,9 @@ export default function LiveInvestigationStudio({
       ];
       if (GENERIC_KEYWORDS.includes(q.toLowerCase())) {
         setError(`"${q}" is a generic technical protocol term, not a third-party OAuth provider. Please specify an actual platform to investigate (e.g. Airtable, HubSpot, Discord, Box, Zoom).`);
+        setSteps([]);
+        setGeneratedGuide(null);
+        setSources([]);
         return;
       }
     }
@@ -93,6 +99,7 @@ export default function LiveInvestigationStudio({
       onGuideGenerated(data.guide);
     } catch (err: any) {
       setError(err.message || "Failed to investigate app");
+      setSteps([]); // Shut down progress stream so no spinning indicator remains
     } finally {
       setIsLoading(false);
     }

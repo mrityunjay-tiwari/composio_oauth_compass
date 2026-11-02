@@ -2,6 +2,7 @@
 
 import { Sparkles, ShieldCheck, BookOpen, ExternalLink } from "lucide-react";
 import { LuPackageSearch } from "react-icons/lu";
+import { MdDashboard } from "react-icons/md";
 
 interface NavbarProps {
   activeTab: "directory" | "live-studio" | "ground-truth" | "composio-byoc";
@@ -96,12 +97,13 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
             <ExternalLink className="h-3 w-3 text-slate-400" />
           </a>
           <a
-            href="https://backend.composio.dev"
+            href="https://composio.dev"
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-none bg-[#0024BC] px-3 py-1.5 text-xs font-medium text-white shadow-xs transition hover:bg-[#001da0]"
+            className="flex items-center gap-1 text-xs text-slate-500 hover:text-slate-900 transition"
           >
-            Composio Dashboard
+            <span>Dashboard</span>
+            {/* <MdDashboard className="h-3 w-3 text-slate-400" /> */}
           </a>
         </div>
 
