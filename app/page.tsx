@@ -381,7 +381,7 @@ export default function Home() {
           <div className="flex items-center gap-2 text-[11px]">
             <span className="font-semibold text-slate-800">Composio OAuth Compass</span>
             <span>/</span>
-            <span>APM Integrations Assignment</span>
+            <span>OAuth Integrations</span>
           </div>
           <div className="flex items-center gap-4 text-[11px]">
             <a
