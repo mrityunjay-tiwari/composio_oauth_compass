@@ -3,9 +3,6 @@
 import { useState } from "react";
 import {
   ShieldCheck,
-  AlertTriangle,
-  HelpCircle,
-  CheckCircle,
   ChevronDown,
   ChevronUp,
   Copy,
@@ -17,7 +14,7 @@ import {
   AlertOctagon,
   Sparkles,
   Terminal,
-  Zap
+  AlertTriangle
 } from "lucide-react";
 import { AppGuide } from "@/data/apps";
 
@@ -38,7 +35,6 @@ interface AuditRow {
   fixTitle: string;
   fixDescription: string;
   impactBadge: string;
-  impactColor: string;
   rootCause: string;
   errorSnippet: string;
   endpoint: string;
@@ -65,7 +61,6 @@ export default function GroundTruthAudit({
       fixTitle: "Publish to 'In Production'",
       fixDescription: "Publish consent screen with an internal user whitelist to receive permanent non-expiring refresh tokens.",
       impactBadge: "Silent Revocation",
-      impactColor: "bg-rose-50 text-rose-700 border-rose-200",
       rootCause: "Google security policy caps unverified apps in Testing status to 604,800 seconds TTL to prevent indefinite unauthorized data access.",
       endpoint: "POST https://oauth2.googleapis.com/token",
       errorSnippet: `HTTP/1.1 400 Bad Request
@@ -88,7 +83,6 @@ Content-Type: application/json; charset=utf-8
       fixTitle: "Prune to 'gmail.send'",
       fixDescription: "Substitute with 'gmail.send' + 'drive.file' (Sensitive only). Bypasses CASA Tier 2, dropping cost to $0 and review to under 2 weeks.",
       impactBadge: "Saves $15,000",
-      impactColor: "bg-amber-50 text-amber-800 border-amber-200",
       rootCause: "Google Trust & Safety mandates OWASP ASVS Level 2 compliance verification for any app with mailbox modification privileges.",
       endpoint: "Google Cloud Trust & Safety Console",
       errorSnippet: `[Google Cloud Console Alert]
@@ -109,7 +103,6 @@ To serve external users, you must submit an independent CASA Tier 2 assessment:
       fixTitle: "Toggle 'Public Distribution'",
       fixDescription: "Toggling 'Manage Distribution -> Public Distribution' works instantly. Reduces multi-workspace launch time from 14 days to 0 minutes.",
       impactBadge: "Saves 14 Days",
-      impactColor: "bg-emerald-50 text-emerald-800 border-emerald-200",
       rootCause: "Slack conflates editorial marketplace curation (App Directory) with universal OAuth multi-tenancy (Public Distribution).",
       endpoint: "Slack Developer Dashboard > Manage Distribution",
       errorSnippet: `[Slack Developer Settings]
@@ -130,8 +123,7 @@ Bypasses 2-3 week App Directory editorial review queue.`
       trapDescription: "Development Mode is hard-capped to 25 manually whitelisted email accounts. User #26 receives a cryptic 403 Forbidden with zero client context.",
       fixTitle: "Submit Quota Extension",
       fixDescription: "Submit the Spotify Extension Request form during early beta testing. Takes 2-5 days to approve and unlocks unlimited authentications.",
-      impactBadge: "25-User Lockout",
-      impactColor: "bg-amber-50 text-amber-800 border-amber-200",
+      impactBadge: "25-User Limit",
       rootCause: "Spotify developer dashboard enforces developer whitelist checks at authorization time before token issuance in Dev Mode.",
       endpoint: "GET https://accounts.spotify.com/authorize",
       errorSnippet: `HTTP/1.1 403 Forbidden
@@ -153,7 +145,6 @@ Content-Type: application/json; charset=utf-8
       fixTitle: "10-Min Propagation Notice",
       fixDescription: "OAuth Compass surfaces an explicit 10-minute replication warning so developers don't spend hours debugging valid credentials.",
       impactBadge: "Cluster Sync Lag",
-      impactColor: "bg-blue-50 text-blue-800 border-blue-200",
       rootCause: "Salesforce propagates newly registered OAuth consumer metadata asynchronously across geographically distributed clusters.",
       endpoint: "POST https://login.salesforce.com/services/oauth2/token",
       errorSnippet: `HTTP/1.1 400 Bad Request
@@ -184,7 +175,6 @@ Content-Type: application/json; charset=utf-8
       fixTitle: "OAuth Compass BYOC Guard",
       fixDescription: `Pre-configured in Composio AuthConfig with least-privilege scopes and token refresh rules.`,
       impactBadge: "Live Investigated",
-      impactColor: "bg-purple-50 text-purple-700 border-purple-200",
       rootCause: `Discovered in real time via headless reader and synthesis agent during developer probe.`,
       endpoint: app.composioConfig?.authorization_url || app.docsUrl || "OAuth 2.0 Auth Endpoint",
       errorSnippet: `// Discovered in real-time probe by OAuth Compass
@@ -210,9 +200,9 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200/80 pb-5">
         <div>
-          <div className="inline-flex items-center gap-1.5 rounded-none border border-blue-100 bg-blue-50/70 px-2.5 py-0.5 text-xs mb-2">
+          <div className="inline-flex items-center gap-1.5 rounded-none border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-xs mb-2">
             <ShieldCheck className="h-3 w-3 text-[#0024BC]" />
-            <span className="font-semibold text-[#0024BC]">Requirement #2: Ground Truth &amp; Evidence Audit</span>
+            <span className="font-semibold text-slate-800">Requirement #2: Ground Truth &amp; Evidence Audit</span>
           </div>
           <h1 className="text-xl sm:text-3xl font-semibold text-slate-900 tracking-tight">
             Tested Reality vs. Official Documentation
@@ -236,36 +226,36 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
       {/* 4 Quantitative Impact Highlights */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <div className="rounded-none border border-slate-200 bg-white p-3.5 space-y-1">
-          <div className="flex items-center justify-between text-slate-500">
+          <div className="flex items-center justify-between text-slate-400">
             <span className="text-[10px] font-medium uppercase tracking-wider">Max Audit Avoided</span>
-            <DollarSign className="h-4 w-4 text-amber-600" />
+            <DollarSign className="h-3.5 w-3.5" />
           </div>
           <div className="text-2xl font-bold text-slate-900">$15,000</div>
           <p className="text-[11px] text-slate-500">Bypassed CASA Tier 2 fee by pruning scopes</p>
         </div>
 
         <div className="rounded-none border border-slate-200 bg-white p-3.5 space-y-1">
-          <div className="flex items-center justify-between text-slate-500">
+          <div className="flex items-center justify-between text-slate-400">
             <span className="text-[10px] font-medium uppercase tracking-wider">Slack Distribution</span>
-            <Clock className="h-4 w-4 text-emerald-600" />
+            <Clock className="h-3.5 w-3.5" />
           </div>
           <div className="text-2xl font-bold text-slate-900">14d → 0m</div>
           <p className="text-[11px] text-slate-500">Direct Public Distribution toggle vs App Directory</p>
         </div>
 
         <div className="rounded-none border border-slate-200 bg-white p-3.5 space-y-1">
-          <div className="flex items-center justify-between text-slate-500">
+          <div className="flex items-center justify-between text-slate-400">
             <span className="text-[10px] font-medium uppercase tracking-wider">Silent Token Trap</span>
-            <AlertOctagon className="h-4 w-4 text-rose-600" />
+            <AlertOctagon className="h-3.5 w-3.5" />
           </div>
           <div className="text-2xl font-bold text-slate-900">7-Day Cliff</div>
           <p className="text-[11px] text-slate-500">Google silently revokes refresh tokens in Testing</p>
         </div>
 
         <div className="rounded-none border border-slate-200 bg-white p-3.5 space-y-1">
-          <div className="flex items-center justify-between text-slate-500">
+          <div className="flex items-center justify-between text-slate-400">
             <span className="text-[10px] font-medium uppercase tracking-wider">Spotify Dev Limit</span>
-            <Sparkles className="h-4 w-4 text-blue-600" />
+            <Sparkles className="h-3.5 w-3.5" />
           </div>
           <div className="text-2xl font-bold text-slate-900">25 Users</div>
           <p className="text-[11px] text-slate-500">Hard whitelist cap before cryptic 403 lockout</p>
@@ -276,15 +266,15 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
       <div className="rounded-none border border-slate-200 bg-white overflow-hidden shadow-xs">
         <div className="border-b border-slate-100 bg-slate-50/80 px-5 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+            <span className="text-xs font-semibold text-slate-900 uppercase tracking-wider">
               Empirical Evidence Audit Matrix
             </span>
-            <span className="rounded-none bg-slate-200/70 px-1.5 py-0.2 text-[10px] font-medium text-slate-700">
+            <span className="rounded-none bg-slate-200/60 border border-slate-200/80 px-1.5 py-0.2 text-[10px] font-medium text-slate-600">
               {baselineAuditRows.length} Benchmarks {dynamicInvestigatedRows.length > 0 ? `+ ${dynamicInvestigatedRows.length} Live Probed` : ""}
             </span>
           </div>
           <span className="text-[11px] text-slate-400 hidden sm:inline">
-            Click &ldquo;View Proof&rdquo; on any row to inspect raw error traces
+            Click &ldquo;Proof&rdquo; on any row to inspect raw error traces
           </span>
         </div>
 
@@ -294,8 +284,8 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
               <tr>
                 <th className="py-3 px-4 w-[18%]">Provider &amp; Scope</th>
                 <th className="py-3 px-4 w-[22%]">Official Doc Promise</th>
-                <th className="py-3 px-4 w-[26%] text-rose-800">Tested Reality (The Trap)</th>
-                <th className="py-3 px-4 w-[24%] text-emerald-800">OAuth Compass Fix</th>
+                <th className="py-3 px-4 w-[26%] text-slate-700">Tested Reality (The Trap)</th>
+                <th className="py-3 px-4 w-[24%] text-slate-700">OAuth Compass Fix</th>
                 <th className="py-3 px-4 text-right w-[10%]">Evidence</th>
               </tr>
             </thead>
@@ -307,13 +297,13 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
                   <tr key={row.id} className="group hover:bg-slate-50/40 transition">
                     <td className="py-4 px-4 align-top" colSpan={5}>
                       <div className="grid grid-cols-12 gap-3 items-start">
-                        {/* 1. Provider & Impact Badge */}
+                        {/* 1. Provider & Impact Badge (Uniform Single Neutral Color) */}
                         <div className="col-span-12 sm:col-span-2 space-y-1.5">
-                          <div className="font-bold text-slate-900 text-sm flex items-center gap-1.5">
-                            {row.isLiveInvestigated && <Zap className="h-3.5 w-3.5 text-purple-600 shrink-0" />}
-                            <span>{row.provider}</span>
+                          <div className="font-semibold text-slate-900 text-sm">
+                            {row.provider}
                           </div>
-                          <span className={`inline-block rounded-none border px-2 py-0.5 text-[10px] font-medium ${row.impactColor}`}>
+                          {/* Consistent uniform neutral chip for all items */}
+                          <span className="inline-block rounded-none border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-medium text-slate-600">
                             {row.impactBadge}
                           </span>
                         </div>
@@ -326,24 +316,22 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
                           </span>
                         </div>
 
-                        {/* 3. Tested Reality (The Trap) */}
+                        {/* 3. Tested Reality (The Trap) - Clean typography without repeating cell icons */}
                         <div className="col-span-12 sm:col-span-3 space-y-1">
-                          <div className="font-bold text-rose-950 flex items-center gap-1.5">
-                            <AlertTriangle className="h-3.5 w-3.5 text-rose-600 shrink-0" />
-                            <span>{row.trapTitle}</span>
+                          <div className="font-semibold text-slate-900 text-xs">
+                            {row.trapTitle}
                           </div>
-                          <p className="text-slate-600 text-[11px] leading-relaxed">
+                          <p className="text-slate-500 text-[11px] leading-relaxed">
                             {row.trapDescription}
                           </p>
                         </div>
 
-                        {/* 4. OAuth Compass Fix */}
+                        {/* 4. OAuth Compass Fix - Clean typography without repeating cell icons */}
                         <div className="col-span-12 sm:col-span-3 space-y-1">
-                          <div className="font-bold text-emerald-950 flex items-center gap-1.5">
-                            <CheckCircle className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
-                            <span>{row.fixTitle}</span>
+                          <div className="font-semibold text-slate-900 text-xs">
+                            {row.fixTitle}
                           </div>
-                          <p className="text-slate-600 text-[11px] leading-relaxed">
+                          <p className="text-slate-500 text-[11px] leading-relaxed">
                             {row.fixDescription}
                           </p>
                         </div>
@@ -355,7 +343,7 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
                             className="inline-flex items-center gap-1 rounded-none border border-slate-200 bg-white px-2 py-1 text-[11px] font-medium text-slate-700 hover:bg-slate-50 transition"
                           >
                             <span>{isExpanded ? "Close" : "Proof"}</span>
-                            {isExpanded ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
+                            {isExpanded ? <ChevronUp className="h-3 w-3 text-slate-400" /> : <ChevronDown className="h-3 w-3 text-slate-400" />}
                           </button>
 
                           {onOpenAppGuide && (
@@ -413,15 +401,15 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
         <div className="flex flex-wrap items-center gap-4">
           <span className="font-semibold uppercase text-slate-400 text-[10px]">Audit Classification:</span>
           <div className="flex items-center gap-1.5">
-            <CheckCircle className="h-3.5 w-3.5 text-emerald-600" />
+            <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
             <span><strong>[Verified - Official Docs]:</strong> Technical endpoints &amp; PKCE parameters</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <AlertTriangle className="h-3.5 w-3.5 text-amber-600" />
+            <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
             <span><strong>[Observed - Tested Reality]:</strong> Unwritten 7-day cliffs &amp; quota gates</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <HelpCircle className="h-3.5 w-3.5 text-blue-600" />
+            <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
             <span><strong>[Discretionary Policy]:</strong> Review queues &amp; auditor fees</span>
           </div>
         </div>
