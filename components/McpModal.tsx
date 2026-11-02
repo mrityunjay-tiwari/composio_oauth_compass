@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, Copy, Check, Terminal, Cpu, ShieldAlert, Sparkles, Code2, ExternalLink } from "lucide-react";
+import { X, Copy, Check, Terminal, ShieldAlert, Sparkles, Code2, ExternalLink } from "lucide-react";
+import { VscMcp } from "react-icons/vsc";
 
 interface McpModalProps {
   isOpen: boolean;
@@ -119,7 +120,7 @@ async with stdio_client(params) as (read, write):
         <div className="border-b border-slate-200 bg-white px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="h-9 w-9 flex items-center justify-center rounded-none bg-[#0024BC] text-white">
-              <Cpu className="h-5 w-5" />
+              <VscMcp className="h-5 w-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">

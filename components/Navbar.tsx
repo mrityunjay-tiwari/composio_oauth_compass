@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Sparkles, ShieldCheck, BookOpen, ExternalLink, Cpu } from "lucide-react";
+import { Sparkles, ShieldCheck, BookOpen, ExternalLink } from "lucide-react";
 import { LuPackageSearch } from "react-icons/lu";
 import { MdDashboard } from "react-icons/md";
+import { VscMcp } from "react-icons/vsc";
 import McpModal from "./McpModal";
 
 interface NavbarProps {
@@ -97,7 +98,7 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
               className="flex items-center gap-1.5 rounded-none border border-blue-200 bg-blue-50/70 px-2.5 py-1 text-xs font-semibold text-[#0024BC] hover:bg-blue-100 transition cursor-pointer"
               title="Connect OAuth Compass to Claude Desktop or Cursor via MCP"
             >
-              <Cpu className="h-3.5 w-3.5" />
+              <VscMcp className="h-4 w-4" />
               <span className="hidden sm:inline">Connect</span>
               <span>MCP</span>
             </button>
