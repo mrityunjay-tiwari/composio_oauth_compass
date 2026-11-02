@@ -43,6 +43,16 @@ export default function LiveInvestigationStudio({
 
   const sampleApps = ["Airtable", "Discord", "HubSpot", "Box", "Zoom", "Notion"];
 
+  // Filter out any sample app that has already been investigated (exists in recentGuides)
+  const availableSampleApps = sampleApps.filter(
+    (sample) =>
+      !recentGuides.some(
+        (rg) =>
+          rg.name.toLowerCase() === sample.toLowerCase() ||
+          rg.slug.toLowerCase() === sample.toLowerCase()
+      )
+  );
+
   const handleInvestigate = async (searchQuery: string) => {
     const q = searchQuery.trim();
     if (!q) return;
@@ -166,22 +176,29 @@ export default function LiveInvestigationStudio({
       </div>
 
       {/* Quick Suggestion Pills */}
-      <div className="flex items-center gap-1.5 flex-wrap text-xs text-slate-500">
-        <span className="text-[11px] font-mono text-slate-400">Sample targets:</span>
-        {sampleApps.map((app) => (
-          <button
-            key={app}
-            onClick={() => {
-              setQuery(app);
-              handleInvestigate(app);
-            }}
-            disabled={isLoading}
-            className="rounded-none border border-slate-200 bg-white px-2 py-0.5 font-mono text-[11px] text-slate-700 hover:border-slate-300 hover:bg-slate-50 transition cursor-pointer"
-          >
-            {app}
-          </button>
-        ))}
-      </div>
+      {availableSampleApps.length > 0 && (
+        <div className="flex items-center gap-1.5 flex-wrap text-xs text-slate-500">
+          <span className="text-[11px] font-mono text-slate-400">Sample targets:</span>
+          {availableSampleApps.map((app) => (
+            <button
+              key={app}
+              onClick={() => {
+                if (isLoading) return;
+                setQuery(app);
+                handleInvestigate(app);
+              }}
+              disabled={isLoading}
+              className={`rounded-none border px-2 py-0.5 font-mono text-[11px] transition ${
+                isLoading
+                  ? "border-slate-100 bg-slate-50 text-slate-300 opacity-50 cursor-not-allowed"
+                  : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50 cursor-pointer"
+              }`}
+            >
+              {app}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Additional Section: Recent Investigations */}
       {recentGuides && recentGuides.length > 0 && (
@@ -193,14 +210,21 @@ export default function LiveInvestigationStudio({
           {recentGuides.map((rg) => (
             <div
               key={rg.id}
-              className="inline-flex items-center gap-1 rounded-none border border-blue-200 bg-blue-50/70 px-2 py-0.5 font-mono text-[11px] text-[#0024BC] transition hover:bg-blue-100"
+              className={`inline-flex items-center gap-1 rounded-none border border-blue-200 bg-blue-50/70 px-2 py-0.5 font-mono text-[11px] text-[#0024BC] transition ${
+                isLoading
+                  ? "opacity-50 pointer-events-none"
+                  : "hover:bg-blue-100"
+              }`}
             >
               <button
+                disabled={isLoading}
                 onClick={() => {
                   setGeneratedGuide(rg);
                   onOpenGuide(rg);
                 }}
-                className="cursor-pointer font-medium hover:underline flex items-center gap-1"
+                className={`font-medium flex items-center gap-1 ${
+                  isLoading ? "cursor-not-allowed" : "cursor-pointer hover:underline"
+                }`}
                 title={`Open ${rg.name} guide`}
               >
                 <span>{rg.name}</span>
@@ -208,12 +232,15 @@ export default function LiveInvestigationStudio({
               </button>
               {onRemoveRecentGuide && (
                 <button
+                  disabled={isLoading}
                   onClick={(e) => {
                     e.stopPropagation();
                     onRemoveRecentGuide(rg.slug);
                   }}
                   title="Remove from history"
-                  className="text-blue-400 hover:text-rose-600 cursor-pointer p-0.5 transition-colors"
+                  className={`p-0.5 transition-colors ${
+                    isLoading ? "cursor-not-allowed opacity-40" : "text-blue-400 hover:text-rose-600 cursor-pointer"
+                  }`}
                 >
                   <X className="h-2.5 w-2.5" />
                 </button>
