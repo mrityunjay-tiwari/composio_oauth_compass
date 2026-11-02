@@ -34,19 +34,21 @@ print("Direct user to authenticate:", connection.redirect_url)`;
   };
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto">
-      {/* Header */}
-      <div className="space-y-1.5 border-b border-slate-200 pb-5">
-        <div className="inline-flex items-center gap-1.5 rounded-none border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[11px] font-mono font-medium text-blue-700">
-          <BookOpen className="h-3 w-3" />
-          <span>Composio Architecture Reference</span>
+    <div className="space-y-5 w-full">
+      {/* Hero Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200/80 pb-5">
+        <div>
+          <div className="inline-flex items-center gap-1.5 rounded-none border border-blue-100 bg-blue-50/70 px-2.5 py-0.5 text-xs mb-2">
+            <BookOpen className="h-3 w-3" />
+            <span>Composio Architecture Reference</span>
+          </div>
+          <h1 className="text-xl sm:text-4xl font-semibold text-slate-900">
+            Managed Auth vs. Custom AuthConfig (BYOC)
+          </h1>
+          <p className="text-sm text-slate-500 mt-1 max-w-2xl leading-relaxed">
+            Composio supports two authentication paradigms. Understanding when to use Managed Auth versus when to migrate to Custom AuthConfig is the core decision point for production agent architectures.
+          </p>
         </div>
-        <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
-          Managed Auth vs. Custom AuthConfig (BYOC)
-        </h1>
-        <p className="text-xs text-slate-600 max-w-2xl leading-relaxed">
-          Composio supports two authentication paradigms. Understanding when to use Managed Auth versus when to migrate to Custom AuthConfig is the core decision point for production agent architectures.
-        </p>
       </div>
 
       {/* Comparison Grid */}
