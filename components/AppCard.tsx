@@ -13,20 +13,20 @@ export default function AppCard({ guide, onSelect }: AppCardProps) {
     if (score < 2) {
       return {
         label: "Instant",
-        badgeClass: "bg-emerald-50 text-emerald-700 border-emerald-200",
+        badgeClass: "bg-emerald-50 text-emerald-700 border-emerald-200/80",
         icon: <Zap className="h-3 w-3 text-emerald-600" />,
       };
     }
     if (score < 3.5) {
       return {
         label: "Moderate",
-        badgeClass: "bg-blue-50 text-blue-700 border-blue-200",
-        icon: <CheckCircle2 className="h-3 w-3 text-blue-600" />,
+        badgeClass: "bg-blue-50 text-[#0024BC] border-blue-200/80",
+        icon: <CheckCircle2 className="h-3 w-3 text-[#0024BC]" />,
       };
     }
     return {
       label: "High Friction",
-      badgeClass: "bg-rose-50 text-rose-700 border-rose-200",
+      badgeClass: "bg-rose-50 text-rose-700 border-rose-200/80",
       icon: <AlertTriangle className="h-3 w-3 text-rose-600" />,
     };
   };
@@ -37,13 +37,13 @@ export default function AppCard({ guide, onSelect }: AppCardProps) {
   return (
     <div
       onClick={() => onSelect(guide)}
-      className="group relative flex flex-col justify-between rounded-md border border-slate-200 bg-white p-4.5 shadow-2xs transition-all duration-150 hover:border-slate-400 hover:shadow-xs cursor-pointer"
+      className="group relative flex flex-col justify-between rounded border border-slate-200 bg-white p-4 shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-all duration-150 hover:border-slate-300 hover:shadow-xs cursor-pointer"
     >
       <div>
-        {/* Top Header: Logo + Name + Category + Friction Badge */}
+        {/* Top Header */}
         <div className="flex items-start justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <div className="h-9 w-9 flex items-center justify-center rounded-sm border border-slate-200 bg-white p-1.5 shadow-2xs">
+          <div className="flex items-center gap-2.5">
+            <div className="h-9 w-9 flex items-center justify-center rounded border border-slate-200 bg-white p-1.5 shadow-2xs">
               <img
                 src={guide.logo}
                 alt={guide.name}
@@ -54,15 +54,15 @@ export default function AppCard({ guide, onSelect }: AppCardProps) {
               />
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-slate-900 group-hover:text-blue-600 transition-colors">
+              <h3 className="text-sm font-semibold text-slate-900 group-hover:text-[#0024BC] transition-colors leading-tight">
                 {guide.name}
               </h3>
-              <p className="text-[11px] text-slate-500 font-medium">{guide.category}</p>
+              <p className="text-[11px] text-slate-400 font-medium mt-0.5">{guide.category}</p>
             </div>
           </div>
 
           <span
-            className={`inline-flex items-center gap-1 rounded-sm border px-2 py-0.5 font-mono text-[10px] font-semibold ${badge.badgeClass}`}
+            className={`inline-flex items-center gap-1 rounded border px-2 py-0.5 font-mono text-[10px] font-semibold ${badge.badgeClass}`}
           >
             {badge.icon}
             <span>{guide.frictionScore.toFixed(1)}/5</span>
@@ -74,9 +74,9 @@ export default function AppCard({ guide, onSelect }: AppCardProps) {
           {guide.summary}
         </p>
 
-        {/* Primary Gotcha Warning (if any) */}
+        {/* Primary Gotcha Warning */}
         {primaryGotcha && (
-          <div className="mt-3 rounded-sm border border-amber-200 bg-amber-50/60 px-2.5 py-1.5 text-[11px] text-amber-900">
+          <div className="mt-3 rounded border border-amber-200/70 bg-amber-50/50 px-2.5 py-1.5 text-[11px] text-amber-900">
             <div className="flex items-center gap-1.5 font-medium text-amber-800">
               <AlertTriangle className="h-3 w-3 shrink-0 text-amber-600" />
               <span className="truncate">{primaryGotcha.title}</span>
@@ -98,8 +98,8 @@ export default function AppCard({ guide, onSelect }: AppCardProps) {
           </span>
         </div>
 
-        <div className="flex items-center gap-1 font-sans text-xs font-semibold text-blue-600 group-hover:translate-x-0.5 transition-transform">
-          <span>Guide</span>
+        <div className="flex items-center gap-1 font-sans text-xs font-semibold text-[#0024BC] group-hover:translate-x-0.5 transition-transform">
+          <span>View</span>
           <ArrowRight className="h-3 w-3" />
         </div>
       </div>

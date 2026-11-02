@@ -55,29 +55,29 @@ export default function Home() {
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
 
       {/* Main Content Area */}
-      <main className="flex-1 mx-auto w-full max-w-7xl px-4 py-7 sm:px-6 lg:px-8">
+      <main className="flex-1 mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         
         {/* VIEW 1: APP DIRECTORY */}
         {activeTab === "directory" && (
-          <div className="space-y-6">
+          <div className="space-y-5">
             {/* Hero Header */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-5">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200/80 pb-5">
               <div>
-                <div className="inline-flex items-center gap-1.5 rounded-sm border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[11px] font-mono font-medium text-blue-700 mb-2">
+                <div className="inline-flex items-center gap-1.5 rounded border border-blue-200 bg-blue-50/70 px-2.5 py-0.5 text-[11px] font-mono font-medium text-[#0024BC] mb-2">
                   <Zap className="h-3 w-3" />
                   <span>OAuth Provider Catalog</span>
                 </div>
-                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+                <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
                   Integration & Setup Guides
                 </h1>
-                <p className="text-xs text-slate-600 mt-1 max-w-xl leading-relaxed">
-                  Clear friction scores, unwritten failure modes, least-privilege scope mappings, and 1-click Composio AuthConfigs.
+                <p className="text-xs text-slate-500 mt-1 max-w-xl leading-relaxed">
+                  Friction scores, unwritten failure modes, least-privilege scope mappings, and 1-click Composio AuthConfigs.
                 </p>
               </div>
 
               <button
                 onClick={() => setActiveTab("live-studio")}
-                className="inline-flex items-center gap-1.5 rounded-sm bg-blue-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-blue-700 shrink-0 self-start md:self-auto cursor-pointer"
+                className="inline-flex items-center gap-1.5 rounded bg-[#0024BC] px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-[#001da0] shrink-0 self-start md:self-auto cursor-pointer shadow-2xs"
               >
                 <Sparkles className="h-3.5 w-3.5" />
                 <span>Investigate Unfamiliar App</span>
@@ -93,8 +93,8 @@ export default function Home() {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search apps, scopes, gotchas..."
-                  className="w-full rounded-sm border border-slate-200 bg-white pl-8 pr-3 py-1.5 text-xs text-slate-900 placeholder:text-slate-400 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600/20"
+                  placeholder="Search apps, scopes, failure modes..."
+                  className="w-full rounded border border-slate-200 bg-white pl-8 pr-3 py-1.5 text-xs text-slate-900 placeholder:text-slate-400 focus:border-[#0024BC] focus:outline-none focus:ring-1 focus:ring-[#0024BC]/20 transition"
                 />
               </div>
 
@@ -102,7 +102,7 @@ export default function Home() {
               <div className="flex items-center gap-1 overflow-x-auto text-xs">
                 <button
                   onClick={() => setFrictionFilter("all")}
-                  className={`rounded-sm px-2.5 py-1 text-xs transition ${
+                  className={`rounded px-2.5 py-1 text-xs transition cursor-pointer ${
                     frictionFilter === "all"
                       ? "bg-slate-900 text-white font-medium"
                       : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
@@ -112,7 +112,7 @@ export default function Home() {
                 </button>
                 <button
                   onClick={() => setFrictionFilter("instant")}
-                  className={`flex items-center gap-1 rounded-sm px-2.5 py-1 text-xs transition ${
+                  className={`flex items-center gap-1 rounded px-2.5 py-1 text-xs transition cursor-pointer ${
                     frictionFilter === "instant"
                       ? "bg-emerald-600 text-white font-medium"
                       : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
@@ -123,9 +123,9 @@ export default function Home() {
                 </button>
                 <button
                   onClick={() => setFrictionFilter("manifest")}
-                  className={`flex items-center gap-1 rounded-sm px-2.5 py-1 text-xs transition ${
+                  className={`flex items-center gap-1 rounded px-2.5 py-1 text-xs transition cursor-pointer ${
                     frictionFilter === "manifest"
-                      ? "bg-blue-600 text-white font-medium"
+                      ? "bg-[#0024BC] text-white font-medium"
                       : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
                   }`}
                 >
@@ -134,7 +134,7 @@ export default function Home() {
                 </button>
                 <button
                   onClick={() => setFrictionFilter("review")}
-                  className={`flex items-center gap-1 rounded-sm px-2.5 py-1 text-xs transition ${
+                  className={`flex items-center gap-1 rounded px-2.5 py-1 text-xs transition cursor-pointer ${
                     frictionFilter === "review"
                       ? "bg-amber-600 text-white font-medium"
                       : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
@@ -153,10 +153,10 @@ export default function Home() {
                 <button
                   key={cat}
                   onClick={() => setCategoryFilter(cat)}
-                  className={`rounded-sm px-2 py-0.5 text-xs transition ${
+                  className={`rounded px-2 py-0.5 text-xs transition cursor-pointer ${
                     categoryFilter === cat
-                      ? "bg-slate-200 text-slate-900 font-semibold"
-                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                      ? "bg-slate-100 text-slate-900 font-semibold border border-slate-200"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
                   }`}
                 >
                   {cat}
@@ -165,7 +165,7 @@ export default function Home() {
             </div>
 
             {/* App Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
               {filteredApps.map((guide) => (
                 <AppCard
                   key={guide.id}
@@ -176,14 +176,14 @@ export default function Home() {
             </div>
 
             {filteredApps.length === 0 && (
-              <div className="rounded-md border border-dashed border-slate-200 bg-white p-10 text-center space-y-2">
+              <div className="rounded border border-dashed border-slate-200 bg-white p-10 text-center space-y-2">
                 <p className="text-xs font-semibold text-slate-800">No matching apps found in directory</p>
                 <p className="text-xs text-slate-500">
                   Submit &ldquo;{searchQuery}&rdquo; to the Live Investigation Agent to analyze it in real time.
                 </p>
                 <button
                   onClick={() => setActiveTab("live-studio")}
-                  className="inline-flex items-center gap-1.5 rounded-sm bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-blue-700 transition"
+                  className="inline-flex items-center gap-1.5 rounded bg-[#0024BC] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#001da0] transition"
                 >
                   <Sparkles className="h-3.5 w-3.5" />
                   <span>Investigate with Live Agent</span>

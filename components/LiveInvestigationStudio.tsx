@@ -108,7 +108,7 @@ export default function LiveInvestigationStudio({
           <button
             onClick={() => handleInvestigate(query)}
             disabled={isLoading || !query.trim()}
-            className="flex items-center gap-1.5 rounded-sm bg-blue-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-blue-700 disabled:opacity-50 shrink-0 cursor-pointer"
+            className="flex items-center gap-1.5 rounded-sm bg-[#0024BC] px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-[#001da0] disabled:opacity-50 shrink-0 cursor-pointer"
           >
             {isLoading ? (
               <>

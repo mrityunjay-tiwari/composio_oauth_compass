@@ -145,7 +145,7 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
             onClick={() => setActiveTab("checklist")}
             className={`flex items-center gap-1.5 border-b-2 py-2.5 transition ${
               activeTab === "checklist"
-                ? "border-blue-600 text-blue-600 font-semibold"
+                ? "border-[#0024BC] text-[#0024BC] font-semibold"
                 : "border-transparent text-slate-600 hover:text-slate-900"
             }`}
           >
@@ -156,7 +156,7 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
             onClick={() => setActiveTab("scopes")}
             className={`flex items-center gap-1.5 border-b-2 py-2.5 transition ${
               activeTab === "scopes"
-                ? "border-blue-600 text-blue-600 font-semibold"
+                ? "border-[#0024BC] text-[#0024BC] font-semibold"
                 : "border-transparent text-slate-600 hover:text-slate-900"
             }`}
           >
@@ -170,7 +170,7 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
             onClick={() => setActiveTab("gotchas")}
             className={`flex items-center gap-1.5 border-b-2 py-2.5 transition ${
               activeTab === "gotchas"
-                ? "border-blue-600 text-blue-600 font-semibold"
+                ? "border-[#0024BC] text-[#0024BC] font-semibold"
                 : "border-transparent text-slate-600 hover:text-slate-900"
             }`}
           >
@@ -181,7 +181,7 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
             onClick={() => setActiveTab("composio")}
             className={`flex items-center gap-1.5 border-b-2 py-2.5 transition ${
               activeTab === "composio"
-                ? "border-blue-600 text-blue-600 font-semibold"
+                ? "border-[#0024BC] text-[#0024BC] font-semibold"
                 : "border-transparent text-slate-600 hover:text-slate-900"
             }`}
           >
@@ -250,7 +250,7 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
                             type="checkbox"
                             checked={!!isDone}
                             onChange={() => toggleStep(step.id)}
-                            className="mt-1 h-3.5 w-3.5 rounded-xs border-slate-300 text-blue-600 focus:ring-blue-600 cursor-pointer"
+                            className="mt-1 h-3.5 w-3.5 rounded-xs border-slate-300 text-[#0024BC] focus:ring-[#0024BC] cursor-pointer"
                           />
                           <div className="flex-1 space-y-1">
                             <div className="flex items-center justify-between gap-2">
@@ -393,7 +393,7 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
                               type="checkbox"
                               checked={isSelected}
                               onChange={() => {}}
-                              className="h-3.5 w-3.5 rounded-xs border-slate-300 text-blue-600 focus:ring-blue-600"
+                              className="h-3.5 w-3.5 rounded-xs border-slate-300 text-[#0024BC] focus:ring-[#0024BC]"
                             />
                           </td>
                           <td className="py-2.5 px-3 font-mono font-medium text-slate-900">

@@ -90,7 +90,7 @@ print("Direct user to authenticate:", connection.redirect_url)`;
               href="https://docs.composio.dev/toolkits/managed-auth"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:underline"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-[#0024BC] hover:underline"
             >
               <span>View Managed Auth Documentation</span>
               <ExternalLink className="h-3 w-3" />
@@ -137,7 +137,7 @@ print("Direct user to authenticate:", connection.redirect_url)`;
               href="https://docs.composio.dev/docs/tools-direct/authenticating-tools#hosted-authentication-connect-link"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:underline"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-[#0024BC] hover:underline"
             >
               <span>View Hosted Authentication Documentation</span>
               <ExternalLink className="h-3 w-3" />
