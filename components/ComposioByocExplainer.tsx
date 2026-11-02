@@ -16,7 +16,8 @@ import {
   UserCheck,
   Bot,
   AlertTriangle,
-  Sparkles
+  Sparkles,
+  ArrowDown
 } from "lucide-react";
 
 interface ComposioByocExplainerProps {
@@ -122,185 +123,194 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
     {
       stage: "Stage 1",
       timing: "Day 0 – 7",
-      title: "Rapid Prototyping & POC",
+      title: "Rapid Prototyping",
       paradigm: "Composio Managed Auth",
-      badge: "Zero Friction",
+      badge: "2-Min Setup",
       badgeColor: "bg-emerald-50 text-emerald-800 border-emerald-200",
-      description: "Focus 100% on agent prompts and tool definitions. No developer consoles, no DNS records, no OAuth app reviews.",
-      deliverable: "Working agent prototype connected to Slack, Gmail, or GitHub in under 2 minutes."
+      punchline: "Validate agent prompts & tool calling without opening provider dev consoles."
     },
     {
       stage: "Stage 2",
       timing: "Day 7 – 14",
-      title: "Scope Pruning & Team Beta",
-      paradigm: "Pre-Production Audit",
-      badge: "Risk Mitigation",
+      title: "Scope Pruning & Audit",
+      paradigm: "Pre-Production Beta",
+      badge: "Risk Minimizer",
       badgeColor: "bg-amber-50 text-amber-800 border-amber-200",
-      description: "Audit required scopes using the Scope Minimizer. Swap restricted scopes to bypass the $15,000 CASA Tier 2 audit.",
-      deliverable: "Clean scope manifest ready for provider developer console registration."
+      punchline: "Audit scopes to bypass $15k CASA Tier 2 audits before registering custom apps."
     },
     {
       stage: "Stage 3",
       timing: "Day 14+",
-      title: "Enterprise Production & Scale",
+      title: "Enterprise Production",
       paradigm: "Custom AuthConfig (BYOC)",
       badge: "Enterprise Ready",
       badgeColor: "bg-blue-50 text-blue-800 border-blue-200",
-      description: "Deploy dedicated client credentials into Composio. White-label the consent screen with your logo and dedicate rate limits.",
-      deliverable: "SOC 2 compliant enterprise integration running on isolated rate quotas."
+      punchline: "Bring your own client keys for 100% white-labeled consent screens & isolated quotas."
     }
   ];
 
   return (
-    <div className="space-y-6 w-full">
-      {/* Hero Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200/80 pb-5">
+    <div className="space-y-5 w-full">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200/80 pb-4">
         <div>
-          <div className="inline-flex items-center gap-1.5 rounded-none border border-blue-100 bg-blue-50/70 px-2.5 py-0.5 text-xs mb-2">
+          <div className="inline-flex items-center gap-1.5 rounded-none border border-blue-100 bg-blue-50/70 px-2 py-0.5 text-xs mb-1.5">
             <BookOpen className="h-3 w-3 text-[#0024BC]" />
             <span className="font-semibold text-[#0024BC]">Composio Architecture Reference</span>
           </div>
-          <h1 className="text-xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
+          <h1 className="text-xl sm:text-3xl font-semibold text-slate-900 tracking-tight">
             Managed Auth vs. Custom AuthConfig (BYOC)
           </h1>
-          <p className="text-sm text-slate-500 mt-1 max-w-2xl leading-relaxed">
-            Composio supports two distinct authentication paradigms. Understanding when to stay on Managed Auth versus when and how to migrate to Custom AuthConfig is the core decision point for enterprise AI agent systems.
+          <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-2xl leading-relaxed">
+            Composio supports two authentication paradigms. Understanding when to use Managed Auth versus when to migrate to Custom AuthConfig is the core decision for production agent systems.
           </p>
         </div>
 
         {onNavigateTab && (
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => onNavigateTab("ground-truth")}
-              className="inline-flex items-center gap-1.5 rounded-none border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition"
-            >
-              <span>View Ground Truth Audit</span>
-              <ArrowRight className="h-3 w-3 text-slate-400" />
-            </button>
-          </div>
+          <button
+            onClick={() => onNavigateTab("ground-truth")}
+            className="inline-flex items-center gap-1.5 rounded-none border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition shrink-0"
+          >
+            <span>View Ground Truth Audit</span>
+            <ArrowRight className="h-3 w-3 text-slate-400" />
+          </button>
         )}
       </div>
 
-      {/* 3-Stage Agent Auth Maturity Lifecycle */}
-      <div className="rounded-none border border-slate-200 bg-white p-5 space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
-          <div>
-            <h2 className="text-sm font-bold text-slate-900 font-mono">Agent Auth Maturity Lifecycle</h2>
-            <p className="text-xs text-slate-500">The 3-phase progression from Day-0 prototype to enterprise scale</p>
-          </div>
-          <span className="text-[11px] font-mono text-slate-400">Click any phase to inspect</span>
+      {/* Visual Architecture Flowchart (Glanceable In 2 Seconds) */}
+      <div className="rounded-none border border-slate-200 bg-white p-4 space-y-3">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+          <span className="text-xs font-bold text-slate-900 font-mono uppercase tracking-wider">
+            Architecture Blueprint &amp; Data Flow
+          </span>
+          <span className="text-[11px] font-mono text-slate-400">2-Second Visual Summary</span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          {lifecycleStages.map((item, idx) => {
-            const isSelected = activeLifecycleStage === idx;
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-center text-xs">
+          {/* Box 1: The AI Agent */}
+          <div className="rounded-none border border-slate-200 bg-slate-50 p-3.5 text-center space-y-1">
+            <div className="text-[10px] font-mono font-semibold uppercase text-slate-400">Step 1</div>
+            <div className="font-bold text-slate-900">Your AI Agent / Runner</div>
+            <p className="text-[11px] text-slate-500">Initiates tool calls (Slack, Gmail, GitHub)</p>
+          </div>
 
-            return (
-              <div
-                key={idx}
-                onClick={() => setActiveLifecycleStage(idx)}
-                className={`cursor-pointer p-4 rounded-none border transition ${
-                  isSelected
-                    ? "border-[#0024BC] bg-blue-50/20 ring-1 ring-[#0024BC]"
-                    : "border-slate-200 bg-slate-50/50 hover:bg-white hover:border-slate-300"
-                }`}
-              >
-                <div className="flex items-center justify-between text-xs mb-2">
-                  <span className="font-mono text-[10px] uppercase font-bold text-slate-400">
-                    {item.stage} • {item.timing}
-                  </span>
-                  <span className={`px-2 py-0.5 text-[10px] font-mono font-semibold border ${item.badgeColor}`}>
-                    {item.badge}
-                  </span>
-                </div>
+          {/* Box 2: Composio Vault (The Glue) */}
+          <div className="rounded-none border-2 border-[#0024BC] bg-blue-50/30 p-3.5 text-center space-y-1 relative">
+            <div className="text-[10px] font-mono font-bold uppercase text-[#0024BC]">Composio Core Engine</div>
+            <div className="font-bold text-slate-900">AES-256 Vault &amp; Auto-Refresh</div>
+            <p className="text-[11px] text-slate-600">Handles token encryption, rotation &amp; 401 recovery</p>
+          </div>
 
-                <h3 className="font-bold text-slate-900 text-sm">{item.title}</h3>
-                <div className="text-xs font-mono text-[#0024BC] font-semibold mt-0.5 mb-2">
-                  {item.paradigm}
-                </div>
-                <p className="text-xs text-slate-600 leading-relaxed mb-3">
-                  {item.description}
-                </p>
-
-                <div className="pt-2 border-t border-slate-200/60 text-[11px] text-slate-700">
-                  <span className="font-semibold text-slate-900">Output: </span>
-                  <span>{item.deliverable}</span>
-                </div>
-              </div>
-            );
-          })}
+          {/* Box 3: Decision Branch */}
+          <div className="grid grid-cols-2 gap-2 text-center text-xs">
+            <div className="rounded-none border border-emerald-200 bg-emerald-50/40 p-2.5 space-y-0.5">
+              <div className="font-bold text-emerald-900 text-[11px]">Managed Auth</div>
+              <div className="text-[10px] text-emerald-700">Day 0–14 Prototype</div>
+              <div className="text-[9px] font-mono text-emerald-800">Shared Keys • 0m Setup</div>
+            </div>
+            <div className="rounded-none border border-blue-200 bg-blue-50/40 p-2.5 space-y-0.5">
+              <div className="font-bold text-blue-900 text-[11px]">Custom (BYOC)</div>
+              <div className="text-[10px] text-blue-700">Day 14+ Enterprise</div>
+              <div className="text-[9px] font-mono text-blue-800">Your Keys • White-Label</div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Side-by-Side Paradigm Comparison */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Managed Auth */}
-        <div className="rounded-none border border-slate-200 bg-white p-5 space-y-4">
+      {/* 3-Stage Lifecycle Cards (Clickable, Low-Text) */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
+        {lifecycleStages.map((item, idx) => {
+          const isSelected = activeLifecycleStage === idx;
+
+          return (
+            <div
+              key={idx}
+              onClick={() => setActiveLifecycleStage(idx)}
+              className={`cursor-pointer p-3 rounded-none border transition ${
+                isSelected
+                  ? "border-[#0024BC] bg-blue-50/30 ring-1 ring-[#0024BC]"
+                  : "border-slate-200 bg-white hover:border-slate-300"
+              }`}
+            >
+              <div className="flex items-center justify-between text-xs mb-1">
+                <span className="font-mono text-[10px] uppercase font-bold text-slate-400">
+                  {item.stage} • {item.timing}
+                </span>
+                <span className={`px-1.5 py-0.2 text-[9px] font-mono font-semibold border ${item.badgeColor}`}>
+                  {item.badge}
+                </span>
+              </div>
+              <h3 className="font-bold text-slate-900 text-xs sm:text-sm">{item.title}</h3>
+              <p className="text-[11px] text-slate-600 leading-snug mt-1">
+                {item.punchline}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Glanceable Side-by-Side Comparison (Pill Badges) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {/* Managed Auth Card */}
+        <div className="rounded-none border border-slate-200 bg-white p-4 space-y-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-none bg-emerald-50 text-emerald-700 border border-emerald-200">
-                <Zap className="h-4 w-4" />
+            <div className="flex items-center gap-2">
+              <div className="flex h-7 w-7 items-center justify-center rounded-none bg-emerald-50 text-emerald-700 border border-emerald-200">
+                <Zap className="h-3.5 w-3.5" />
               </div>
               <div>
-                <h3 className="font-bold text-slate-900 text-sm">Composio Managed Auth</h3>
-                <p className="text-[11px] text-slate-500 font-mono">Day 0 to Day 14 (Prototyping &amp; POC)</p>
+                <h3 className="font-bold text-slate-900 text-xs sm:text-sm">Composio Managed Auth</h3>
+                <p className="text-[10px] text-slate-500 font-mono">Day 0 to 14 (Prototyping &amp; POC)</p>
               </div>
             </div>
             <span className="rounded-none border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-mono font-semibold text-emerald-800">
-              Instant Setup
+              0 Min Setup
             </span>
           </div>
 
-          <p className="text-xs text-slate-600 leading-relaxed">
-            Composio maintains pre-registered OAuth credentials for hundreds of developer tools. Developers connect tools in 2 minutes without registering accounts on Google Cloud, Slack, or GitHub.
-          </p>
-
-          <div className="space-y-2 text-xs">
-            <div className="flex items-start gap-2 text-slate-700">
-              <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
-              <span><strong>0 Minutes Setup:</strong> No provider approval, developer keys, or redirect URIs required.</span>
+          <div className="grid grid-cols-2 gap-2 text-[11px]">
+            <div className="rounded-none bg-slate-50 p-2 border border-slate-200/60">
+              <span className="font-mono text-[9px] text-slate-400 block uppercase">Setup Speed</span>
+              <strong className="text-emerald-700">Instant (Under 2m)</strong>
             </div>
-            <div className="flex items-start gap-2 text-slate-700">
-              <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
-              <span><strong>Automated Token Custody:</strong> Tokens stored in AES-256 vault with automated refresh on 401s.</span>
+            <div className="rounded-none bg-slate-50 p-2 border border-slate-200/60">
+              <span className="font-mono text-[9px] text-slate-400 block uppercase">Consent Branding</span>
+              <strong className="text-amber-700">Composio Logo</strong>
             </div>
-            <div className="flex items-start gap-2 text-slate-700">
-              <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
-              <span><strong>Hosted Auth Connect Links:</strong> Ready-made secure redirect links for testing agent tool actions.</span>
+            <div className="rounded-none bg-slate-50 p-2 border border-slate-200/60">
+              <span className="font-mono text-[9px] text-slate-400 block uppercase">Rate Limits</span>
+              <strong className="text-amber-700">Shared Sandbox Pool</strong>
             </div>
-            <div className="flex items-start gap-2 text-amber-800 bg-amber-50/50 p-2 border border-amber-200/60">
-              <span className="font-mono text-xs">⚠️</span>
-              <span><strong>Shared Branding:</strong> End-user OAuth consent screen displays &ldquo;Composio&rdquo; rather than your agent brand.</span>
-            </div>
-            <div className="flex items-start gap-2 text-amber-800 bg-amber-50/50 p-2 border border-amber-200/60">
-              <span className="font-mono text-xs">⚠️</span>
-              <span><strong>Shared API Quotas:</strong> Provider rate limits are pooled across developers building in sandbox environments.</span>
+            <div className="rounded-none bg-slate-50 p-2 border border-slate-200/60">
+              <span className="font-mono text-[9px] text-slate-400 block uppercase">Token Vault</span>
+              <strong className="text-emerald-700">AES-256 Auto-Refresh</strong>
             </div>
           </div>
 
-          <div className="pt-2 border-t border-slate-100">
+          <div className="pt-1 flex items-center justify-between text-xs">
+            <span className="text-[11px] text-slate-500">Best for: Hackathons, prompt testing, MVP</span>
             <a
               href="https://docs.composio.dev/toolkits/managed-auth"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs font-semibold text-[#0024BC] hover:underline"
+              className="inline-flex items-center gap-1 font-semibold text-[#0024BC] text-[11px] hover:underline"
             >
-              <span>View Managed Auth Documentation</span>
+              <span>Docs</span>
               <ExternalLink className="h-3 w-3" />
             </a>
           </div>
         </div>
 
-        {/* Custom AuthConfig (BYOC) */}
-        <div className="rounded-none border border-slate-200 bg-white p-5 space-y-4">
+        {/* Custom AuthConfig (BYOC) Card */}
+        <div className="rounded-none border border-slate-200 bg-white p-4 space-y-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-none bg-blue-50 text-blue-700 border border-blue-200">
-                <Key className="h-4 w-4 text-[#0024BC]" />
+            <div className="flex items-center gap-2">
+              <div className="flex h-7 w-7 items-center justify-center rounded-none bg-blue-50 text-blue-700 border border-blue-200">
+                <Key className="h-3.5 w-3.5 text-[#0024BC]" />
               </div>
               <div>
-                <h3 className="font-bold text-slate-900 text-sm">Custom AuthConfig (BYOC)</h3>
-                <p className="text-[11px] text-slate-500 font-mono">Day 14+ (Production &amp; Enterprise)</p>
+                <h3 className="font-bold text-slate-900 text-xs sm:text-sm">Custom AuthConfig (BYOC)</h3>
+                <p className="text-[10px] text-slate-500 font-mono">Day 14+ (Production &amp; Enterprise)</p>
               </div>
             </div>
             <span className="rounded-none border border-blue-200 bg-blue-50 px-2 py-0.5 text-[10px] font-mono font-semibold text-[#0024BC]">
@@ -308,247 +318,175 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
             </span>
           </div>
 
-          <p className="text-xs text-slate-600 leading-relaxed">
-            Developers provide their own Client ID and Client Secret created in the provider developer console. Essential for customer-facing applications requiring white-label branding and dedicated quotas.
-          </p>
-
-          <div className="space-y-2 text-xs">
-            <div className="flex items-start gap-2 text-slate-700">
-              <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
-              <span><strong>100% White-Labeled:</strong> End users see your company logo, terms of service, and privacy policy.</span>
+          <div className="grid grid-cols-2 gap-2 text-[11px]">
+            <div className="rounded-none bg-slate-50 p-2 border border-slate-200/60">
+              <span className="font-mono text-[9px] text-slate-400 block uppercase">Setup Speed</span>
+              <strong className="text-slate-800">15–30m Credential Setup</strong>
             </div>
-            <div className="flex items-start gap-2 text-slate-700">
-              <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
-              <span><strong>Dedicated Rate Limits:</strong> Full provider API quotas isolated exclusively for your paying customers.</span>
+            <div className="rounded-none bg-slate-50 p-2 border border-slate-200/60">
+              <span className="font-mono text-[9px] text-slate-400 block uppercase">Consent Branding</span>
+              <strong className="text-blue-700">100% Your Company Logo</strong>
             </div>
-            <div className="flex items-start gap-2 text-slate-700">
-              <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
-              <span><strong>Bespoke Scopes:</strong> Request exact enterprise scopes without being constrained to shared presets.</span>
+            <div className="rounded-none bg-slate-50 p-2 border border-slate-200/60">
+              <span className="font-mono text-[9px] text-slate-400 block uppercase">Rate Limits</span>
+              <strong className="text-blue-700">Dedicated Provider Quota</strong>
             </div>
-            <div className="flex items-start gap-2 text-slate-700">
-              <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
-              <span><strong>Zero Infra Burden:</strong> Composio still handles AES-256 token custody, secret rotation, and 401 recovery.</span>
-            </div>
-            <div className="flex items-start gap-2 text-slate-700">
-              <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
-              <span><strong>Enterprise Compliance:</strong> Satisfies enterprise Okta, Google Workspace, and SOC 2 vendor security reviews.</span>
+            <div className="rounded-none bg-slate-50 p-2 border border-slate-200/60">
+              <span className="font-mono text-[9px] text-slate-400 block uppercase">Token Vault</span>
+              <strong className="text-emerald-700">AES-256 Auto-Refresh</strong>
             </div>
           </div>
 
-          <div className="pt-2 border-t border-slate-100">
+          <div className="pt-1 flex items-center justify-between text-xs">
+            <span className="text-[11px] text-slate-500">Best for: Production, SOC 2 compliance, client launch</span>
             <a
               href="https://docs.composio.dev/docs/tools-direct/authenticating-tools#hosted-authentication-connect-link"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs font-semibold text-[#0024BC] hover:underline"
+              className="inline-flex items-center gap-1 font-semibold text-[#0024BC] text-[11px] hover:underline"
             >
-              <span>View Hosted Auth Documentation</span>
+              <span>Docs</span>
               <ExternalLink className="h-3 w-3" />
             </a>
           </div>
         </div>
       </div>
 
-      {/* Feature Comparison Matrix */}
-      <div className="rounded-none border border-slate-200 bg-white overflow-hidden">
-        <div className="border-b border-slate-100 bg-slate-50/80 px-5 py-3 flex items-center justify-between">
+      {/* Agent vs Human Handoff Matrix (Glanceable Tag Cloud) */}
+      <div className="rounded-none border border-slate-200 bg-white p-4 space-y-3">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-2">
           <span className="text-xs font-bold text-slate-900 font-mono uppercase tracking-wider">
-            Architecture Capability Matrix
+            Agent vs. Human DevOps Boundary
           </span>
-          <span className="text-[11px] font-mono text-slate-500">Managed vs. BYOC</span>
+          <span className="text-[11px] font-mono text-slate-400">Responsibility Matrix</span>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="border-b border-slate-200 bg-slate-50/50 text-[11px] font-mono uppercase text-slate-600">
-              <tr>
-                <th className="py-2.5 px-4 font-semibold">Evaluation Vector</th>
-                <th className="py-2.5 px-4 font-semibold text-emerald-800">Managed Auth (Day 0–14)</th>
-                <th className="py-2.5 px-4 font-semibold text-blue-800">Custom AuthConfig (BYOC)</th>
-                <th className="py-2.5 px-4 font-semibold text-slate-700">The Composio Advantage</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 text-slate-700">
-              <tr>
-                <td className="py-3 px-4 font-semibold text-slate-900">Setup Velocity</td>
-                <td className="py-3 px-4 text-emerald-700 font-medium">Under 2 minutes</td>
-                <td className="py-3 px-4 text-slate-600">15–45 minutes setup</td>
-                <td className="py-3 px-4 text-slate-500">Immediate prototype testing before investing in dev consoles</td>
-              </tr>
-              <tr>
-                <td className="py-3 px-4 font-semibold text-slate-900">Consent Screen Branding</td>
-                <td className="py-3 px-4 text-amber-700">Displays &ldquo;Composio&rdquo;</td>
-                <td className="py-3 px-4 text-blue-700 font-medium">100% White-Labeled (Your Logo)</td>
-                <td className="py-3 px-4 text-slate-500">Seamless transition when ready for external customer signups</td>
-              </tr>
-              <tr>
-                <td className="py-3 px-4 font-semibold text-slate-900">API Rate Limit Pool</td>
-                <td className="py-3 px-4 text-amber-700">Shared multi-tenant pool</td>
-                <td className="py-3 px-4 text-blue-700 font-medium">Dedicated company quota</td>
-                <td className="py-3 px-4 text-slate-500">Zero quota interference between high-volume enterprise agents</td>
-              </tr>
-              <tr>
-                <td className="py-3 px-4 font-semibold text-slate-900">Token Custody &amp; Refresh</td>
-                <td className="py-3 px-4 text-emerald-700 font-medium">Composio AES-256 Vault</td>
-                <td className="py-3 px-4 text-emerald-700 font-medium">Composio AES-256 Vault</td>
-                <td className="py-3 px-4 text-slate-900 font-medium">Developers never build database encryption or cron refreshers</td>
-              </tr>
-              <tr>
-                <td className="py-3 px-4 font-semibold text-slate-900">Enterprise Review Readiness</td>
-                <td className="py-3 px-4 text-slate-500">Internal evaluation only</td>
-                <td className="py-3 px-4 text-blue-700 font-medium">SOC 2 / Okta audit ready</td>
-                <td className="py-3 px-4 text-slate-500">Passes enterprise vendor assessments without custom auth servers</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Agent vs. Human Boundary Matrix (The DevOps Handoff) */}
-      <div className="rounded-none border border-slate-200 bg-white p-5 space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
-          <div>
-            <h2 className="text-sm font-bold text-slate-900 font-mono">The Agent vs. Human Boundary Matrix</h2>
-            <p className="text-xs text-slate-500">Clear demarcation of responsibilities during BYOC provisioning</p>
-          </div>
-          <span className="text-[11px] font-mono text-slate-400">DevOps Handoff Protocol</span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-          {/* What Composio & Agent Automate */}
-          <div className="rounded-none border border-emerald-200 bg-emerald-50/30 p-4 space-y-3">
-            <div className="flex items-center gap-2 text-emerald-800 font-bold font-mono text-xs">
-              <Bot className="h-4 w-4 text-emerald-600" />
-              <span>What Composio &amp; Agent Automates</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+          {/* Automated by Composio */}
+          <div className="rounded-none border border-emerald-200 bg-emerald-50/20 p-3 space-y-2">
+            <div className="flex items-center gap-1.5 font-bold text-emerald-800 text-[11px]">
+              <Bot className="h-3.5 w-3.5 text-emerald-600" />
+              <span>Automated by Composio &amp; Agent</span>
             </div>
-            <ul className="space-y-2 text-emerald-950">
-              <li className="flex items-start gap-2">
-                <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                <span><strong>Scope Minimization:</strong> Recommends lowest-privilege scopes to bypass CASA Tier 2 fees.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                <span><strong>Manifest Generation:</strong> Creates Slack/Linear copy-paste application manifests.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                <span><strong>AuthConfig Schema Formatting:</strong> Validates and exports exact JSON required by Composio SDK.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                <span><strong>PKCE &amp; State Token Exchange:</strong> Performs code-for-token authorization exchange behind the scenes.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                <span><strong>Token Lifecycle Management:</strong> Transparently refreshes expired tokens before agents execute actions.</span>
-              </li>
-            </ul>
+            <div className="flex flex-wrap gap-1.5">
+              <span className="px-2 py-1 bg-white border border-emerald-200 text-emerald-900 text-[11px] font-medium">
+                ✓ Scope Minimization (Prevents $15k CASA)
+              </span>
+              <span className="px-2 py-1 bg-white border border-emerald-200 text-emerald-900 text-[11px] font-medium">
+                ✓ Slack / Linear Manifest Generation
+              </span>
+              <span className="px-2 py-1 bg-white border border-emerald-200 text-emerald-900 text-[11px] font-medium">
+                ✓ PKCE &amp; State Token Exchange
+              </span>
+              <span className="px-2 py-1 bg-white border border-emerald-200 text-emerald-900 text-[11px] font-medium">
+                ✓ AES-256 Vault Token Custody
+              </span>
+              <span className="px-2 py-1 bg-white border border-emerald-200 text-emerald-900 text-[11px] font-medium">
+                ✓ Transparent 401 Silent Token Refresh
+              </span>
+            </div>
           </div>
 
-          {/* Where Humans Must Take Over */}
-          <div className="rounded-none border border-amber-200 bg-amber-50/30 p-4 space-y-3">
-            <div className="flex items-center gap-2 text-amber-800 font-bold font-mono text-xs">
-              <UserCheck className="h-4 w-4 text-amber-600" />
-              <span>Where Human DevOps Must Take Over</span>
+          {/* Requires Human DevOps */}
+          <div className="rounded-none border border-amber-200 bg-amber-50/20 p-3 space-y-2">
+            <div className="flex items-center gap-1.5 font-bold text-amber-800 text-[11px]">
+              <UserCheck className="h-3.5 w-3.5 text-amber-600" />
+              <span>Requires Human DevOps / Legal</span>
             </div>
-            <ul className="space-y-2 text-amber-950">
-              <li className="flex items-start gap-2">
-                <AlertTriangle className="h-3.5 w-3.5 text-amber-600 shrink-0 mt-0.5" />
-                <span><strong>Provider Billing &amp; Payment:</strong> Adding credit cards or activating billing accounts (GCP/AWS).</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <AlertTriangle className="h-3.5 w-3.5 text-amber-600 shrink-0 mt-0.5" />
-                <span><strong>Domain DNS Verification:</strong> Inserting <code>TXT</code> records in DNS to prove company domain ownership.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <AlertTriangle className="h-3.5 w-3.5 text-amber-600 shrink-0 mt-0.5" />
-                <span><strong>YouTube Walkthrough Screencasts:</strong> Recording required unlisted videos demonstrating consent flow for Google.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <AlertTriangle className="h-3.5 w-3.5 text-amber-600 shrink-0 mt-0.5" />
-                <span><strong>Biometric / 2FA Verification:</strong> Passing hardware security keys or authenticator prompts.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <AlertTriangle className="h-3.5 w-3.5 text-amber-600 shrink-0 mt-0.5" />
-                <span><strong>Legal Agreements:</strong> Signing provider Developer Terms of Service and Data Protection Agreements (DPA).</span>
-              </li>
-            </ul>
+            <div className="flex flex-wrap gap-1.5">
+              <span className="px-2 py-1 bg-white border border-amber-200 text-amber-900 text-[11px] font-medium">
+                ⚠️ Provider Billing &amp; Credit Card
+              </span>
+              <span className="px-2 py-1 bg-white border border-amber-200 text-amber-900 text-[11px] font-medium">
+                ⚠️ DNS TXT Domain Ownership Verification
+              </span>
+              <span className="px-2 py-1 bg-white border border-amber-200 text-amber-900 text-[11px] font-medium">
+                ⚠️ YouTube Walkthrough Screencast (Google)
+              </span>
+              <span className="px-2 py-1 bg-white border border-amber-200 text-amber-900 text-[11px] font-medium">
+                ⚠️ Hardware 2FA / Biometric Passkey
+              </span>
+              <span className="px-2 py-1 bg-white border border-amber-200 text-amber-900 text-[11px] font-medium">
+                ⚠️ Enterprise DPA &amp; Terms Acceptance
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Interactive Multi-Language Code Blueprint */}
-      <div className="rounded-none border border-slate-200 bg-white p-5 space-y-3">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
-          <div>
-            <h2 className="text-sm font-bold text-slate-900 font-mono">2-Step Composio Connection Blueprint</h2>
-            <p className="text-xs text-slate-500">Connecting Custom Credentials to Composio Hosted Connect links</p>
-          </div>
+      {/* Code Blueprint & Live Simulator (Side-by-Side or Compact) */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+        {/* 2-Step SDK Blueprint */}
+        <div className="rounded-none border border-slate-200 bg-white p-4 space-y-2.5">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-slate-900 font-mono">2-Step Composio Connection</span>
+            <div className="flex items-center gap-1.5">
+              <div className="flex rounded-none border border-slate-200 bg-slate-50 p-0.5 text-[11px] font-mono">
+                <button
+                  onClick={() => setActiveLang("python")}
+                  className={`px-1.5 py-0.2 transition ${activeLang === "python" ? "bg-white font-bold text-slate-900" : "text-slate-500"}`}
+                >
+                  Python
+                </button>
+                <button
+                  onClick={() => setActiveLang("typescript")}
+                  className={`px-1.5 py-0.2 transition ${activeLang === "typescript" ? "bg-white font-bold text-slate-900" : "text-slate-500"}`}
+                >
+                  TS
+                </button>
+                <button
+                  onClick={() => setActiveLang("curl")}
+                  className={`px-1.5 py-0.2 transition ${activeLang === "curl" ? "bg-white font-bold text-slate-900" : "text-slate-500"}`}
+                >
+                  cURL
+                </button>
+              </div>
 
-          <div className="flex items-center gap-2">
-            <div className="flex rounded-none border border-slate-200 bg-slate-50 p-0.5 text-xs font-mono">
               <button
-                onClick={() => setActiveLang("python")}
-                className={`px-2 py-0.5 transition ${activeLang === "python" ? "bg-white font-bold text-slate-900 shadow-xs" : "text-slate-500 hover:text-slate-800"}`}
+                onClick={handleCopyCode}
+                className="flex items-center gap-1 rounded-none border border-slate-200 bg-white px-2 py-0.5 text-[11px] font-medium text-slate-700 hover:bg-slate-50 transition"
               >
-                Python
-              </button>
-              <button
-                onClick={() => setActiveLang("typescript")}
-                className={`px-2 py-0.5 transition ${activeLang === "typescript" ? "bg-white font-bold text-slate-900 shadow-xs" : "text-slate-500 hover:text-slate-800"}`}
-              >
-                TypeScript
-              </button>
-              <button
-                onClick={() => setActiveLang("curl")}
-                className={`px-2 py-0.5 transition ${activeLang === "curl" ? "bg-white font-bold text-slate-900 shadow-xs" : "text-slate-500 hover:text-slate-800"}`}
-              >
-                cURL
+                {copiedCode ? <Check className="h-3 w-3 text-emerald-600" /> : <Copy className="h-3 w-3 text-slate-400" />}
+                <span>{copiedCode ? "Copied" : "Copy"}</span>
               </button>
             </div>
-
-            <button
-              onClick={handleCopyCode}
-              className="flex items-center gap-1 rounded-none border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50 transition"
-            >
-              {copiedCode ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5 text-slate-500" />}
-              <span>{copiedCode ? "Copied" : "Copy Code"}</span>
-            </button>
           </div>
+
+          <pre className="rounded-none border border-slate-800 bg-slate-900 p-3 font-mono text-[11px] text-slate-200 overflow-x-auto leading-relaxed h-[175px]">
+            {snippets[activeLang]}
+          </pre>
         </div>
 
-        <pre className="rounded-none border border-slate-800 bg-slate-900 p-4 font-mono text-xs text-slate-200 overflow-x-auto leading-relaxed">
-          {snippets[activeLang]}
-        </pre>
-      </div>
-
-      {/* Interactive BYOC Payload Playground */}
-      <div className="rounded-none border border-slate-200 bg-white p-5 space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
-          <div>
-            <div className="flex items-center gap-1.5 text-xs text-[#0024BC] font-mono font-semibold mb-0.5">
+        {/* Live Payload Simulator */}
+        <div className="rounded-none border border-slate-200 bg-white p-4 space-y-2.5">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5 text-xs font-mono font-semibold text-[#0024BC]">
               <Code2 className="h-3.5 w-3.5" />
-              <span>Interactive Simulator</span>
+              <span>Live BYOC Config Simulator</span>
             </div>
-            <h2 className="text-sm font-bold text-slate-900">Custom AuthConfig Payload Generator</h2>
+
+            <div className="flex items-center gap-2">
+              {onOpenAppGuide && (
+                <button
+                  onClick={() => onOpenAppGuide(simApp, "composio")}
+                  className="text-[11px] font-medium text-[#0024BC] hover:underline"
+                >
+                  Inspect {simApp} Guide ↗
+                </button>
+              )}
+              <button
+                onClick={handleCopyPayload}
+                className="flex items-center gap-1 rounded-none border border-slate-200 bg-white px-2 py-0.5 text-[11px] font-medium text-slate-700 hover:bg-slate-50 transition"
+              >
+                {copiedPayload ? <Check className="h-3 w-3 text-emerald-600" /> : <Copy className="h-3 w-3 text-slate-400" />}
+                <span>{copiedPayload ? "Copied" : "Copy JSON"}</span>
+              </button>
+            </div>
           </div>
 
-          {onOpenAppGuide && (
-            <button
-              onClick={() => onOpenAppGuide(simApp, "composio")}
-              className="inline-flex items-center gap-1.5 rounded-none border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50 transition"
-            >
-              <span>Inspect {simApp} Guide</span>
-              <ExternalLink className="h-3 w-3 text-slate-400" />
-            </button>
-          )}
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Controls */}
-          <div className="space-y-3 text-xs">
+          <div className="grid grid-cols-2 gap-2 text-[11px]">
             <div>
-              <label className="block text-slate-600 font-semibold mb-1">Target Application</label>
+              <label className="text-[10px] font-mono uppercase text-slate-400 block mb-0.5">App Preset</label>
               <select
                 value={simApp}
                 onChange={(e) => {
@@ -570,58 +508,29 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
                     setSimClientSecret("secret_9a8b7c6d5e4f3a2b1c0d");
                   }
                 }}
-                className="w-full rounded-none border border-slate-200 bg-white p-2 text-xs text-slate-800 font-mono focus:outline-none focus:border-[#0024BC]"
+                className="w-full rounded-none border border-slate-200 bg-white p-1 text-[11px] text-slate-800 font-mono focus:outline-none focus:border-[#0024BC]"
               >
                 <option value="slack">Slack API</option>
-                <option value="google-workspace">Google Workspace / Cloud</option>
-                <option value="github">GitHub OAuth App</option>
-                <option value="salesforce">Salesforce Connected App</option>
-                <option value="notion">Notion Integration</option>
+                <option value="google-workspace">Google Workspace</option>
+                <option value="github">GitHub</option>
+                <option value="salesforce">Salesforce</option>
+                <option value="notion">Notion</option>
               </select>
             </div>
-
             <div>
-              <label className="block text-slate-600 font-semibold mb-1">Client ID / Consumer Key</label>
+              <label className="text-[10px] font-mono uppercase text-slate-400 block mb-0.5">Client ID</label>
               <input
                 type="text"
                 value={simClientId}
                 onChange={(e) => setSimClientId(e.target.value)}
-                className="w-full rounded-none border border-slate-200 bg-white p-2 text-xs font-mono text-slate-800 focus:outline-none focus:border-[#0024BC]"
+                className="w-full rounded-none border border-slate-200 bg-white p-1 text-[11px] font-mono text-slate-800 focus:outline-none focus:border-[#0024BC] truncate"
               />
-            </div>
-
-            <div>
-              <label className="block text-slate-600 font-semibold mb-1">Client Secret / Consumer Secret</label>
-              <input
-                type="text"
-                value={simClientSecret}
-                onChange={(e) => setSimClientSecret(e.target.value)}
-                className="w-full rounded-none border border-slate-200 bg-white p-2 text-xs font-mono text-slate-800 focus:outline-none focus:border-[#0024BC]"
-              />
-            </div>
-
-            <div className="pt-2 text-[11px] text-slate-500">
-              Credentials injected into Composio&apos;s vault are encrypted at rest using envelope encryption (AES-256-GCM) with key rotation.
             </div>
           </div>
 
-          {/* Live Output */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between text-xs font-mono text-slate-600">
-              <span className="font-semibold">composio_auth_config.json</span>
-              <button
-                onClick={handleCopyPayload}
-                className="flex items-center gap-1 text-[11px] font-medium text-slate-700 hover:text-slate-900 transition"
-              >
-                {copiedPayload ? <Check className="h-3 w-3 text-emerald-600" /> : <Copy className="h-3 w-3 text-slate-400" />}
-                <span>{copiedPayload ? "Copied JSON" : "Copy JSON"}</span>
-              </button>
-            </div>
-
-            <pre className="rounded-none border border-slate-800 bg-slate-900 p-3.5 font-mono text-xs text-emerald-400 overflow-x-auto leading-relaxed h-[180px]">
-              {currentPayloadJson}
-            </pre>
-          </div>
+          <pre className="rounded-none border border-slate-800 bg-slate-900 p-2.5 font-mono text-[10px] text-emerald-400 overflow-x-auto leading-relaxed h-[105px]">
+            {currentPayloadJson}
+          </pre>
         </div>
       </div>
     </div>

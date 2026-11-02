@@ -29,17 +29,26 @@ interface AuditEntry {
   id: string;
   slug: string;
   app: string;
-  category: "Critical Failure Mode" | "Financial & Delay Penalty" | "Unnecessary Friction" | "Production Blocker" | "Developer Confusion";
   categoryFilter: "critical" | "financial" | "quota";
+  
+  // Glanceable Header Badges
+  trapBadge: string;
+  trapColor: string;
   impactBadge: string;
   impactColor: string;
-  docClaim: string;
-  docSource: string;
-  testedReality: string;
+  fixBadge: string;
+  fixColor: string;
+
+  // Punchy 1-Liners for Skimming
+  docPromise: string;
+  testedRealityShort: string;
+  testedRealityDetail: string;
+  fixShort: string;
+  fixDetail: string;
+
+  // Deep-Dive Details (Collapsible)
   rootCause: string;
-  correction: string;
-  status: string;
-  badgeColor: string;
+  docSource: string;
   reproduction: {
     status: string;
     protocol: string;
@@ -51,7 +60,7 @@ interface AuditEntry {
 export default function GroundTruthAudit({ onOpenAppGuide, onNavigateTab }: GroundTruthAuditProps) {
   const [selectedFilter, setSelectedFilter] = useState<"all" | "critical" | "financial" | "quota">("all");
   const [searchQuery, setSearchQuery] = useState("");
-  const [expandedId, setExpandedId] = useState<string | null>("google-7day");
+  const [expandedId, setExpandedId] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const auditEntries: AuditEntry[] = [
@@ -59,19 +68,24 @@ export default function GroundTruthAudit({ onOpenAppGuide, onNavigateTab }: Grou
       id: "google-7day",
       slug: "google-workspace",
       app: "Google Cloud / Workspace",
-      category: "Critical Failure Mode",
       categoryFilter: "critical",
-      impactBadge: "Silent Revocation at 604,800s",
-      impactColor: "bg-rose-50 text-rose-700 border-rose-200",
-      docClaim: "Register OAuth consent screen, select requested scopes, and test your integration with internal users.",
-      docSource: "Google Identity > OAuth 2.0 Policies",
-      testedReality: "7-Day Silent Token Expiry in Testing Mode: While a project is in 'Testing' status, Google silently revokes refresh tokens after exactly 7 days (604,800 seconds). AI agent background cron jobs die every Sunday night without warning.",
-      rootCause: "Google's internal security policy caps refresh token lifetime for unverified apps to 168 hours to prevent unauthorized persistent access.",
-      correction: "Publish the OAuth consent screen to 'In Production' with an internal user whitelist (or automate Composio re-authentication webhook alerts). Production status issues non-expiring refresh tokens.",
-      status: "Tested & Corrected",
-      badgeColor: "bg-rose-50 text-rose-700 border-rose-200",
+      trapBadge: "Silent Revocation @ Day 7",
+      trapColor: "bg-rose-50 text-rose-700 border-rose-200",
+      impactBadge: "Cron jobs fail weekly",
+      impactColor: "bg-slate-100 text-slate-700 border-slate-200",
+      fixBadge: "Fix: Toggle 'In Production'",
+      fixColor: "bg-emerald-50 text-emerald-800 border-emerald-200",
+      
+      docPromise: "“Register OAuth consent screen and test with internal users.”",
+      testedRealityShort: "Silent refresh token death at 168 hours (7 days) in Testing mode.",
+      testedRealityDetail: "Google silently revokes all refresh tokens after exactly 604,800 seconds if the OAuth consent screen is left in 'Testing' status. Background agent jobs die every Sunday night without any warning notification.",
+      fixShort: "Publish to 'In Production' with an internal whitelist for permanent non-expiring tokens.",
+      fixDetail: "Toggle the consent screen status to 'In Production'. Google allows unverified apps to serve up to 100 test users indefinitely with non-expiring tokens without undergoing the full verification review.",
+      
+      rootCause: "Google Identity internal security policy caps refresh token TTL to 7 days for unverified apps to prevent abandoned development credentials from maintaining indefinite mailbox/drive access.",
+      docSource: "Google Identity > OAuth 2.0 Policies > Token Expiration",
       reproduction: {
-        status: "400 Bad Request (After 7 Days)",
+        status: "400 Bad Request (Silently at t=604,800s)",
         protocol: "POST https://oauth2.googleapis.com/token",
         rawSnippet: `HTTP/1.1 400 Bad Request
 Content-Type: application/json; charset=utf-8
@@ -80,52 +94,62 @@ Content-Type: application/json; charset=utf-8
   "error": "invalid_grant",
   "error_description": "Token has been expired or revoked."
 }`,
-        notes: "Occurs silently exactly 7 days after the first authorization grant. Only reproducible in Testing status."
+        notes: "Occurs silently exactly 7 days after the first authorization grant. Only reproducible in 'Testing' status."
       }
     },
     {
       id: "google-casa",
       slug: "google-workspace",
       app: "Google (Gmail Scopes)",
-      category: "Financial & Delay Penalty",
       categoryFilter: "financial",
-      impactBadge: "Saves $15,000 + 4 Weeks Review",
-      impactColor: "bg-amber-50 text-amber-800 border-amber-200",
-      docClaim: "Select required scopes such as 'gmail.modify' to read and manage messages on behalf of users.",
-      docSource: "Gmail API > Authorizing Requests Guide",
-      testedReality: "The $15,000 CASA Tier 2 Audit Trap: Selecting 'gmail.modify' or 'gmail.readonly' classifies the app as Restricted. This triggers an annual mandatory third-party CASA security assessment costing $3,000–$15,000 and 4–6 weeks of compliance review.",
-      rootCause: "Google Trust & Safety requires external SOC 2/CASA lab audits (Bishop Fox, Leviathan Security) for any app requesting mailbox modification privileges.",
-      correction: "Prune scopes to 'gmail.send' and 'drive.file' (Sensitive only, not Restricted). This avoids CASA Tier 2 entirely, dropping compliance costs to $0 and approval time to under 2 weeks.",
-      status: "Verified & Optimized",
-      badgeColor: "bg-amber-50 text-amber-700 border-amber-200",
+      trapBadge: "$15,000 CASA Audit Gate",
+      trapColor: "bg-amber-50 text-amber-800 border-amber-200",
+      impactBadge: "4–6 Weeks Review Queue",
+      impactColor: "bg-slate-100 text-slate-700 border-slate-200",
+      fixBadge: "Fix: Prune to 'gmail.send'",
+      fixColor: "bg-emerald-50 text-emerald-800 border-emerald-200",
+      
+      docPromise: "“Select required scopes such as 'gmail.modify' to read and manage messages.”",
+      testedRealityShort: "Triggers mandatory $3,000–$15,000 third-party CASA Tier 2 security audit.",
+      testedRealityDetail: "Requesting 'gmail.modify' or 'gmail.readonly' classifies your app as Restricted. To serve external users, Google mandates an annual third-party security assessment from authorized labs (Bishop Fox, Leviathan) costing thousands of dollars.",
+      fixShort: "Substitute with 'gmail.send' + 'drive.file' (Sensitive only, $0 cost, <2 weeks).",
+      fixDetail: "Pruning scopes to 'gmail.send' keeps the app in the Sensitive tier. Sensitive scopes require standard Google trust review (free, 3-7 days) while bypassing the entire third-party CASA Tier 2 audit framework.",
+      
+      rootCause: "Google Trust & Safety requires OWASP ASVS Level 2 compliance verification for apps accessing end-user mailbox contents.",
+      docSource: "Google Cloud Platform > Trust & Safety > CASA Guidelines",
       reproduction: {
         status: "Mandatory Compliance Gate",
-        protocol: "Google Cloud Trust & Safety Verification Portal",
+        protocol: "Google Cloud Trust & Safety Console",
         rawSnippet: `[Google Cloud Console Alert]
 Scope 'https://mail.google.com/' is classified as RESTRICTED.
 To serve external users, you must submit a third-party security assessment:
 - Framework: CASA Tier 2 (OWASP ASVS Level 2)
-- Approved Labs: Bishop Fox, Leviathan, Schellman
+- Approved Labs: Bishop Fox, Leviathan Security, Schellman
 - Estimated Audit Cost: $3,000 - $15,000 USD / year
-- Estimated Review Time: 4-6 weeks`,
-        notes: "Avoidable by substituting gmail.send + metadata filters if agent only sends automated notifications."
+- Estimated Review Timeline: 4 to 6 weeks`,
+        notes: "Avoidable by substituting gmail.send + metadata filters if agent only sends automated outbound emails."
       }
     },
     {
       id: "slack-dist",
       slug: "slack",
       app: "Slack API Distribution",
-      category: "Unnecessary Friction",
       categoryFilter: "financial",
-      impactBadge: "Saves 14 Days (14d → 0m)",
-      impactColor: "bg-emerald-50 text-emerald-800 border-emerald-200",
-      docClaim: "Submit your app for review before distributing it to other teams and external workspaces.",
-      docSource: "Slack API > Distributing Slack Apps",
-      testedReality: "App Directory vs. Public Distribution Illusion: You do NOT need the 2-week Slack App Directory review to install on external workspaces. Toggling 'Manage Distribution -> Public Distribution' works instantly with zero manual review queue.",
-      rootCause: "The Slack App Directory is a curated commercial marketplace. Public Distribution is a separate OAuth switch that enables multi-tenant token issuance immediately.",
-      correction: "Instruct developers to activate 'Public Distribution' directly from the developer dashboard, reducing time-to-production from 14 days to 0 minutes.",
-      status: "Tested & Corrected",
-      badgeColor: "bg-emerald-50 text-emerald-700 border-emerald-200",
+      trapBadge: "14-Day App Directory Illusion",
+      trapColor: "bg-blue-50 text-blue-800 border-blue-200",
+      impactBadge: "Real Wait: 0 Minutes",
+      impactColor: "bg-slate-100 text-slate-700 border-slate-200",
+      fixBadge: "Fix: Public Distribution",
+      fixColor: "bg-emerald-50 text-emerald-800 border-emerald-200",
+      
+      docPromise: "“Submit your app for review before distributing it to other teams.”",
+      testedRealityShort: "Docs suggest App Directory review is mandatory for multi-tenant installs.",
+      testedRealityDetail: "Slack documentation emphasizes the App Directory submission process (which takes 2-3 weeks of editorial and security review). Developers mistakenly believe they cannot onboard external customer workspaces without this.",
+      fixShort: "Toggle 'Manage Distribution -> Public Distribution' for instant multi-workspace URLs.",
+      fixDetail: "Public Distribution generates a universal OAuth install link immediately. Bypasses the 2-week directory review queue entirely, reducing deployment wait time to 0 minutes.",
+      
+      rootCause: "Slack conflates editorial marketplace listing (App Directory) with OAuth multi-tenancy (Public Distribution) in general documentation.",
+      docSource: "Slack API > Distributing Slack Apps > Public Distribution",
       reproduction: {
         status: "Direct Shortcut (0 Min Review)",
         protocol: "Slack Developer Dashboard > Manage Distribution",
@@ -143,17 +167,22 @@ Bypasses 2-3 week App Directory editorial review queue.`,
       id: "spotify-quota",
       slug: "spotify",
       app: "Spotify Web API",
-      category: "Production Blocker",
       categoryFilter: "quota",
-      impactBadge: "Hard Cap: 25 Users Max",
-      impactColor: "bg-amber-50 text-amber-800 border-amber-200",
-      docClaim: "Authenticate users with the standard Authorization Code grant in Development Mode.",
-      docSource: "Spotify for Developers > Authorization Guide",
-      testedReality: "The 25-User Hard Cap Gate: Apps in Development Mode fail immediately for the 26th user with an opaque 403 error unless that exact user email was manually whitelisted in the developer dashboard.",
-      rootCause: "Spotify imposes a hard developer quota limit of 25 accounts until the team passes a manual Extension Request review.",
-      correction: "Flag the 25-user cap upfront and prompt teams to submit the Quota Extension Request during early beta testing to avoid crashing public product launches.",
-      status: "Tested & Verified",
-      badgeColor: "bg-amber-50 text-amber-700 border-amber-200",
+      trapBadge: "25-User Hard Cap Gate",
+      trapColor: "bg-amber-50 text-amber-800 border-amber-200",
+      impactBadge: "Cryptic 403 Lockout",
+      impactColor: "bg-slate-100 text-slate-700 border-slate-200",
+      fixBadge: "Fix: Quota Extension",
+      fixColor: "bg-emerald-50 text-emerald-800 border-emerald-200",
+      
+      docPromise: "“Authenticate users with the standard Authorization Code grant.”",
+      testedRealityShort: "Development Mode fails with opaque 403 error for user #26.",
+      testedRealityDetail: "Spotify apps in Development Mode are hard-capped to 25 manually whitelisted email addresses. The 26th user receives an opaque 403 Forbidden with zero error context in the client application.",
+      fixShort: "Submit Quota Extension Request during early beta before public launch.",
+      fixDetail: "Prompt teams to submit the Spotify Extension Request form at day 0 of beta testing. Takes 2–5 business days to approve and unlocks unlimited user authentications.",
+      
+      rootCause: "Spotify developer dashboard enforces developer whitelist checks at the authorization endpoint before granting consent.",
+      docSource: "Spotify for Developers > Authorization Guide > Quota Limits",
       reproduction: {
         status: "403 Forbidden (User #26)",
         protocol: "GET https://accounts.spotify.com/authorize",
@@ -171,17 +200,22 @@ Content-Type: application/json; charset=utf-8
       id: "salesforce-lag",
       slug: "salesforce",
       app: "Salesforce Connected Apps",
-      category: "Developer Confusion",
       categoryFilter: "quota",
-      impactBadge: "2-10 Min Global Replication Lag",
-      impactColor: "bg-blue-50 text-blue-700 border-blue-200",
-      docClaim: "Create Connected App, copy Consumer Key and Consumer Secret, and authenticate immediately.",
-      docSource: "Salesforce Help > Connected App Basics",
-      testedReality: "10-Minute Global Cluster Propagation Lag: For 2 to 10 minutes after creating a Connected App, OAuth attempts fail with 'invalid_client_id' while keys replicate across Salesforce global data centers.",
-      rootCause: "Salesforce propagates newly registered OAuth consumer metadata asynchronously across geographically distributed clusters.",
-      correction: "Built-in warning explaining replication delay so developers don't spend hours debugging functioning code and rebuilding credentials.",
-      status: "Tested & Verified",
-      badgeColor: "bg-blue-50 text-blue-700 border-blue-200",
+      trapBadge: "10-Min Global Cluster Lag",
+      trapColor: "bg-blue-50 text-blue-700 border-blue-200",
+      impactBadge: "False 'invalid_client_id'",
+      impactColor: "bg-slate-100 text-slate-700 border-slate-200",
+      fixBadge: "Fix: 10-Min Wait Warning",
+      fixColor: "bg-emerald-50 text-emerald-800 border-emerald-200",
+      
+      docPromise: "“Create Connected App, copy Consumer Key, and authenticate immediately.”",
+      testedRealityShort: "OAuth fails with 'invalid_client_id' for 2–10 minutes after creation.",
+      testedRealityDetail: "Newly registered Connected Apps experience a 2 to 10-minute global database replication lag across Salesforce data centers. OAuth attempts during this window return false error codes.",
+      fixShort: "Built-in replication notice prevents developers from rebuilding valid credentials.",
+      fixDetail: "OAuth Compass surfaces an explicit 10-minute propagation banner so developers don't waste hours debugging valid redirect URIs and rotating secrets.",
+      
+      rootCause: "Asynchronous replication across globally distributed Salesforce multi-tenant instances (NA, EU, AP clusters).",
+      docSource: "Salesforce Help > Connected App Basics > Distribution",
       reproduction: {
         status: "400 Bad Request (Initial 10 Minutes)",
         protocol: "POST https://login.salesforce.com/services/oauth2/token",
@@ -210,114 +244,81 @@ Content-Type: application/json; charset=utf-8
     const matchesSearch =
       searchQuery === "" ||
       item.app.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.testedReality.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.docClaim.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.correction.toLowerCase().includes(searchQuery.toLowerCase());
+      item.trapBadge.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.testedRealityShort.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.fixShort.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesFilter && matchesSearch;
   });
 
   return (
-    <div className="space-y-6 w-full">
-      {/* Hero Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200/80 pb-5">
+    <div className="space-y-5 w-full">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200/80 pb-4">
         <div>
-          <div className="inline-flex items-center gap-1.5 rounded-none border border-blue-100 bg-blue-50/70 px-2.5 py-0.5 text-xs mb-2">
+          <div className="inline-flex items-center gap-1.5 rounded-none border border-blue-100 bg-blue-50/70 px-2 py-0.5 text-xs mb-1.5">
             <ShieldCheck className="h-3 w-3 text-[#0024BC]" />
-            <span className="font-semibold text-[#0024BC]">Requirement #2: Evidence & Ground Truth Audit</span>
+            <span className="font-semibold text-[#0024BC]">Requirement #2: Ground Truth &amp; Evidence Audit</span>
           </div>
-          <h1 className="text-xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
+          <h1 className="text-xl sm:text-3xl font-semibold text-slate-900 tracking-tight">
             Tested Reality vs. Official Documentation
           </h1>
-          <p className="text-sm text-slate-500 mt-1 max-w-2xl leading-relaxed">
-            Official developer documentation describes the provider&apos;s idealized &ldquo;happy path.&rdquo; Real-world production integrations are riddled with silent token revocations, five-figure compliance assessments, and unwritten quota traps. Here is our empirical proof.
+          <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-2xl leading-relaxed">
+            Official docs present the &ldquo;happy path.&rdquo; Real setups hit silent token revocations, \$15k compliance audits, and unwritten quota traps. Here is what we empirically verified.
           </p>
         </div>
 
         {onNavigateTab && (
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => onNavigateTab("composio-byoc")}
-              className="inline-flex items-center gap-1.5 rounded-none border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition"
-            >
-              <span>Explore BYOC Architecture</span>
-              <ArrowRight className="h-3 w-3 text-slate-400" />
-            </button>
-          </div>
+          <button
+            onClick={() => onNavigateTab("composio-byoc")}
+            className="inline-flex items-center gap-1.5 rounded-none border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition shrink-0"
+          >
+            <span>Explore BYOC Architecture</span>
+            <ArrowRight className="h-3 w-3 text-slate-400" />
+          </button>
         )}
       </div>
 
-      {/* 4 Core Production Impact Metrics Strip */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <div className="rounded-none border border-slate-200 bg-white p-3.5 space-y-1">
+      {/* 4 Core Quantitative Impact Metrics (Skimmable At-a-Glance) */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
+        <div className="rounded-none border border-slate-200 bg-white p-3 space-y-0.5">
           <div className="flex items-center justify-between text-slate-500">
-            <span className="text-[11px] font-medium uppercase tracking-wider font-mono">Max Audit Saved</span>
-            <DollarSign className="h-4 w-4 text-amber-600" />
+            <span className="text-[10px] font-medium uppercase font-mono">Max Audit Saved</span>
+            <DollarSign className="h-3.5 w-3.5 text-amber-600" />
           </div>
-          <div className="text-2xl font-bold text-slate-900">$15,000</div>
-          <p className="text-[11px] text-slate-500">Bypassed CASA Tier 2 fee by pruning to sensitive scopes</p>
+          <div className="text-xl font-bold text-slate-900">$15,000 / App</div>
+          <p className="text-[11px] text-slate-500 truncate">Avoided CASA Tier 2 fee by pruning scopes</p>
         </div>
 
-        <div className="rounded-none border border-slate-200 bg-white p-3.5 space-y-1">
+        <div className="rounded-none border border-slate-200 bg-white p-3 space-y-0.5">
           <div className="flex items-center justify-between text-slate-500">
-            <span className="text-[11px] font-medium uppercase tracking-wider font-mono">Slack Wait Time</span>
-            <Clock className="h-4 w-4 text-emerald-600" />
+            <span className="text-[10px] font-medium uppercase font-mono">Slack Wait Time</span>
+            <Clock className="h-3.5 w-3.5 text-emerald-600" />
           </div>
-          <div className="text-2xl font-bold text-slate-900">14d → 0m</div>
-          <p className="text-[11px] text-slate-500">Direct Public Distribution toggle vs App Directory queue</p>
+          <div className="text-xl font-bold text-slate-900">14d → 0m</div>
+          <p className="text-[11px] text-slate-500 truncate">Direct Public Distribution toggle shortcut</p>
         </div>
 
-        <div className="rounded-none border border-slate-200 bg-white p-3.5 space-y-1">
+        <div className="rounded-none border border-slate-200 bg-white p-3 space-y-0.5">
           <div className="flex items-center justify-between text-slate-500">
-            <span className="text-[11px] font-medium uppercase tracking-wider font-mono">Silent Token Trap</span>
-            <AlertOctagon className="h-4 w-4 text-rose-600" />
+            <span className="text-[10px] font-medium uppercase font-mono">Silent Token Trap</span>
+            <AlertOctagon className="h-3.5 w-3.5 text-rose-600" />
           </div>
-          <div className="text-2xl font-bold text-slate-900">7-Day Cliff</div>
-          <p className="text-[11px] text-slate-500">Google silently revokes refresh tokens in Testing mode</p>
+          <div className="text-xl font-bold text-slate-900">7-Day Cliff</div>
+          <p className="text-[11px] text-slate-500 truncate">Google silently revokes tokens in Testing</p>
         </div>
 
-        <div className="rounded-none border border-slate-200 bg-white p-3.5 space-y-1">
+        <div className="rounded-none border border-slate-200 bg-white p-3 space-y-0.5">
           <div className="flex items-center justify-between text-slate-500">
-            <span className="text-[11px] font-medium uppercase tracking-wider font-mono">Spotify Dev Limit</span>
-            <Sparkles className="h-4 w-4 text-blue-600" />
+            <span className="text-[10px] font-medium uppercase font-mono">Spotify Limit</span>
+            <Sparkles className="h-3.5 w-3.5 text-blue-600" />
           </div>
-          <div className="text-2xl font-bold text-slate-900">25 Users</div>
-          <p className="text-[11px] text-slate-500">Hard-coded email whitelist cap before 403 lockout</p>
-        </div>
-      </div>
-
-      {/* 3-Tier Evidence Taxonomy */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <div className="rounded-none border border-slate-200 bg-white p-3.5 space-y-1">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
-            <CheckCircle className="h-3.5 w-3.5 text-emerald-600" />
-            <span>[Verified - Official Docs]</span>
-          </div>
-          <p className="text-[11px] text-slate-500 leading-relaxed">
-            Technical endpoints, PKCE parameters, and redirect URI formatting verified directly against active provider documentation.
-          </p>
-        </div>
-        <div className="rounded-none border border-slate-200 bg-white p-3.5 space-y-1">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
-            <AlertTriangle className="h-3.5 w-3.5 text-amber-600" />
-            <span>[Observed - Tested Reality]</span>
-          </div>
-          <p className="text-[11px] text-slate-500 leading-relaxed">
-            Edge cases and hidden gotchas discovered through real developer account testing that documentation omits or buries in fine print.
-          </p>
-        </div>
-        <div className="rounded-none border border-slate-200 bg-white p-3.5 space-y-1">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
-            <HelpCircle className="h-3.5 w-3.5 text-blue-600" />
-            <span>[Uncertain / Opaque Policy]</span>
-          </div>
-          <p className="text-[11px] text-slate-500 leading-relaxed">
-            Provider review queue turnaround times and discretionary reviewer criteria that cannot be mathematically guaranteed.
-          </p>
+          <div className="text-xl font-bold text-slate-900">25 Users</div>
+          <p className="text-[11px] text-slate-500 truncate">Hard whitelist cap before 403 lockout</p>
         </div>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 border border-slate-200 bg-white p-3">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 border border-slate-200 bg-white p-2.5">
         <div className="flex flex-wrap items-center gap-1.5">
           <button
             onClick={() => setSelectedFilter("all")}
@@ -347,7 +348,7 @@ Content-Type: application/json; charset=utf-8
                 : "bg-slate-100 text-slate-600 hover:bg-slate-200"
             }`}
           >
-            Review &amp; Compliance Traps
+            Review &amp; Compliance
           </button>
           <button
             onClick={() => setSelectedFilter("quota")}
@@ -361,37 +362,40 @@ Content-Type: application/json; charset=utf-8
           </button>
         </div>
 
-        <div className="relative w-full sm:w-64">
+        <div className="relative w-full sm:w-60">
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search audits by app, trap, or scope..."
+            placeholder="Quick search audits..."
             className="w-full rounded-none border border-slate-200 bg-white py-1 pl-8 pr-2.5 text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-[#0024BC]"
           />
         </div>
       </div>
 
-      {/* Audit Comparison Cards */}
-      <div className="space-y-4">
+      {/* Skimmable Audit Rows */}
+      <div className="space-y-3">
         {filteredEntries.map((item) => {
           const isExpanded = expandedId === item.id;
 
           return (
             <div
               key={item.id}
-              className="rounded-none border border-slate-200 bg-white overflow-hidden transition hover:border-slate-300"
+              className="rounded-none border border-slate-200 bg-white transition hover:border-slate-300 overflow-hidden"
             >
-              {/* Card Header */}
-              <div className="border-b border-slate-100 bg-slate-50/60 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              {/* Row Header with Glanceable Pills */}
+              <div className="p-3.5 bg-slate-50/50 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-bold text-slate-900 text-sm sm:text-base">{item.app}</span>
-                  <span className={`rounded-none border px-2 py-0.5 text-[10px] font-mono font-semibold uppercase ${item.badgeColor}`}>
-                    {item.category}
+                  <span className="font-bold text-slate-900 text-sm">{item.app}</span>
+                  <span className={`rounded-none border px-2 py-0.5 text-[10px] font-mono font-semibold ${item.trapColor}`}>
+                    {item.trapBadge}
                   </span>
-                  <span className={`rounded-none border px-2 py-0.5 text-[10px] font-mono font-semibold ${item.impactColor}`}>
+                  <span className={`rounded-none border px-2 py-0.5 text-[10px] font-mono ${item.impactColor}`}>
                     {item.impactBadge}
+                  </span>
+                  <span className={`rounded-none border px-2 py-0.5 text-[10px] font-mono font-semibold ${item.fixColor}`}>
+                    {item.fixBadge}
                   </span>
                 </div>
 
@@ -399,99 +403,98 @@ Content-Type: application/json; charset=utf-8
                   {onOpenAppGuide && (
                     <button
                       onClick={() => onOpenAppGuide(item.slug, "gotchas")}
-                      className="inline-flex items-center gap-1 rounded-none border border-slate-200 bg-white px-2 py-1 text-[11px] font-medium text-slate-700 hover:bg-slate-50 transition"
+                      className="inline-flex items-center gap-1 text-[11px] font-medium text-[#0024BC] hover:underline"
                     >
-                      <span>Deep-Dive Guide</span>
-                      <ExternalLink className="h-3 w-3 text-slate-400" />
+                      <span>Full Guide</span>
+                      <ExternalLink className="h-3 w-3" />
                     </button>
                   )}
                   <button
-                    onClick={() => handleCopy(item.correction, item.id)}
-                    className="inline-flex items-center gap-1 rounded-none border border-slate-200 bg-white px-2 py-1 text-[11px] font-medium text-slate-700 hover:bg-slate-50 transition"
+                    onClick={() => handleCopy(item.fixShort, item.id)}
+                    className="inline-flex items-center gap-1 rounded-none border border-slate-200 bg-white px-2 py-0.5 text-[11px] font-medium text-slate-700 hover:bg-slate-50 transition"
                   >
                     {copiedId === item.id ? <Check className="h-3 w-3 text-emerald-600" /> : <Copy className="h-3 w-3 text-slate-400" />}
-                    <span>{copiedId === item.id ? "Copied" : "Copy Mitigation"}</span>
+                    <span>{copiedId === item.id ? "Copied" : "Copy Fix"}</span>
                   </button>
                 </div>
               </div>
 
-              {/* 3-Column Comparative Layout */}
-              <div className="p-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-                {/* 1. Official Doc Claim */}
-                <div className="rounded-none bg-slate-50/70 p-3.5 border border-slate-200 space-y-1.5 flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center justify-between text-[10px] font-mono font-semibold uppercase tracking-wider text-slate-500 mb-1">
-                      <span>Official Doc Promise</span>
-                      <span className="text-slate-400">[The Happy Path]</span>
-                    </div>
-                    <p className="text-slate-700 leading-relaxed italic">&ldquo;{item.docClaim}&rdquo;</p>
+              {/* Glanceable 3-Part Punchline Body */}
+              <div className="p-3.5 grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                {/* 1. Official Doc Promise */}
+                <div className="space-y-1">
+                  <div className="text-[10px] font-mono font-semibold uppercase tracking-wider text-slate-400">
+                    Official Doc Promise
                   </div>
-                  <div className="pt-2 text-[10px] font-mono text-slate-500 border-t border-slate-200/60">
-                    Source: {item.docSource}
-                  </div>
+                  <p className="text-slate-600 italic leading-snug">
+                    {item.docPromise}
+                  </p>
                 </div>
 
-                {/* 2. Tested Developer Reality (The Trap) */}
-                <div className="rounded-none bg-amber-50/40 p-3.5 border border-amber-200 space-y-1.5 flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center justify-between text-[10px] font-mono font-semibold uppercase tracking-wider text-amber-800 mb-1">
-                      <span className="flex items-center gap-1">
-                        <AlertTriangle className="h-3 w-3 text-amber-600" />
-                        <span>Tested Developer Reality</span>
-                      </span>
-                      <span>[The Trap]</span>
-                    </div>
-                    <p className="text-amber-950 leading-relaxed">{item.testedReality}</p>
+                {/* 2. Tested Reality (The Trap) */}
+                <div className="space-y-1">
+                  <div className="text-[10px] font-mono font-semibold uppercase tracking-wider text-rose-700 flex items-center gap-1">
+                    <AlertTriangle className="h-3 w-3 text-rose-600" />
+                    <span>Tested Reality (The Trap)</span>
                   </div>
-                  <div className="pt-2 text-[10px] text-amber-800/80 border-t border-amber-200/60 font-medium">
-                    Root Cause: {item.rootCause}
-                  </div>
+                  <p className="text-slate-900 font-medium leading-snug">
+                    {item.testedRealityShort}
+                  </p>
                 </div>
 
-                {/* 3. Composio Solution & Mitigation */}
-                <div className="rounded-none bg-emerald-50/40 p-3.5 border border-emerald-200 space-y-1.5 flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center justify-between text-[10px] font-mono font-semibold uppercase tracking-wider text-emerald-800 mb-1">
-                      <span className="flex items-center gap-1">
-                        <CheckCircle className="h-3.5 w-3.5 text-emerald-600" />
-                        <span>How OAuth Compass Solves It</span>
-                      </span>
-                      <span>[The Antidote]</span>
-                    </div>
-                    <p className="text-emerald-950 leading-relaxed font-medium">{item.correction}</p>
+                {/* 3. The Compass Fix */}
+                <div className="space-y-1">
+                  <div className="text-[10px] font-mono font-semibold uppercase tracking-wider text-emerald-700 flex items-center gap-1">
+                    <CheckCircle className="h-3 w-3 text-emerald-600" />
+                    <span>OAuth Compass Fix</span>
                   </div>
-                  <div className="pt-2 flex items-center justify-between text-[10px] font-mono text-emerald-700 border-t border-emerald-200/60">
-                    <span>Status: {item.status}</span>
-                    <span className="text-emerald-800 font-semibold">Zero Unplanned Downtime</span>
-                  </div>
+                  <p className="text-slate-900 font-medium leading-snug">
+                    {item.fixShort}
+                  </p>
                 </div>
               </div>
 
-              {/* Technical Reproduction / Trace Drawer */}
-              <div className="border-t border-slate-100 bg-slate-50/40">
+              {/* Collapsible Deep-Dive & Error Signature Drawer */}
+              <div className="border-t border-slate-100 bg-slate-50/30">
                 <button
                   onClick={() => setExpandedId(isExpanded ? null : item.id)}
-                  className="w-full px-4 py-2 flex items-center justify-between text-xs font-mono text-slate-600 hover:text-slate-900 transition"
+                  className="w-full px-3.5 py-1.5 flex items-center justify-between text-[11px] font-mono text-slate-500 hover:text-slate-900 transition"
                 >
                   <span className="flex items-center gap-1.5">
-                    <Terminal className="h-3.5 w-3.5 text-slate-500" />
-                    <span>Technical Reproduction Proof &amp; Error Signature</span>
-                    <span className="text-[10px] text-slate-400">({item.reproduction.status})</span>
+                    <Terminal className="h-3 w-3 text-slate-400" />
+                    <span>{isExpanded ? "Hide Technical Details & Error Trace" : "View Technical Proof, Root Cause & Error Trace ▾"}</span>
                   </span>
-                  {isExpanded ? <ChevronUp className="h-3.5 w-3.5 text-slate-400" /> : <ChevronDown className="h-3.5 w-3.5 text-slate-400" />}
+                  {isExpanded ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
                 </button>
 
                 {isExpanded && (
-                  <div className="p-4 pt-1 space-y-2 border-t border-slate-100">
-                    <div className="text-[11px] font-mono text-slate-500">
-                      Endpoint: <span className="text-slate-800 font-semibold">{item.reproduction.protocol}</span>
+                  <div className="p-3.5 pt-2 border-t border-slate-100 space-y-2.5 text-xs">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-slate-700">
+                      <div>
+                        <span className="font-semibold text-slate-900">Failure Mechanism: </span>
+                        <span>{item.testedRealityDetail}</span>
+                      </div>
+                      <div>
+                        <span className="font-semibold text-slate-900">Remediation Action: </span>
+                        <span>{item.fixDetail}</span>
+                      </div>
                     </div>
-                    <pre className="rounded-none border border-slate-800 bg-slate-900 p-3 font-mono text-[11px] text-slate-200 overflow-x-auto leading-relaxed">
-                      {item.reproduction.rawSnippet}
-                    </pre>
-                    <p className="text-[11px] text-slate-500 italic">
-                      Tested Note: {item.reproduction.notes}
-                    </p>
+
+                    <div className="text-[11px] text-slate-500">
+                      <span className="font-semibold text-slate-700">Root Cause: </span>
+                      <span>{item.rootCause}</span>
+                      <span className="mx-2">•</span>
+                      <span className="font-mono text-slate-400">Citation: {item.docSource}</span>
+                    </div>
+
+                    <div className="space-y-1 pt-1">
+                      <div className="text-[10px] font-mono text-slate-500">
+                        Endpoint &amp; Reproduction: <span className="text-slate-800 font-semibold">{item.reproduction.protocol}</span>
+                      </div>
+                      <pre className="rounded-none border border-slate-800 bg-slate-900 p-2.5 font-mono text-[11px] text-slate-200 overflow-x-auto leading-relaxed">
+                        {item.reproduction.rawSnippet}
+                      </pre>
+                    </div>
                   </div>
                 )}
               </div>
@@ -500,18 +503,27 @@ Content-Type: application/json; charset=utf-8
         })}
 
         {filteredEntries.length === 0 && (
-          <div className="rounded-none border border-slate-200 bg-white p-8 text-center text-xs text-slate-500">
-            No audit records matching &ldquo;{searchQuery}&rdquo;. Try another term.
+          <div className="rounded-none border border-slate-200 bg-white p-6 text-center text-xs text-slate-500">
+            No audit records matching &ldquo;{searchQuery}&rdquo;.
           </div>
         )}
       </div>
 
-      {/* Methodology & Reproducibility Callout */}
-      <div className="rounded-none border border-slate-200 bg-white p-4 space-y-2">
-        <h3 className="font-bold text-slate-900 text-xs sm:text-sm">Empirical Methodology &amp; Reproducibility Guarantee</h3>
-        <p className="text-xs text-slate-600 leading-relaxed">
-          Every item cataloged in this audit matrix was verified using active developer test consoles, real OAuth authorization flows, and automated cron triggers on production agent runners. Rather than relying on AI-generated documentation summaries, these edge cases reflect tested production realities to protect enterprise deployments from silent failure.
-        </p>
+      {/* 3-Tier Classification Legend (Compact) */}
+      <div className="flex flex-wrap items-center gap-4 border border-slate-200 bg-white p-3 text-[11px] text-slate-600">
+        <span className="font-mono font-semibold uppercase text-slate-400 text-[10px]">Audit Taxonomy:</span>
+        <div className="flex items-center gap-1.5">
+          <CheckCircle className="h-3 w-3 text-emerald-600" />
+          <span><strong>[Verified - Official Docs]:</strong> Technical endpoints and PKCE requirements</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <AlertTriangle className="h-3 w-3 text-amber-600" />
+          <span><strong>[Observed - Tested Reality]:</strong> Unwritten quotas and silent expirations</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <HelpCircle className="h-3 w-3 text-blue-600" />
+          <span><strong>[Discretionary Review]:</strong> Provider queue turnaround times</span>
+        </div>
       </div>
     </div>
   );
