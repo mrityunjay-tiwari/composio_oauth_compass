@@ -1,6 +1,6 @@
 "use client";
 
-import { ShieldCheck, AlertTriangle, HelpCircle, CheckCircle, ExternalLink } from "lucide-react";
+import { ShieldCheck, AlertTriangle, HelpCircle, CheckCircle } from "lucide-react";
 
 export default function GroundTruthAudit() {
   const auditEntries = [
@@ -52,88 +52,88 @@ export default function GroundTruthAudit() {
   ];
 
   return (
-    <div className="space-y-8 max-w-5xl mx-auto">
+    <div className="space-y-6 max-w-5xl mx-auto">
       {/* Header */}
-      <div className="space-y-2">
-        <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-          <ShieldCheck className="h-3.5 w-3.5" />
-          <span>Assignment Requirement #2: Evidence & Ground Truth Audit</span>
+      <div className="space-y-1.5 border-b border-slate-200 pb-5">
+        <div className="inline-flex items-center gap-1.5 rounded-sm border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[11px] font-mono font-medium text-emerald-700">
+          <ShieldCheck className="h-3 w-3" />
+          <span>Requirement #2: Evidence & Ground Truth Audit</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+        <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
           Tested Reality vs. Official Documentation
         </h1>
-        <p className="text-sm text-slate-600 max-w-2xl">
+        <p className="text-xs text-slate-600 max-w-2xl leading-relaxed">
           Official documentation presents the &ldquo;happy path,&rdquo; but real-world setups are riddled with unwritten rules, silent token expirations, and unexpected security assessments. Here is what we tested, corrected, and learned.
         </p>
       </div>
 
       {/* 3-Tier Evidence Taxonomy */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-2xs space-y-1.5">
-          <div className="flex items-center gap-2 text-xs font-bold text-slate-900">
-            <CheckCircle className="h-4 w-4 text-emerald-600" />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div className="rounded-md border border-slate-200 bg-white p-3.5 space-y-1">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
+            <CheckCircle className="h-3.5 w-3.5 text-emerald-600" />
             <span>[Verified - Official Docs]</span>
           </div>
-          <p className="text-xs text-slate-500 leading-relaxed">
+          <p className="text-[11px] text-slate-500 leading-relaxed">
             Technical endpoints, PKCE parameters, and redirect URI formatting verified directly against active provider documentation.
           </p>
         </div>
-        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-2xs space-y-1.5">
-          <div className="flex items-center gap-2 text-xs font-bold text-slate-900">
-            <AlertTriangle className="h-4 w-4 text-amber-600" />
+        <div className="rounded-md border border-slate-200 bg-white p-3.5 space-y-1">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
+            <AlertTriangle className="h-3.5 w-3.5 text-amber-600" />
             <span>[Observed - Tested Reality]</span>
           </div>
-          <p className="text-xs text-slate-500 leading-relaxed">
+          <p className="text-[11px] text-slate-500 leading-relaxed">
             Edge cases and hidden gotchas discovered through real developer account testing that documentation omits or buries in fine print.
           </p>
         </div>
-        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-2xs space-y-1.5">
-          <div className="flex items-center gap-2 text-xs font-bold text-slate-900">
-            <HelpCircle className="h-4 w-4 text-blue-600" />
+        <div className="rounded-md border border-slate-200 bg-white p-3.5 space-y-1">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
+            <HelpCircle className="h-3.5 w-3.5 text-blue-600" />
             <span>[Uncertain / Opaque Policy]</span>
           </div>
-          <p className="text-xs text-slate-500 leading-relaxed">
+          <p className="text-[11px] text-slate-500 leading-relaxed">
             Provider review queue turnaround times and discretionary reviewer criteria that cannot be mathematically guaranteed.
           </p>
         </div>
       </div>
 
       {/* Audit Comparison Table */}
-      <div className="rounded-2xl border border-slate-200 bg-white shadow-xs overflow-hidden">
-        <div className="border-b border-slate-100 bg-slate-50 px-6 py-3 flex items-center justify-between">
-          <span className="text-xs font-bold text-slate-900">Evidence Audit Matrix</span>
-          <span className="text-xs text-slate-500">5 High-Impact Discrepancies Cataloged</span>
+      <div className="rounded-md border border-slate-200 bg-white overflow-hidden">
+        <div className="border-b border-slate-100 bg-slate-50/80 px-5 py-2.5 flex items-center justify-between">
+          <span className="text-xs font-bold text-slate-900 font-mono">Evidence Audit Matrix</span>
+          <span className="text-[11px] font-mono text-slate-500">5 Discrepancies Cataloged</span>
         </div>
 
         <div className="divide-y divide-slate-100">
           {auditEntries.map((item, idx) => (
-            <div key={idx} className="p-6 space-y-3 hover:bg-slate-50/50 transition">
+            <div key={idx} className="p-5 space-y-2.5 hover:bg-slate-50/40 transition">
               <div className="flex items-center justify-between gap-3">
-                <span className="font-bold text-slate-900 text-sm">{item.app}</span>
-                <span className={`rounded-full border px-2.5 py-0.5 text-[10px] font-semibold ${item.badgeColor}`}>
+                <span className="font-bold text-slate-900 text-xs sm:text-sm">{item.app}</span>
+                <span className={`rounded-sm border px-2 py-0.5 text-[9px] font-mono font-semibold uppercase ${item.badgeColor}`}>
                   {item.status}
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                <div className="rounded-lg bg-slate-50 p-3 border border-slate-100 space-y-1">
-                  <span className="font-semibold text-slate-500 text-[11px] uppercase tracking-wider">
-                    What Official Docs Say
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div className="rounded-sm bg-slate-50 p-2.5 border border-slate-200/60 space-y-0.5">
+                  <span className="font-semibold text-slate-500 text-[10px] uppercase font-mono tracking-wider">
+                    Official Documentation Claim
                   </span>
                   <p className="text-slate-700 leading-relaxed">{item.docClaim}</p>
                 </div>
-                <div className="rounded-lg bg-amber-50/60 p-3 border border-amber-100 space-y-1">
-                  <span className="font-semibold text-amber-800 text-[11px] uppercase tracking-wider">
-                    What Happens in Reality (The Trap)
+                <div className="rounded-sm bg-amber-50/50 p-2.5 border border-amber-200/60 space-y-0.5">
+                  <span className="font-semibold text-amber-800 text-[10px] uppercase font-mono tracking-wider">
+                    Tested Reality (The Trap)
                   </span>
                   <p className="text-amber-900 leading-relaxed">{item.testedReality}</p>
                 </div>
               </div>
 
-              <div className="rounded-lg bg-emerald-50/40 p-3 border border-emerald-100 text-xs text-emerald-900 flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
+              <div className="rounded-sm bg-emerald-50/40 p-2.5 border border-emerald-200/60 text-xs text-emerald-900 flex items-start gap-2">
+                <CheckCircle className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
                 <div>
-                  <span className="font-semibold">How Composio OAuth Compass Solves It: </span>
+                  <span className="font-semibold">How OAuth Compass Solves It: </span>
                   <span>{item.correction}</span>
                 </div>
               </div>

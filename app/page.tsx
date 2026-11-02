@@ -8,7 +8,7 @@ import AppDetailModal from "@/components/AppDetailModal";
 import LiveInvestigationStudio from "@/components/LiveInvestigationStudio";
 import GroundTruthAudit from "@/components/GroundTruthAudit";
 import ComposioByocExplainer from "@/components/ComposioByocExplainer";
-import { Search, Sparkles, Filter, ShieldCheck, Zap, Layers, AlertTriangle } from "lucide-react";
+import { Search, Sparkles, Zap, Layers, AlertTriangle } from "lucide-react";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<"directory" | "live-studio" | "ground-truth" | "composio-byoc">("directory");
@@ -50,82 +50,82 @@ export default function Home() {
   });
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAFAFA] text-slate-900 selection:bg-orange-100 selection:text-[#FF6600]">
-      {/* Sleek Top Navigation */}
+    <div className="min-h-screen flex flex-col bg-white text-slate-900 selection:bg-blue-100 selection:text-blue-900">
+      {/* Sleek Top Navigation with Composio Wordmark */}
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
 
       {/* Main Content Area */}
-      <main className="flex-1 mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <main className="flex-1 mx-auto w-full max-w-7xl px-4 py-7 sm:px-6 lg:px-8">
         
         {/* VIEW 1: APP DIRECTORY */}
         {activeTab === "directory" && (
-          <div className="space-y-8">
+          <div className="space-y-6">
             {/* Hero Header */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200/80 pb-6">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-5">
               <div>
-                <div className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-xs font-semibold text-[#FF6600] mb-3">
-                  <Zap className="h-3.5 w-3.5" />
-                  <span>Interactive OAuth Setup Directory</span>
+                <div className="inline-flex items-center gap-1.5 rounded-sm border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[11px] font-mono font-medium text-blue-700 mb-2">
+                  <Zap className="h-3 w-3" />
+                  <span>OAuth Provider Catalog</span>
                 </div>
-                <h1 className="text-3xl font-bold tracking-tight text-slate-900">
-                  Ready-to-Use Integration Guides
+                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+                  Integration & Setup Guides
                 </h1>
-                <p className="text-sm text-slate-600 mt-1 max-w-xl">
+                <p className="text-xs text-slate-600 mt-1 max-w-xl leading-relaxed">
                   Clear friction scores, unwritten failure modes, least-privilege scope mappings, and 1-click Composio AuthConfigs.
                 </p>
               </div>
 
               <button
                 onClick={() => setActiveTab("live-studio")}
-                className="inline-flex items-center gap-2 rounded-xl bg-[#FF6600] px-4 py-2.5 text-xs font-semibold text-white shadow-xs transition hover:bg-[#E65C00] shrink-0 self-start md:self-auto cursor-pointer"
+                className="inline-flex items-center gap-1.5 rounded-sm bg-blue-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-blue-700 shrink-0 self-start md:self-auto cursor-pointer"
               >
-                <Sparkles className="h-4 w-4" />
+                <Sparkles className="h-3.5 w-3.5" />
                 <span>Investigate Unfamiliar App</span>
               </button>
             </div>
 
             {/* Search and Filters Bar */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
               {/* Search Bar */}
               <div className="relative flex-1 max-w-md">
-                <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+                <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-slate-400" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search by app, scope, or failure mode..."
-                  className="w-full rounded-xl border border-slate-200 bg-white pl-9 pr-4 py-2 text-xs font-medium text-slate-900 placeholder:text-slate-400 focus:border-[#FF6600] focus:outline-none focus:ring-2 focus:ring-[#FF6600]/10 shadow-2xs"
+                  placeholder="Search apps, scopes, gotchas..."
+                  className="w-full rounded-sm border border-slate-200 bg-white pl-8 pr-3 py-1.5 text-xs text-slate-900 placeholder:text-slate-400 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600/20"
                 />
               </div>
 
               {/* Friction / Review Filters */}
-              <div className="flex items-center gap-1.5 overflow-x-auto text-xs">
+              <div className="flex items-center gap-1 overflow-x-auto text-xs">
                 <button
                   onClick={() => setFrictionFilter("all")}
-                  className={`rounded-lg px-2.5 py-1.5 transition ${
+                  className={`rounded-sm px-2.5 py-1 text-xs transition ${
                     frictionFilter === "all"
-                      ? "bg-slate-900 text-white font-semibold"
+                      ? "bg-slate-900 text-white font-medium"
                       : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
                   }`}
                 >
-                  All Apps ({apps.length})
+                  All ({apps.length})
                 </button>
                 <button
                   onClick={() => setFrictionFilter("instant")}
-                  className={`flex items-center gap-1 rounded-lg px-2.5 py-1.5 transition ${
+                  className={`flex items-center gap-1 rounded-sm px-2.5 py-1 text-xs transition ${
                     frictionFilter === "instant"
-                      ? "bg-emerald-600 text-white font-semibold"
+                      ? "bg-emerald-600 text-white font-medium"
                       : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
                   }`}
                 >
                   <Zap className="h-3 w-3" />
-                  <span>Instant (0d Wait)</span>
+                  <span>Instant</span>
                 </button>
                 <button
                   onClick={() => setFrictionFilter("manifest")}
-                  className={`flex items-center gap-1 rounded-lg px-2.5 py-1.5 transition ${
+                  className={`flex items-center gap-1 rounded-sm px-2.5 py-1 text-xs transition ${
                     frictionFilter === "manifest"
-                      ? "bg-blue-600 text-white font-semibold"
+                      ? "bg-blue-600 text-white font-medium"
                       : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
                   }`}
                 >
@@ -134,9 +134,9 @@ export default function Home() {
                 </button>
                 <button
                   onClick={() => setFrictionFilter("review")}
-                  className={`flex items-center gap-1 rounded-lg px-2.5 py-1.5 transition ${
+                  className={`flex items-center gap-1 rounded-sm px-2.5 py-1 text-xs transition ${
                     frictionFilter === "review"
-                      ? "bg-amber-600 text-white font-semibold"
+                      ? "bg-amber-600 text-white font-medium"
                       : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
                   }`}
                 >
@@ -146,14 +146,14 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Category Pills */}
-            <div className="flex items-center gap-2 overflow-x-auto text-xs text-slate-500 pb-1">
-              <span className="font-medium text-slate-400">Category:</span>
+            {/* Category Filter Pills */}
+            <div className="flex items-center gap-1.5 overflow-x-auto text-xs text-slate-500 pb-0.5">
+              <span className="font-mono text-[11px] text-slate-400 mr-1">Category:</span>
               {categories.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setCategoryFilter(cat)}
-                  className={`rounded-full px-3 py-1 font-medium transition ${
+                  className={`rounded-sm px-2 py-0.5 text-xs transition ${
                     categoryFilter === cat
                       ? "bg-slate-200 text-slate-900 font-semibold"
                       : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
@@ -165,7 +165,7 @@ export default function Home() {
             </div>
 
             {/* App Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {filteredApps.map((guide) => (
                 <AppCard
                   key={guide.id}
@@ -176,14 +176,14 @@ export default function Home() {
             </div>
 
             {filteredApps.length === 0 && (
-              <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-12 text-center space-y-3">
-                <p className="text-sm font-semibold text-slate-700">No matching apps found in current library</p>
+              <div className="rounded-md border border-dashed border-slate-200 bg-white p-10 text-center space-y-2">
+                <p className="text-xs font-semibold text-slate-800">No matching apps found in directory</p>
                 <p className="text-xs text-slate-500">
-                  You can use the Live Investigation Agent to investigate &ldquo;{searchQuery}&rdquo; live!
+                  Submit &ldquo;{searchQuery}&rdquo; to the Live Investigation Agent to analyze it in real time.
                 </p>
                 <button
                   onClick={() => setActiveTab("live-studio")}
-                  className="inline-flex items-center gap-2 rounded-xl bg-[#FF6600] px-4 py-2 text-xs font-semibold text-white shadow-xs hover:bg-[#E65C00]"
+                  className="inline-flex items-center gap-1.5 rounded-sm bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-blue-700 transition"
                 >
                   <Sparkles className="h-3.5 w-3.5" />
                   <span>Investigate with Live Agent</span>
@@ -218,14 +218,14 @@ export default function Home() {
       )}
 
       {/* Footer */}
-      <footer className="border-t border-slate-200/80 bg-white mt-12 py-6">
+      <footer className="border-t border-slate-200 bg-white mt-12 py-5">
         <div className="mx-auto max-w-7xl px-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 font-mono text-[11px]">
             <span className="font-semibold text-slate-800">Composio OAuth Compass</span>
-            <span>•</span>
-            <span>APM Integrations Take-home Project</span>
+            <span>/</span>
+            <span>APM Integrations Assignment</span>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 text-[11px]">
             <a
               href="https://docs.composio.dev"
               target="_blank"
