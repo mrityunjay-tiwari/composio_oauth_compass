@@ -408,24 +408,28 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
       </div>
 
       {/* 3-Tier Taxonomy Footer */}
-      <div className="rounded-none border border-slate-200 bg-white p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-[11px] text-slate-600">
-        <div className="flex flex-wrap items-center gap-4">
-          <span className="font-semibold uppercase text-slate-400 text-[10px]">Audit Classification:</span>
-          <div className="flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
-            <span><strong>[Verified - Official Docs]:</strong> Technical endpoints &amp; PKCE parameters</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
-            <span><strong>[Observed - Tested Reality]:</strong> Unwritten 7-day cliffs &amp; quota gates</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
-            <span><strong>[Discretionary Policy]:</strong> Review queues &amp; auditor fees</span>
-          </div>
+      <div className="rounded-none border border-slate-200 bg-white p-4 flex flex-col sm:flex-row sm:items-start justify-between gap-4 text-[11px] text-slate-600">
+        <div className="space-y-2">
+          <span className="font-semibold uppercase text-slate-400 text-[10px] tracking-wider block">
+            Audit Classification Methodology
+          </span>
+          <ul className="space-y-1.5 text-slate-600">
+            <li className="flex items-start gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-slate-400 shrink-0 mt-1.5" />
+              <span><strong>[Verified - Official Docs]:</strong> Technical endpoints, PKCE mandates, and redirect URI specifications.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-slate-400 shrink-0 mt-1.5" />
+              <span><strong>[Observed - Tested Reality]:</strong> Unwritten 7-day token expirations, 25-user limits, and replication lags.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-slate-400 shrink-0 mt-1.5" />
+              <span><strong>[Discretionary Policy]:</strong> App Directory editorial queues and third-party CASA Tier 2 auditor fees.</span>
+            </li>
+          </ul>
         </div>
 
-        <div className="text-[10px] text-slate-400">
+        <div className="text-[11px] text-slate-400 font-medium sm:text-right shrink-0">
           Tested on active developer sandboxes
         </div>
       </div>
