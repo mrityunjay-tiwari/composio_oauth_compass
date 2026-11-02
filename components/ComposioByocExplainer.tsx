@@ -153,10 +153,10 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
               </div>
               <div>
                 <h3 className="font-bold text-slate-900 text-sm sm:text-base">Composio Managed Auth</h3>
-                <p className="text-[11px] text-slate-500 font-mono">Day 0 to Day 14 (Prototyping &amp; POC)</p>
+                <p className="text-[11px] text-slate-500">Day 0 to Day 14 (Prototyping &amp; POC)</p>
               </div>
             </div>
-            <span className="rounded-none border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-mono font-semibold text-emerald-800">
+            <span className="rounded-none border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-800">
               0-Min Setup
             </span>
           </div>
@@ -179,11 +179,11 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
               <span><strong>Hosted Auth Connect Links:</strong> Ready-made secure redirect links for testing tool actions.</span>
             </li>
             <li className="flex items-start gap-2 text-amber-800">
-              <span className="font-mono text-xs">⚠️</span>
+              <span className="text-xs">⚠️</span>
               <span><strong>Shared Branding:</strong> OAuth consent screen displays &ldquo;Composio&rdquo; rather than your agent brand.</span>
             </li>
             <li className="flex items-start gap-2 text-amber-800">
-              <span className="font-mono text-xs">⚠️</span>
+              <span className="text-xs">⚠️</span>
               <span><strong>Shared API Quotas:</strong> Rate limits are pooled across developers building in sandbox environments.</span>
             </li>
           </ul>
@@ -211,10 +211,10 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
               </div>
               <div>
                 <h3 className="font-bold text-slate-900 text-sm sm:text-base">Custom AuthConfig (BYOC)</h3>
-                <p className="text-[11px] text-slate-500 font-mono">Day 14+ (Production &amp; Enterprise)</p>
+                <p className="text-[11px] text-slate-500">Day 14+ (Production &amp; Enterprise)</p>
               </div>
             </div>
-            <span className="rounded-none border border-blue-200 bg-blue-50 px-2 py-0.5 text-[10px] font-mono font-semibold text-[#0024BC]">
+            <span className="rounded-none border border-blue-200 bg-blue-50 px-2 py-0.5 text-[10px] font-semibold text-[#0024BC]">
               Enterprise Scale
             </span>
           </div>
@@ -265,16 +265,16 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
       <div className="rounded-none border border-slate-200 bg-white p-5 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
           <div>
-            <h2 className="text-sm font-bold text-slate-900 font-mono">The Agent vs. Human Boundary Matrix</h2>
+            <h2 className="text-sm font-bold text-slate-900">The Agent vs. Human Boundary Matrix</h2>
             <p className="text-xs text-slate-500">Clear demarcation of responsibilities during BYOC provisioning</p>
           </div>
-          <span className="text-[11px] font-mono text-slate-400">DevOps Handoff Protocol</span>
+          <span className="text-[11px] text-slate-400">DevOps Handoff Protocol</span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
           {/* Automated by Composio */}
           <div className="rounded-none border border-emerald-200 bg-emerald-50/20 p-4 space-y-3">
-            <div className="flex items-center gap-2 text-emerald-900 font-bold font-mono text-xs">
+            <div className="flex items-center gap-2 text-emerald-900 font-bold text-xs">
               <Bot className="h-4 w-4 text-emerald-600" />
               <span>What Composio &amp; Agent Automates</span>
             </div>
@@ -304,7 +304,7 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
 
           {/* Requires Human DevOps */}
           <div className="rounded-none border border-amber-200 bg-amber-50/20 p-4 space-y-3">
-            <div className="flex items-center gap-2 text-amber-900 font-bold font-mono text-xs">
+            <div className="flex items-center gap-2 text-amber-900 font-bold text-xs">
               <UserCheck className="h-4 w-4 text-amber-600" />
               <span>Where Human DevOps Must Take Over</span>
             </div>
@@ -338,12 +338,12 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
       <div className="rounded-none border border-slate-200 bg-white p-5 space-y-3">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
           <div>
-            <h2 className="text-sm font-bold text-slate-900 font-mono">2-Step Composio Connection Blueprint</h2>
+            <h2 className="text-sm font-bold text-slate-900">2-Step Composio Connection Blueprint</h2>
             <p className="text-xs text-slate-500">Connecting Custom Credentials to Composio Hosted Connect links</p>
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="flex rounded-none border border-slate-200 bg-slate-50 p-0.5 text-xs font-mono">
+            <div className="flex rounded-none border border-slate-200 bg-slate-50 p-0.5 text-xs">
               <button
                 onClick={() => setActiveLang("python")}
                 className={`px-2.5 py-1 transition ${activeLang === "python" ? "bg-white font-bold text-slate-900 shadow-xs" : "text-slate-500 hover:text-slate-800"}`}
@@ -383,7 +383,7 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
       <div className="rounded-none border border-slate-200 bg-white p-5 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
           <div>
-            <div className="flex items-center gap-1.5 text-xs text-[#0024BC] font-mono font-semibold mb-0.5">
+            <div className="flex items-center gap-1.5 text-xs text-[#0024BC] font-semibold mb-0.5">
               <Code2 className="h-3.5 w-3.5" />
               <span>Interactive Simulator</span>
             </div>
@@ -427,7 +427,7 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
                     setSimClientSecret("secret_9a8b7c6d5e4f3a2b1c0d");
                   }
                 }}
-                className="w-full rounded-none border border-slate-200 bg-white p-2 text-xs text-slate-800 font-mono focus:outline-none focus:border-[#0024BC]"
+                className="w-full rounded-none border border-slate-200 bg-white p-2 text-xs text-slate-800 focus:outline-none focus:border-[#0024BC]"
               >
                 <option value="slack">Slack API</option>
                 <option value="google-workspace">Google Workspace / Cloud</option>
@@ -443,7 +443,7 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
                 type="text"
                 value={simClientId}
                 onChange={(e) => setSimClientId(e.target.value)}
-                className="w-full rounded-none border border-slate-200 bg-white p-2 text-xs font-mono text-slate-800 focus:outline-none focus:border-[#0024BC]"
+                className="w-full rounded-none border border-slate-200 bg-white p-2 text-xs text-slate-800 focus:outline-none focus:border-[#0024BC]"
               />
             </div>
 
@@ -453,7 +453,7 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
                 type="text"
                 value={simClientSecret}
                 onChange={(e) => setSimClientSecret(e.target.value)}
-                className="w-full rounded-none border border-slate-200 bg-white p-2 text-xs font-mono text-slate-800 focus:outline-none focus:border-[#0024BC]"
+                className="w-full rounded-none border border-slate-200 bg-white p-2 text-xs text-slate-800 focus:outline-none focus:border-[#0024BC]"
               />
             </div>
 
@@ -464,7 +464,7 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
 
           {/* Live Output */}
           <div className="space-y-2">
-            <div className="flex items-center justify-between text-xs font-mono text-slate-600">
+            <div className="flex items-center justify-between text-xs text-slate-600">
               <span className="font-semibold">composio_auth_config.json</span>
               <button
                 onClick={handleCopyPayload}

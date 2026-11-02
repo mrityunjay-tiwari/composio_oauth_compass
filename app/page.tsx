@@ -340,6 +340,7 @@ export default function Home() {
         {/* VIEW 3: GROUND TRUTH & AUDIT */}
         {activeTab === "ground-truth" && (
           <GroundTruthAudit
+            investigatedApps={apps.filter((a) => a.isLiveInvestigated)}
             onOpenAppGuide={(slug, tab) => {
               const target = apps.find((a) => a.slug === slug);
               if (target) {
