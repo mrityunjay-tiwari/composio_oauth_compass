@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { APPS_DATABASE, AppGuide } from "@/data/apps";
 import Navbar from "@/components/Navbar";
 import AppCard from "@/components/AppCard";
@@ -12,13 +12,66 @@ import { Search, Sparkles, Zap, Layers, AlertTriangle } from "lucide-react";
 import { LuPackageSearch } from "react-icons/lu";
 import { IoShieldOutline } from "react-icons/io5";
 
+type TabType = "directory" | "live-studio" | "ground-truth" | "composio-byoc";
+
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<"directory" | "live-studio" | "ground-truth" | "composio-byoc">("directory");
+  const [activeTab, setActiveTabState] = useState<TabType>("directory");
   const [apps, setApps] = useState<AppGuide[]>(APPS_DATABASE);
   const [selectedGuide, setSelectedGuide] = useState<AppGuide | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<string>("All");
   const [frictionFilter, setFrictionFilter] = useState<string>("all");
+
+  // Sync tab with URL search parameter & localStorage on load and refresh
+  useEffect(() => {
+    const validTabs: TabType[] = ["directory", "live-studio", "ground-truth", "composio-byoc"];
+    const params = new URLSearchParams(window.location.search);
+    const tabParam = params.get("tab") as TabType | null;
+
+    if (tabParam && validTabs.includes(tabParam)) {
+      setActiveTabState(tabParam);
+    } else {
+      const savedTab = localStorage.getItem("composio_active_tab") as TabType | null;
+      if (savedTab && validTabs.includes(savedTab)) {
+        setActiveTabState(savedTab);
+        const newUrl = new URL(window.location.href);
+        if (savedTab !== "directory") {
+          newUrl.searchParams.set("tab", savedTab);
+          window.history.replaceState({}, "", newUrl.toString());
+        }
+      }
+    }
+
+    const handlePopState = () => {
+      const currentParams = new URLSearchParams(window.location.search);
+      const currentTab = currentParams.get("tab") as TabType | null;
+      if (currentTab && validTabs.includes(currentTab)) {
+        setActiveTabState(currentTab);
+      } else {
+        setActiveTabState("directory");
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  const setActiveTab = (tab: TabType) => {
+    setActiveTabState(tab);
+    try {
+      localStorage.setItem("composio_active_tab", tab);
+    } catch {
+      // ignore storage quota errors
+    }
+
+    const newUrl = new URL(window.location.href);
+    if (tab === "directory") {
+      newUrl.searchParams.delete("tab");
+    } else {
+      newUrl.searchParams.set("tab", tab);
+    }
+    window.history.pushState({}, "", newUrl.toString());
+  };
 
   const handleGuideGenerated = (newGuide: AppGuide) => {
     setApps((prev) => {
