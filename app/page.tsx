@@ -1,0 +1,258 @@
+"use client";
+
+import { useState } from "react";
+import { APPS_DATABASE, AppGuide } from "@/data/apps";
+import Navbar from "@/components/Navbar";
+import AppCard from "@/components/AppCard";
+import AppDetailModal from "@/components/AppDetailModal";
+import LiveInvestigationStudio from "@/components/LiveInvestigationStudio";
+import GroundTruthAudit from "@/components/GroundTruthAudit";
+import ComposioByocExplainer from "@/components/ComposioByocExplainer";
+import { Search, Sparkles, Filter, ShieldCheck, Zap, Layers, AlertTriangle } from "lucide-react";
+
+export default function Home() {
+  const [activeTab, setActiveTab] = useState<"directory" | "live-studio" | "ground-truth" | "composio-byoc">("directory");
+  const [apps, setApps] = useState<AppGuide[]>(APPS_DATABASE);
+  const [selectedGuide, setSelectedGuide] = useState<AppGuide | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState<string>("All");
+  const [frictionFilter, setFrictionFilter] = useState<string>("all");
+
+  const handleGuideGenerated = (newGuide: AppGuide) => {
+    setApps((prev) => {
+      const exists = prev.some((a) => a.slug === newGuide.slug);
+      return exists ? prev : [newGuide, ...prev];
+    });
+  };
+
+  const categories = ["All", "Developer Tools", "Communication", "Productivity", "Media & Content"];
+
+  const filteredApps = apps.filter((app) => {
+    const matchesSearch =
+      app.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      app.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      app.summary.toLowerCase().includes(searchQuery.toLowerCase());
+
+    const matchesCategory = categoryFilter === "All" || app.category === categoryFilter;
+
+    let matchesFriction = true;
+    if (frictionFilter === "instant") {
+      matchesFriction = app.approvalWaitDays === 0;
+    } else if (frictionFilter === "manifest") {
+      matchesFriction = app.manifestSupported;
+    } else if (frictionFilter === "review") {
+      matchesFriction = app.reviewRequiredForLaunch;
+    } else if (frictionFilter === "casa") {
+      matchesFriction = app.frictionScore >= 4.0;
+    }
+
+    return matchesSearch && matchesCategory && matchesFriction;
+  });
+
+  return (
+    <div className="min-h-screen flex flex-col bg-[#FAFAFA] text-slate-900 selection:bg-orange-100 selection:text-[#FF6600]">
+      {/* Sleek Top Navigation */}
+      <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
+
+      {/* Main Content Area */}
+      <main className="flex-1 mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        
+        {/* VIEW 1: APP DIRECTORY */}
+        {activeTab === "directory" && (
+          <div className="space-y-8">
+            {/* Hero Header */}
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200/80 pb-6">
+              <div>
+                <div className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-xs font-semibold text-[#FF6600] mb-3">
+                  <Zap className="h-3.5 w-3.5" />
+                  <span>Interactive OAuth Setup Directory</span>
+                </div>
+                <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+                  Ready-to-Use Integration Guides
+                </h1>
+                <p className="text-sm text-slate-600 mt-1 max-w-xl">
+                  Clear friction scores, unwritten failure modes, least-privilege scope mappings, and 1-click Composio AuthConfigs.
+                </p>
+              </div>
+
+              <button
+                onClick={() => setActiveTab("live-studio")}
+                className="inline-flex items-center gap-2 rounded-xl bg-[#FF6600] px-4 py-2.5 text-xs font-semibold text-white shadow-xs transition hover:bg-[#E65C00] shrink-0 self-start md:self-auto cursor-pointer"
+              >
+                <Sparkles className="h-4 w-4" />
+                <span>Investigate Unfamiliar App</span>
+              </button>
+            </div>
+
+            {/* Search and Filters Bar */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+              {/* Search Bar */}
+              <div className="relative flex-1 max-w-md">
+                <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search by app, scope, or failure mode..."
+                  className="w-full rounded-xl border border-slate-200 bg-white pl-9 pr-4 py-2 text-xs font-medium text-slate-900 placeholder:text-slate-400 focus:border-[#FF6600] focus:outline-none focus:ring-2 focus:ring-[#FF6600]/10 shadow-2xs"
+                />
+              </div>
+
+              {/* Friction / Review Filters */}
+              <div className="flex items-center gap-1.5 overflow-x-auto text-xs">
+                <button
+                  onClick={() => setFrictionFilter("all")}
+                  className={`rounded-lg px-2.5 py-1.5 transition ${
+                    frictionFilter === "all"
+                      ? "bg-slate-900 text-white font-semibold"
+                      : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
+                  }`}
+                >
+                  All Apps ({apps.length})
+                </button>
+                <button
+                  onClick={() => setFrictionFilter("instant")}
+                  className={`flex items-center gap-1 rounded-lg px-2.5 py-1.5 transition ${
+                    frictionFilter === "instant"
+                      ? "bg-emerald-600 text-white font-semibold"
+                      : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
+                  }`}
+                >
+                  <Zap className="h-3 w-3" />
+                  <span>Instant (0d Wait)</span>
+                </button>
+                <button
+                  onClick={() => setFrictionFilter("manifest")}
+                  className={`flex items-center gap-1 rounded-lg px-2.5 py-1.5 transition ${
+                    frictionFilter === "manifest"
+                      ? "bg-blue-600 text-white font-semibold"
+                      : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
+                  }`}
+                >
+                  <Layers className="h-3 w-3" />
+                  <span>Manifest Supported</span>
+                </button>
+                <button
+                  onClick={() => setFrictionFilter("review")}
+                  className={`flex items-center gap-1 rounded-lg px-2.5 py-1.5 transition ${
+                    frictionFilter === "review"
+                      ? "bg-amber-600 text-white font-semibold"
+                      : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
+                  }`}
+                >
+                  <AlertTriangle className="h-3 w-3" />
+                  <span>Review Required</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Category Pills */}
+            <div className="flex items-center gap-2 overflow-x-auto text-xs text-slate-500 pb-1">
+              <span className="font-medium text-slate-400">Category:</span>
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setCategoryFilter(cat)}
+                  className={`rounded-full px-3 py-1 font-medium transition ${
+                    categoryFilter === cat
+                      ? "bg-slate-200 text-slate-900 font-semibold"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
+            {/* App Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {filteredApps.map((guide) => (
+                <AppCard
+                  key={guide.id}
+                  guide={guide}
+                  onSelect={(g) => setSelectedGuide(g)}
+                />
+              ))}
+            </div>
+
+            {filteredApps.length === 0 && (
+              <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-12 text-center space-y-3">
+                <p className="text-sm font-semibold text-slate-700">No matching apps found in current library</p>
+                <p className="text-xs text-slate-500">
+                  You can use the Live Investigation Agent to investigate &ldquo;{searchQuery}&rdquo; live!
+                </p>
+                <button
+                  onClick={() => setActiveTab("live-studio")}
+                  className="inline-flex items-center gap-2 rounded-xl bg-[#FF6600] px-4 py-2 text-xs font-semibold text-white shadow-xs hover:bg-[#E65C00]"
+                >
+                  <Sparkles className="h-3.5 w-3.5" />
+                  <span>Investigate with Live Agent</span>
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* VIEW 2: LIVE INVESTIGATION STUDIO */}
+        {activeTab === "live-studio" && (
+          <LiveInvestigationStudio
+            onGuideGenerated={handleGuideGenerated}
+            onOpenGuide={(g) => setSelectedGuide(g)}
+          />
+        )}
+
+        {/* VIEW 3: GROUND TRUTH & AUDIT */}
+        {activeTab === "ground-truth" && <GroundTruthAudit />}
+
+        {/* VIEW 4: COMPOSIO BYOC EXPLAINER */}
+        {activeTab === "composio-byoc" && <ComposioByocExplainer />}
+
+      </main>
+
+      {/* Selected App Guide Modal */}
+      {selectedGuide && (
+        <AppDetailModal
+          guide={selectedGuide}
+          onClose={() => setSelectedGuide(null)}
+        />
+      )}
+
+      {/* Footer */}
+      <footer className="border-t border-slate-200/80 bg-white mt-12 py-6">
+        <div className="mx-auto max-w-7xl px-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-2">
+            <span className="font-semibold text-slate-800">Composio OAuth Compass</span>
+            <span>•</span>
+            <span>APM Integrations Take-home Project</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <a
+              href="https://docs.composio.dev"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-slate-900 transition"
+            >
+              Composio Docs
+            </a>
+            <a
+              href="https://github.com/ComposioHQ/composio"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-slate-900 transition"
+            >
+              GitHub
+            </a>
+            <a
+              href="https://connect.composio.dev/mcp"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-slate-900 transition"
+            >
+              Claude MCP
+            </a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}

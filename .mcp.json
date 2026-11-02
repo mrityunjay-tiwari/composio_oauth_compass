@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "ui-registry": {
+      "command": "npx",
+      "args": ["-y", "ui-registry-mcp"]
+    }
+  }
+}
