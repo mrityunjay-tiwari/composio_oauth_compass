@@ -1,92 +1,130 @@
-# Composio OAuth Compass 🧭
-### The Autonomous Integration Launchpad & BYOC Guide for AI Agents
+# Composio OAuth Compass
 
-> **Built for the Composio APM Integrations Take-Home Assignment**  
-> Helping developers and agent builders navigate the path between Day-0 Prototyping (Composio Managed Auth) and Enterprise Production (Custom OAuth App / BYOC).
+### Autonomous Integration Launchpad, BYOC Architecture, and Model Context Protocol (MCP) Server for AI Agents
 
----
+Built for the Composio APM Integrations Take-Home Assignment.
 
-## 🚀 Live Experience & Demo
-
-- **Live Production App:** [https://composio-oauth-compass.vercel.app](https://composio-oauth-compass.vercel.app) *(or run locally below)*
-- **GitHub Repository:** [https://github.com/mrityunjay/composio-oauth-compass](https://github.com/mrityunjay/composio-oauth-compass)
+Composio OAuth Compass bridges the gap between Day-0 prototyping (using Composio Managed Auth) and Enterprise Production (deploying custom OAuth applications under Bring Your Own Credentials / BYOC). It provides an empirical audit of developer platform traps, an autonomous live documentation probe, and a production-grade MCP server for AI coding assistants.
 
 ---
 
-## 💡 Executive Summary & Problem Understanding
+## Overview
 
-Today, developers building AI agents on Composio face a severe drop-off point when moving from prototype to production:
+Moving an AI agent workflow from local prototype to enterprise production exposes a critical drop-off point:
 
-```
-[Day 0: Prototyping] ───> Uses Composio Managed Auth ───> 2-minute setup, shared keys & branding
-                                                                  │
-                                                                  ▼
-[Day 14+: Production] ──> Must Switch to Custom OAuth (BYOC) ────> HITS A 4-WEEK BRICK WALL:
-                          • Google Cloud: 3-4 week review + unlisted YouTube video
-                          • Scope Penalty: $3k–$15k CASA Tier 2 third-party audit
-                          • The 7-Day Trap: Testing mode refresh tokens expire in 7 days
-                          • Slack: Confusion between Bot scopes vs User scopes
-                          • Spotify: Hard quota cap at 25 users
+```text
+[Day 0: Prototyping] ──> Composio Managed Auth ──> 2-minute setup, shared credentials, instant testing
+                                                         │
+                                                         ▼
+[Day 14+: Production] ─> Custom OAuth App (BYOC) ─> Compliance & Friction Hurdles:
+                         • Google Cloud: 3 to 4 week verification plus mandatory demo screencast
+                         • Scope Penalty: $3,000 to $15,000 annual CASA Tier 2 assessment fee
+                         • 7-Day Silent Expiry: Google Cloud Testing apps silently drop refresh tokens
+                         • Slack API: Confusion between Bot and User token scopes
+                         • Spotify Web API: Hard quota cap at 25 whitelisted developer accounts
 ```
 
-### The 4 Core Bottlenecks
-1. **The "Time-to-First-Token" vs. "Time-to-Production" Illusion**: Setting up credentials locally takes 15 minutes, but getting approved to serve external users can take 3 to 6 weeks of manual compliance reviews.
-2. **The "Scope Penalty" ($15,000 CASA Audits)**: Choosing `gmail.modify` instead of `gmail.send` triggers an annual independent security assessment costing thousands of dollars. Documentation never warns developers upfront.
-3. **The 7-Day Silent Token Expiry**: Google Cloud OAuth apps in "Testing" mode silently revoke refresh tokens after 7 days, causing AI agent cron jobs to mysteriously fail every Sunday night.
-4. **Documentation Drift**: Provider developer portals (Google, Slack, X/Twitter, Salesforce) change their UIs and scope names every few quarters. Static markdown guides decay within months.
+Composio OAuth Compass eliminates this drop-off by providing:
+1. **Interactive Web Dashboard**: App directory, empirical audit matrix, live documentation probe, and BYOC payload simulator.
+2. **Model Context Protocol (MCP) Server**: A globally published CLI and library (`composio-oauth-compass` on npm) enabling agents in Claude Desktop, Cursor, and Antigravity to audit scopes and fetch production manifests programmatically.
 
 ---
 
-## 🎯 Product Decisions & Architecture
+## Quick Reference
 
-Instead of building a fragile browser scraper (which fails on 2FA and violates provider TOS) or a generic chatbot (which hallucinates scopes and costs customers weeks of review delays), **Composio OAuth Compass** is architected around four product pillars:
-
-### 1. Friction & Readiness Radar
-Every integration is graded across 5 tangible dimensions:
-- **Hands-on Setup Time** (e.g. 10m vs 45m)
-- **Approval Wait Time** (0 days instant vs 24 days)
-- **Financial Cost** ($0 vs CASA assessor fees)
-- **Review Type** (None, Workspace Admin, App Directory, or CASA Tier 2)
-- **Friction Score** (1.0/5.0 to 5.0/5.0)
-
-### 2. Autonomous Real-Time Investigation Agent (Requirement #1)
-When an evaluator or developer submits an unfamiliar app (e.g., `Airtable`, `Linear`, `HubSpot`, `Discord`, or any raw doc URL):
-1. **Targeted Doc Discovery**: Queries Tavily / Brave search engines to discover the canonical OAuth 2.0 developer guide.
-2. **Headless Ingestion via Jina Reader (`r.jina.ai`)**: Bypasses client-side React/Docusaurus rendering and converts documentation to clean, structured markdown in under 1.5 seconds.
-3. **Structured Schema Synthesis**: Extracts auth endpoints, PKCE mandates, token rotation rules, and review gates.
-4. **Composio Translation**: Reverse-engineers extracted scopes into Composio tool actions and generates a 1-click `composio_auth_config.json`.
-
-### 3. Agent vs. Human Boundary Matrix
-Clearly demarcates responsibilities so developers know exactly what can be automated versus where they must take over:
-- **What the Agent Automates:** Generates Slack manifests, formats Composio BYOC configs, minimizes scopes to avoid CASA audits, and drafts reviewer justification statements.
-- **Where Humans Must Take Over:** Credit card/billing activation, DNS TXT record domain verification in Google Search Console, recording unlisted YouTube screencasts, and 2FA authentication.
-
-### 4. Interactive Scope Minimizer
-An interactive widget where agent builders check off desired tools (e.g., `GMAIL_SEND_EMAIL` vs `GMAIL_DELETE_EMAIL`). The engine recalculates the least-privilege scopes in real time and alerts the builder if a restricted scope triggers a CASA Tier 2 third-party audit.
+| Resource | URL / Command |
+|---|---|
+| **Live Web Application** | [https://composio-oauth-compass.vercel.app](https://composio-oauth-compass.vercel.app) |
+| **GitHub Repository** | [https://github.com/mrityunjay-tiwari/composio_oauth_compass](https://github.com/mrityunjay-tiwari/composio_oauth_compass) |
+| **NPM Package** | [https://www.npmjs.com/package/composio-oauth-compass](https://www.npmjs.com/package/composio-oauth-compass) |
+| **Run MCP Server via NPX** | `npx -y composio-oauth-compass` |
+| **HTTP Discovery Endpoint** | `https://composio-oauth-compass.vercel.app/api/mcp` |
 
 ---
 
-## ⚖️ Ground Truth & Evidence Audit (Requirement #2)
+## Model Context Protocol (MCP) Server
 
-Official documentation only describes the provider's "happy path." We rigorously tested setup attempts and cataloged the discrepancies:
+The repository includes a production-ready MCP server compliant with the standard `@modelcontextprotocol/sdk`. It equips AI coding agents with direct access to friction metrics, CASA audit risk calculators, unwritten failure modes, and Composio SDK integration snippets.
 
-| Provider | Official Doc Claim | Tested Developer Reality (The Trap) | How OAuth Compass Solves It |
-| :--- | :--- | :--- | :--- |
-| **Google Cloud** | *"Register consent screen and start testing."* | **7-Day Token Expiry**: In "Testing" status, Google silently revokes refresh tokens after 7 days. Agent background jobs die weekly. | Prompts developers to publish to "In Production" with internal/test users to get non-expiring tokens. |
-| **Google (Scopes)** | *"Select requested scopes (e.g. `gmail.modify`)."* | **The \$15,000 CASA Trap**: `gmail.modify` triggers a mandatory CASA Tier 2 third-party security audit (\$3k–\$15k / 4 weeks). | Recommends `gmail.send` (Sensitive only), bypassing CASA Tier 2 and launching in under 2 weeks. |
-| **Slack API** | *"Submit your app for review before distributing."* | **App Directory Illusion**: You do NOT need the 2-week App Directory review for multi-workspace installs. | Instructs developers to toggle "Public Distribution" directly, reducing wait time from 14 days to 0 minutes. |
-| **Spotify Web API** | *"Authenticate users with Authorization Code grant."* | **25-User Quota Gate**: Development mode is hard-capped to 25 manual email whitelist slots. User #26 receives a cryptic 403 error. | Flags the quota gate upfront so teams submit the Extension Request during early beta. |
-| **Salesforce** | *"Create Connected App and connect immediately."* | **10-Minute Cluster Lag**: For 2–10 minutes after creation, OAuth calls fail with `invalid_client_id` while keys replicate globally. | Built-in warning explaining replication delay so developers don't waste hours debugging valid code. |
+### Global Execution
+
+Run directly via `npx` without installation:
+
+```bash
+npx -y composio-oauth-compass
+```
+
+### Agent Client Configuration
+
+#### 1. Claude Desktop
+Add to `%APPDATA%\Claude\claude_desktop_config.json` (Windows) or `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS):
+
+```json
+{
+  "mcpServers": {
+    "composio-oauth-compass": {
+      "command": "npx",
+      "args": ["-y", "composio-oauth-compass"]
+    }
+  }
+}
+```
+
+#### 2. Cursor
+Navigate to **Cursor Settings** -> **Features** -> **MCP Servers** -> **Add New MCP Server**:
+- **Name**: `composio-oauth-compass`
+- **Type**: `command`
+- **Command**: `npx -y composio-oauth-compass`
+
+#### 3. Antigravity IDE
+Add to your workspace or global `mcp_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "composio-oauth-compass": {
+      "command": "npx",
+      "args": ["-y", "composio-oauth-compass"]
+    }
+  }
+}
+```
+
+### Registered Tools
+
+| Tool Name | Parameters | Description |
+|---|---|---|
+| `list_oauth_providers` | `category` (optional), `max_friction_score` (optional) | Returns cataloged OAuth providers filtered by domain and friction score. |
+| `get_oauth_guide` | `provider` (required string) | Retrieves complete integration guide, setup steps, scopes, and gotchas. |
+| `audit_scope_risk` | `provider` (required string), `scopes` (required array) | Analyzes requested scopes against CASA Tier 2 ($3k-$15k) audit triggers and recommends least-privilege alternatives. |
+| `get_unwritten_gotchas` | `provider` (required string) | Returns production failure modes omitted from official provider documentation. |
+| `generate_composio_byoc_payload` | `provider` (required), `client_id` (optional), `client_secret` (optional) | Emits Composio Custom AuthConfig JSON and Python/TypeScript SDK snippets. |
+| `investigate_oauth_provider` | `query` (required string or URL) | Probes unfamiliar OAuth platforms via Jina Reader and synthesizes a structured guide in real time. |
 
 ---
 
-## 🔌 Composio Integration & BYOC Alignment
+## Product Architecture & Core Features
 
-This project directly aligns with Composio's core primitives as documented in:
-- [Composio Managed Auth Documentation](https://docs.composio.dev/toolkits/managed-auth)
-- [Hosted Authentication & Connect Links](https://docs.composio.dev/docs/tools-direct/authenticating-tools#hosted-authentication-connect-link)
+### 1. Empirical Ground Truth Audit Matrix
+Provider documentation typically details only the ideal setup path. Through real-world verification, Composio OAuth Compass catalogs actual failure modes and solutions:
 
-Every generated guide exports the exact **Composio Auth Config JSON** and SDK code:
+| Provider | Documented Path | Empirical Developer Reality | Engineering Solution |
+|---|---|---|---|
+| **Google Cloud** | "Create credentials and begin testing." | **7-Day Silent Token Trap**: Refresh tokens expire after 7 days in Testing mode, causing weekly agent outages. | Configure app to In Production with test accounts to obtain non-expiring refresh tokens. |
+| **Google (Scopes)** | "Select desired scopes (e.g. `gmail.modify`)." | **$15,000 CASA Tier 2 Penalty**: Broad scopes trigger mandatory third-party audits costing $3,000 to $15,000 annually. | Downgrade to `gmail.send` (Sensitive) to avoid external audit requirements. |
+| **Slack API** | "Submit app to App Directory for distribution." | **App Directory Illusion**: Multi-workspace installs do not require the 14-day directory review. | Enable Direct Public Distribution toggle directly to reduce wait time from 14 days to zero. |
+| **Spotify API** | "Authenticate using Authorization Code grant." | **25-User Quota Gate**: Development mode is hard-capped at 25 whitelisted email accounts. Additional users receive a 403 error. | Submit quota extension request during early development to prevent launch delays. |
+| **Salesforce** | "Create Connected App and connect." | **10-Minute Cluster Lag**: Newly generated consumer keys take 2 to 10 minutes to propagate across clusters, failing with `invalid_client_id`. | Account for global replication lag before validating credentials. |
+
+### 2. Autonomous Real-Time Investigation Engine
+For uncataloged or private APIs, the investigation engine conducts autonomous research:
+1. **Targeted Retrieval**: Queries developer documentation portals for canonical OAuth 2.0 specifications.
+2. **Headless Ingestion via Jina Reader**: Converts dynamic documentation pages into clean markdown in under two seconds.
+3. **Specification Synthesis**: Extracts authorization endpoints, token exchange mechanics, PKCE requirements, and review constraints.
+4. **Composio BYOC Export**: Synthesizes custom AuthConfig JSON compatible with Composio's SDK.
+
+### 3. Bring Your Own Credentials (BYOC) Alignment
+The system generates ready-to-run Composio SDK payloads:
 
 ```python
 from composio import Composio
@@ -113,44 +151,56 @@ print("Direct user to authenticate:", connection.redirect_url)
 
 ---
 
-## 🛠️ Local Setup & Development
+## Technology Stack
+
+- **Framework**: Next.js 16 (App Router)
+- **Runtime**: Node.js 20+
+- **Styling**: Tailwind CSS v4, Lucide Icons, React Icons
+- **Design System**: Composio Official Design Principles (Cobalt `#0024BC`, `rounded-none`, `abcDiatype` typography)
+- **Syntax Highlighting**: shadcn CodeBlock with `prism-react-renderer`
+- **Protocol**: Model Context Protocol (`@modelcontextprotocol/sdk`)
+- **Bundler**: `esbuild` for standalone binary distribution
+
+---
+
+## Local Development
 
 ### Prerequisites
-- Node.js 18+ (Node 20+ recommended)
-- `pnpm` or `npm`
+- Node.js 20 or higher
+- `npm` or `pnpm`
 
 ### Installation
+
 ```bash
-# Clone the repository
-git clone https://github.com/mrityunjay/composio-oauth-compass.git
-cd composio-oauth-compass
+# Clone repository
+git clone https://github.com/mrityunjay-tiwari/composio_oauth_compass.git
+cd composio_oauth_compass
 
 # Install dependencies
-pnpm install # or npm install
-
-# Configure Environment Variables (.env.local)
-# Optional: Add keys for live search & extraction (built-in fallbacks provided)
-OPENROUTER_API_KEY="your-openrouter-key"
-TAVILY_API_KEY="your-tavily-key"
-JINA_API_KEY="your-jina-key"
+npm install
 
 # Run development server
-pnpm dev # or npm run dev
+npm run dev
 ```
 
 Open [http://localhost:3005](http://localhost:3005) in your browser.
 
+### MCP Server Local Verification
+
+To run the standalone verification test suite against all six MCP tools:
+
+```bash
+node mcp-test/test-all-tools.js
+```
+
+To build the standalone MCP executable bundle:
+
+```bash
+npm run build:mcp
+```
+
 ---
 
-## 🔮 Limitations & Future Roadmap
+## License
 
-1. **Automated Token Health Heartbeats**: Extend the engine to actively poll and test if a provider's refresh token has expired, providing real-time uptime monitors for BYOC apps.
-2. **Direct Composio CLI Sync**: A 1-click command (`composio auth sync --app linear`) that pulls the generated AuthConfig straight into the developer's local environment.
-3. **CASA Self-Assessment Assistant**: An automated compliance generator that drafts answers to the 40+ security questions required by Google's CASA Tier 1 questionnaire.
-
----
-
-## 👨‍💻 Submission Details
-- **Role:** APM - Integrations & Developer Platform
-- **Company:** Composio
-- **Author:** Candidate Submission
+This project is licensed under the MIT License.
