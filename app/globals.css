@@ -1,7 +1,57 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "abcDiatype";
+  src: url("/fonts/ABCDiatype_Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "abcDiatype";
+  src: url("/fonts/ABCDiatype_RegularItalic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "abcDiatype";
+  src: url("/fonts/ABCDiatype_Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "abcDiatype";
+  src: url("/fonts/ABCDiatype_Medium.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "abcDiatype";
+  src: url("/fonts/ABCDiatype_Medium.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "abcDiatype Fallback";
+  src: local("Arial");
+  ascent-override: 97.41%;
+  descent-override: 26.97%;
+  line-gap-override: 0.0%;
+  size-adjust: 99.38%;
+}
+
 @layer base {
   :root {
+    --font-sans: "abcDiatype", "abcDiatype Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --radius: 0px;
     --color-primary: #0024bc;
     --color-primary-hover: #001da0;
@@ -18,7 +68,7 @@
   body {
     background-color: #ffffff;
     color: #0f172a;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", "Helvetica Neue", Arial, sans-serif;
+    font-family: "abcDiatype", "abcDiatype Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", "Helvetica Neue", Arial, sans-serif;
     letter-spacing: -0.011em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

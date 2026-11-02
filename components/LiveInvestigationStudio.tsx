@@ -85,7 +85,7 @@ export default function LiveInvestigationStudio({
           <div className="inline-flex items-center gap-1.5 rounded-none border border-blue-100 bg-blue-50/70 px-2.5 py-0.5 text-xs mb-2">
             <LuPackageSearch className="h-3 w-3" />
             <span>Autonomous Probe & Synthesis</span>
-          </div>
+          </div> 
           <h1 className="text-xl sm:text-4xl font-semibold text-slate-900">
             Live Investigation Studio
           </h1>
@@ -119,7 +119,7 @@ export default function LiveInvestigationStudio({
                 <span>Investigating...</span>
               </>
             ) : (
-              <>
+              <> 
                 <Zap className="h-3.5 w-3.5" />
                 <span>Investigate</span>
               </>
