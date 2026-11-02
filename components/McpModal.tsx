@@ -9,7 +9,7 @@ interface McpModalProps {
 }
 
 export default function McpModal({ isOpen, onClose }: McpModalProps) {
-  const [activeTab, setActiveTab] = useState<"claude" | "cursor" | "cli">("claude");
+  const [activeTab, setActiveTab] = useState<"antigravity" | "claude" | "codex" | "cli">("antigravity");
   const [copied, setCopied] = useState<string | null>(null);
 
   useEffect(() => {
@@ -28,6 +28,19 @@ export default function McpModal({ isOpen, onClose }: McpModalProps) {
     setTimeout(() => setCopied(null), 2000);
   };
 
+  const antigravityConfig = JSON.stringify(
+    {
+      mcpServers: {
+        "oauth-compass": {
+          command: "npx",
+          args: ["-y", "tsx", "mcp-server/index.ts"],
+        },
+      },
+    },
+    null,
+    2
+  );
+
   const claudeConfig = JSON.stringify(
     {
       mcpServers: {
@@ -41,18 +54,22 @@ export default function McpModal({ isOpen, onClose }: McpModalProps) {
     2
   );
 
-  const cursorConfig = JSON.stringify(
-    {
-      mcpServers: {
-        "oauth-compass": {
-          command: "npx",
-          args: ["-y", "tsx", "mcp-server/index.ts"],
-        },
-      },
-    },
-    null,
-    2
-  );
+  const codexPythonSnippet = `# Universal MCP Client for OpenAI Codex / Custom Agent Frameworks
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
+
+params = StdioServerParameters(command="npx", args=["-y", "tsx", "mcp-server/index.ts"])
+
+async with stdio_client(params) as (read, write):
+    async with ClientSession(read, write) as session:
+        await session.initialize()
+        # Pre-flight audit to avoid $15k CASA Tier 2 audit
+        result = await session.call_tool("audit_scope_risk", {
+            "provider": "google",
+            "scopes": ["gmail.modify"]
+        })
+        print("Scope Risk:", result.content)
+`;
 
   const cliCommand = "npx tsx mcp-server/index.ts";
 
@@ -112,7 +129,7 @@ export default function McpModal({ isOpen, onClose }: McpModalProps) {
                 </span>
               </div>
               <p className="text-xs text-slate-500 mt-0.5">
-                Enable AI coding agents in Claude Desktop, Cursor, and Windsurf to query OAuth Compass natively.
+                Universal Model Context Protocol support: Compatible with Google Antigravity, Cursor, Claude, OpenAI Codex, Windsurf, and custom agent SDKs.
               </p>
             </div>
           </div>
@@ -130,7 +147,7 @@ export default function McpModal({ isOpen, onClose }: McpModalProps) {
           <div className="rounded-none border border-blue-200 bg-blue-50/60 p-3.5 space-y-1">
             <div className="flex items-center gap-2 font-semibold text-[#0024BC] text-xs">
               <Sparkles className="h-4 w-4" />
-              <span>Agents Building for Agents</span>
+              <span>Agents Building for Agents (Universal MCP Support)</span>
             </div>
             <p className="text-slate-700 leading-relaxed text-xs">
               Instead of humans clicking dashboards, your coding agent directly checks for <strong>$15,000 CASA audits</strong>, fetches <strong>unwritten failure modes</strong>, and generates <strong>Composio BYOC configurations</strong> while scaffolding integrations in your editor.
@@ -139,11 +156,21 @@ export default function McpModal({ isOpen, onClose }: McpModalProps) {
 
           {/* Quickstart Tabs */}
           <div className="space-y-3">
-            <div className="flex items-center justify-between border-b border-slate-200 pb-1">
-              <div className="flex items-center gap-2">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-1 flex-wrap gap-2">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <button
+                  onClick={() => setActiveTab("antigravity")}
+                  className={`px-2.5 py-1 text-xs font-semibold rounded-none transition cursor-pointer ${
+                    activeTab === "antigravity"
+                      ? "border-b-2 border-[#0024BC] text-[#0024BC]"
+                      : "text-slate-500 hover:text-slate-900"
+                  }`}
+                >
+                  Antigravity & Cursor
+                </button>
                 <button
                   onClick={() => setActiveTab("claude")}
-                  className={`px-3 py-1 text-xs font-semibold rounded-none transition cursor-pointer ${
+                  className={`px-2.5 py-1 text-xs font-semibold rounded-none transition cursor-pointer ${
                     activeTab === "claude"
                       ? "border-b-2 border-[#0024BC] text-[#0024BC]"
                       : "text-slate-500 hover:text-slate-900"
@@ -152,18 +179,18 @@ export default function McpModal({ isOpen, onClose }: McpModalProps) {
                   Claude Desktop
                 </button>
                 <button
-                  onClick={() => setActiveTab("cursor")}
-                  className={`px-3 py-1 text-xs font-semibold rounded-none transition cursor-pointer ${
-                    activeTab === "cursor"
+                  onClick={() => setActiveTab("codex")}
+                  className={`px-2.5 py-1 text-xs font-semibold rounded-none transition cursor-pointer ${
+                    activeTab === "codex"
                       ? "border-b-2 border-[#0024BC] text-[#0024BC]"
                       : "text-slate-500 hover:text-slate-900"
                   }`}
                 >
-                  Cursor IDE (.cursor/mcp.json)
+                  Codex & Custom Agents
                 </button>
                 <button
                   onClick={() => setActiveTab("cli")}
-                  className={`px-3 py-1 text-xs font-semibold rounded-none transition cursor-pointer ${
+                  className={`px-2.5 py-1 text-xs font-semibold rounded-none transition cursor-pointer ${
                     activeTab === "cli"
                       ? "border-b-2 border-[#0024BC] text-[#0024BC]"
                       : "text-slate-500 hover:text-slate-900"
@@ -176,10 +203,12 @@ export default function McpModal({ isOpen, onClose }: McpModalProps) {
               <button
                 onClick={() =>
                   copyText(
-                    activeTab === "claude"
+                    activeTab === "antigravity"
+                      ? antigravityConfig
+                      : activeTab === "claude"
                       ? claudeConfig
-                      : activeTab === "cursor"
-                      ? cursorConfig
+                      : activeTab === "codex"
+                      ? codexPythonSnippet
                       : cliCommand,
                     "active-snippet"
                   )
@@ -194,19 +223,23 @@ export default function McpModal({ isOpen, onClose }: McpModalProps) {
             {/* Code Block */}
             <div className="relative">
               <pre className="rounded-none border border-slate-800 bg-slate-900 p-3.5 font-mono text-xs text-slate-200 overflow-x-auto leading-relaxed">
-                {activeTab === "claude"
+                {activeTab === "antigravity"
+                  ? antigravityConfig
+                  : activeTab === "claude"
                   ? claudeConfig
-                  : activeTab === "cursor"
-                  ? cursorConfig
+                  : activeTab === "codex"
+                  ? codexPythonSnippet
                   : cliCommand}
               </pre>
             </div>
             <p className="text-[11px] text-slate-500">
-              {activeTab === "claude"
+              {activeTab === "antigravity"
+                ? "Standard project-level MCP config. Save as '.mcp.json' or '.cursor/mcp.json' in your workspace root. Google Antigravity, Cursor, and Windsurf load it automatically."
+                : activeTab === "claude"
                 ? "Paste this JSON into your %APPDATA%\\Claude\\claude_desktop_config.json on Windows or ~/Library/Application Support/Claude/claude_desktop_config.json on macOS."
-                : activeTab === "cursor"
-                ? "Save this snippet into .cursor/mcp.json in your workspace root, or add under Cursor Settings -> MCP."
-                : "Run this command in any terminal to start the MCP server over standard input/output (stdio)."}
+                : activeTab === "codex"
+                ? "Universal Python client to invoke OAuth Compass tools from OpenAI Codex, ChatGPT agents, LangChain, or CrewAI."
+                : "Run this command in any terminal to start the MCP server directly over standard input/output (stdio)."}
             </p>
           </div>
 
