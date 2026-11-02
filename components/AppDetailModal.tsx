@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AppGuide } from "@/data/apps";
 import {
   X,
@@ -54,9 +54,26 @@ export default function AppDetailModal({ guide, onClose }: AppDetailModalProps) 
     (s) => s.riskLevel === "restricted" && selectedScopes.includes(s.name)
   );
 
+  // Close on Escape key press
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-3 sm:p-6 overflow-y-auto">
-      <div className="relative w-full max-w-4xl rounded-none border border-slate-200 bg-white shadow-xl flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+    <div
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-3 sm:p-6 overflow-y-auto cursor-pointer"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-4xl rounded-none border border-slate-200 bg-white shadow-xl flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-150 cursor-default"
+      >
         
         {/* Top Modal Header */}
         <div className="border-b border-slate-200 bg-white px-6 py-3.5 flex items-center justify-between">
