@@ -17,6 +17,7 @@ import {
   Zap
 } from "lucide-react";
 import { AppGuide } from "@/data/apps";
+import { CodeBlock } from "@/components/ui/code-block";
 
 interface GroundTruthAuditProps {
   investigatedApps?: AppGuide[];
@@ -372,25 +373,12 @@ Composio Managed: ${app.composioManagedAvailable ? "Available" : "Requires Custo
                     {isExpanded && (
                       <tr className="bg-slate-50/70 border-t border-slate-200/80">
                         <td colSpan={5} className="p-4 space-y-2">
-                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px]">
-                            <div className="flex items-center gap-2">
-                              <Terminal className="h-3.5 w-3.5 text-slate-500" />
-                              <span className="font-semibold text-slate-800">
-                                Reproduction Endpoint: {row.endpoint}
-                              </span>
-                            </div>
-                            <button
-                              onClick={() => handleCopy(row.errorSnippet, row.id)}
-                              className="inline-flex items-center gap-1 text-[11px] text-slate-600 hover:text-slate-900 self-start sm:self-auto font-medium"
-                            >
-                              {copiedId === row.id ? <Check className="h-3 w-3 text-emerald-600" /> : <Copy className="h-3 w-3 text-slate-400" />}
-                              <span>{copiedId === row.id ? "Copied Snippet" : "Copy Error"}</span>
-                            </button>
-                          </div>
-
-                          <pre className="rounded-none border border-slate-800 bg-slate-900 p-3 font-mono text-[11px] text-slate-200 overflow-x-auto leading-relaxed">
-                            {row.errorSnippet}
-                          </pre>
+                          <CodeBlock
+                            code={row.errorSnippet}
+                            filename={row.endpoint}
+                            language="http"
+                            showCopy={true}
+                          />
 
                           <div className="text-[11px] text-slate-600 pt-0.5">
                             <span className="font-semibold text-slate-800">Root Cause Analysis: </span>

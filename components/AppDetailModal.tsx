@@ -19,6 +19,7 @@ import {
   Share2
 } from "lucide-react";
 import ChatSources from "./chat-sources";
+import { CodeBlock } from "@/components/ui/code-block";
 
 interface AppDetailModalProps {
   guide: AppGuide;
@@ -348,15 +349,11 @@ export default function AppDetailModal({
 
                             {/* Code snippet or callback URL */}
                             {step.codeSnippet && (
-                              <div className="mt-2 flex items-center justify-between rounded-none bg-slate-900 px-3 py-1.5 font-mono text-xs text-slate-200">
-                                <span className="truncate">{step.codeSnippet}</span>
-                                <button
-                                  onClick={() => copyToClipboard(step.codeSnippet!, `step-${step.id}`)}
-                                  className="ml-2 flex items-center gap-1 rounded-none bg-slate-800 px-2 py-0.5 text-[10px] text-slate-300 hover:bg-slate-700"
-                                >
-                                  {copiedField === `step-${step.id}` ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
-                                  <span>{copiedField === `step-${step.id}` ? "Copied" : "Copy"}</span>
-                                </button>
+                              <div className="mt-2">
+                                <CodeBlock
+                                  code={step.codeSnippet}
+                                  showCopy={true}
+                                />
                               </div>
                             )}
 
@@ -567,54 +564,45 @@ export default function AppDetailModal({
               {/* Provider Manifest (if available, e.g., Slack) */}
               {guide.manifestTemplate && (
                 <div className="space-y-1.5">
-                  <div className="flex items-center justify-between text-xs font-semibold text-slate-800">
-                    <span>Provider Manifest ({guide.manifestTemplate.filename})</span>
-                    <button
-                      onClick={() => copyToClipboard(guide.manifestTemplate!.content, "manifest")}
-                      className="flex items-center gap-1 rounded-none border border-slate-200 bg-white px-2 py-0.5 text-[11px] text-slate-700 hover:bg-slate-50"
-                    >
-                      {copiedField === "manifest" ? <Check className="h-3 w-3 text-emerald-600" /> : <Copy className="h-3 w-3" />}
-                      <span>{copiedField === "manifest" ? "Copied" : "Copy Manifest"}</span>
-                    </button>
+                  <div className="text-xs font-semibold text-slate-800">
+                    Provider Manifest ({guide.manifestTemplate.filename})
                   </div>
-                  <pre className="rounded-none border border-slate-800 bg-slate-900 p-3.5 font-mono text-xs text-slate-200 overflow-x-auto">
-                    {guide.manifestTemplate.content}
-                  </pre>
+                  <CodeBlock
+                    code={guide.manifestTemplate.content}
+                    filename={guide.manifestTemplate.filename}
+                    language="json"
+                    showCopy={true}
+                    maxHeight="220px"
+                  />
                 </div>
               )}
 
               {/* Python SDK Snippet */}
               <div className="space-y-1.5">
-                <div className="flex items-center justify-between text-xs font-semibold text-slate-800">
-                  <span>Python SDK</span>
-                  <button
-                    onClick={() => copyToClipboard(guide.composioConfig.sample_sdk_python, "sdk-python")}
-                    className="flex items-center gap-1 rounded-none border border-slate-200 bg-white px-2 py-0.5 text-[11px] text-slate-700 hover:bg-slate-50"
-                  >
-                    {copiedField === "sdk-python" ? <Check className="h-3 w-3 text-emerald-600" /> : <Copy className="h-3 w-3" />}
-                    <span>{copiedField === "sdk-python" ? "Copied" : "Copy Python"}</span>
-                  </button>
+                <div className="text-xs font-semibold text-slate-800">
+                  Python SDK
                 </div>
-                <pre className="rounded-none border border-slate-800 bg-slate-900 p-3.5 font-mono text-xs text-slate-200 overflow-x-auto">
-                  {guide.composioConfig.sample_sdk_python}
-                </pre>
+                <CodeBlock
+                  code={guide.composioConfig.sample_sdk_python}
+                  filename="composio_auth.py"
+                  language="python"
+                  showCopy={true}
+                  maxHeight="220px"
+                />
               </div>
 
               {/* TypeScript SDK Snippet */}
               <div className="space-y-1.5">
-                <div className="flex items-center justify-between text-xs font-semibold text-slate-800">
-                  <span>TypeScript SDK</span>
-                  <button
-                    onClick={() => copyToClipboard(guide.composioConfig.sample_sdk_typescript, "sdk-ts")}
-                    className="flex items-center gap-1 rounded-none border border-slate-200 bg-white px-2 py-0.5 text-[11px] text-slate-700 hover:bg-slate-50"
-                  >
-                    {copiedField === "sdk-ts" ? <Check className="h-3 w-3 text-emerald-600" /> : <Copy className="h-3 w-3" />}
-                    <span>{copiedField === "sdk-ts" ? "Copied" : "Copy TS"}</span>
-                  </button>
+                <div className="text-xs font-semibold text-slate-800">
+                  TypeScript SDK
                 </div>
-                <pre className="rounded-none border border-slate-800 bg-slate-900 p-3.5 font-mono text-xs text-slate-200 overflow-x-auto">
-                  {guide.composioConfig.sample_sdk_typescript}
-                </pre>
+                <CodeBlock
+                  code={guide.composioConfig.sample_sdk_typescript}
+                  filename="composio_auth.ts"
+                  language="typescript"
+                  showCopy={true}
+                  maxHeight="220px"
+                />
               </div>
             </div>
           )}

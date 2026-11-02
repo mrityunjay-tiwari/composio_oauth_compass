@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { CodeBlock } from "@/components/ui/code-block";
 import {
   ExternalLink,
   Check,
@@ -362,20 +363,15 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
                 cURL
               </button>
             </div>
-
-            <button
-              onClick={handleCopyCode}
-              className="flex items-center gap-1 rounded-none border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50 transition"
-            >
-              {copiedCode ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5 text-slate-400" />}
-              <span>{copiedCode ? "Copied" : "Copy Blueprint"}</span>
-            </button>
           </div>
         </div>
 
-        <pre className="rounded-none border border-slate-800 bg-slate-900 p-4 font-mono text-xs text-slate-200 overflow-x-auto leading-relaxed">
-          {snippets[activeLang]}
-        </pre>
+        <CodeBlock
+          code={snippets[activeLang]}
+          language={activeLang}
+          filename={`blueprint.${activeLang === "python" ? "py" : activeLang === "typescript" ? "ts" : "sh"}`}
+          showCopy={true}
+        />
       </div>
 
       {/* Full-Width Section 2: Custom AuthConfig Payload Generator / Simulator */}
@@ -462,21 +458,14 @@ console.log("Direct user to authenticate:", connection.redirectUrl);`,
           </div>
 
           {/* Live Output */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between text-xs text-slate-600">
-              <span className="font-semibold">composio_auth_config.json</span>
-              <button
-                onClick={handleCopyPayload}
-                className="flex items-center gap-1 text-[11px] font-medium text-slate-700 hover:text-slate-900 transition"
-              >
-                {copiedPayload ? <Check className="h-3 w-3 text-emerald-600" /> : <Copy className="h-3 w-3 text-slate-400" />}
-                <span>{copiedPayload ? "Copied JSON" : "Copy JSON"}</span>
-              </button>
-            </div>
-
-            <pre className="rounded-none border border-slate-800 bg-slate-900 p-3.5 font-mono text-xs text-emerald-400 overflow-x-auto leading-relaxed h-[185px]">
-              {currentPayloadJson}
-            </pre>
+          <div>
+            <CodeBlock
+              code={currentPayloadJson}
+              language="json"
+              filename="composio_auth_config.json"
+              showCopy={true}
+              maxHeight="200px"
+            />
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { X, Copy, Check, Terminal, ShieldAlert, Sparkles, Code2, ExternalLink } from "lucide-react";
 import { VscMcp } from "react-icons/vsc";
+import { CodeBlock } from "@/components/ui/code-block";
 
 interface McpModalProps {
   isOpen: boolean;
@@ -223,15 +224,35 @@ async with stdio_client(params) as (read, write):
 
             {/* Code Block */}
             <div className="relative">
-              <pre className="rounded-none border border-slate-800 bg-slate-900 p-3.5 font-mono text-xs text-slate-200 overflow-x-auto leading-relaxed">
-                {activeTab === "antigravity"
-                  ? antigravityConfig
-                  : activeTab === "claude"
-                  ? claudeConfig
-                  : activeTab === "codex"
-                  ? codexPythonSnippet
-                  : cliCommand}
-              </pre>
+              <CodeBlock
+                code={
+                  activeTab === "antigravity"
+                    ? antigravityConfig
+                    : activeTab === "claude"
+                    ? claudeConfig
+                    : activeTab === "codex"
+                    ? codexPythonSnippet
+                    : cliCommand
+                }
+                language={
+                  activeTab === "codex"
+                    ? "python"
+                    : activeTab === "cli"
+                    ? "bash"
+                    : "json"
+                }
+                filename={
+                  activeTab === "antigravity"
+                    ? ".mcp.json"
+                    : activeTab === "claude"
+                    ? "claude_desktop_config.json"
+                    : activeTab === "codex"
+                    ? "mcp_client.py"
+                    : "terminal command"
+                }
+                showCopy={true}
+                maxHeight="220px"
+              />
             </div>
             <p className="text-[11px] text-slate-500">
               {activeTab === "antigravity"
