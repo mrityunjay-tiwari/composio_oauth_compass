@@ -384,16 +384,9 @@ export default function Home() {
             <span>OAuth Integrations</span>
           </div>
           <div className="flex items-center gap-4 text-[11px]">
+          
             <a
-              href="https://docs.composio.dev"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-slate-900 transition"
-            >
-              Composio Docs
-            </a>
-            <a
-              href="https://github.com/ComposioHQ/composio"
+              href="https://github.com/mrityunjay-tiwari/composio_oauth_compass"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-slate-900 transition"
@@ -401,12 +394,12 @@ export default function Home() {
               GitHub
             </a>
             <a
-              href="https://connect.composio.dev/mcp"
+              href="https://www.npmjs.com/package/composio-oauth-compass"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-slate-900 transition"
             >
-              Claude MCP
+              MCP Package
             </a>
           </div>
         </div>
