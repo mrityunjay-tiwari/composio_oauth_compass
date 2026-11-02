@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { Sparkles, ShieldCheck, BookOpen, ExternalLink } from "lucide-react";
 
 interface NavbarProps {
@@ -21,15 +20,11 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
             aria-label="Composio Home"
           >
             {/* Official Composio Logo Vector */}
-            <div className="relative h-5 w-[110px]">
-              <Image
-                src="/composio-logo.svg"
-                alt="Composio"
-                fill
-                priority
-                className="object-contain object-left"
-              />
-            </div>
+            <img
+              src="/composio-logo.svg"
+              alt="Composio"
+              className="h-6 w-auto block object-contain"
+            />
             
             <span className="text-slate-300 font-light text-sm select-none">/</span>
             
@@ -43,7 +38,7 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
         <nav className="flex items-center gap-1 text-xs font-medium text-slate-600">
           <button
             onClick={() => setActiveTab("directory")}
-            className={`rounded-md px-3 py-1.5 transition ${
+            className={`rounded-md px-3 py-1.5 transition cursor-pointer ${
               activeTab === "directory"
                 ? "bg-slate-100 text-slate-900 font-semibold"
                 : "hover:text-slate-900 hover:bg-slate-50"
@@ -54,7 +49,7 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
           
           <button
             onClick={() => setActiveTab("live-studio")}
-            className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 transition ${
+            className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 transition cursor-pointer ${
               activeTab === "live-studio"
                 ? "bg-blue-50 text-blue-700 font-semibold border border-blue-200/60"
                 : "hover:text-slate-900 hover:bg-slate-50"
@@ -66,7 +61,7 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
           
           <button
             onClick={() => setActiveTab("ground-truth")}
-            className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 transition ${
+            className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 transition cursor-pointer ${
               activeTab === "ground-truth"
                 ? "bg-slate-100 text-slate-900 font-semibold"
                 : "hover:text-slate-900 hover:bg-slate-50"
@@ -78,7 +73,7 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
           
           <button
             onClick={() => setActiveTab("composio-byoc")}
-            className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 transition ${
+            className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 transition cursor-pointer ${
               activeTab === "composio-byoc"
                 ? "bg-slate-100 text-slate-900 font-semibold"
                 : "hover:text-slate-900 hover:bg-slate-50"
